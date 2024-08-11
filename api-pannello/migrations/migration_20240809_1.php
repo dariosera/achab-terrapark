@@ -25,7 +25,7 @@ Capsule::schema()->create('it_comuni', function ($table) {
     $table->integer("IDregione")->unsigned();
     $table->integer("IDprovincia")->unsigned();
     $table->tinyInteger("capoluogo")->default(0);
-    $table->string("codice_catastale");
+    $table->string("codice_catastale")->unique();
     $table->string("nome");
     $table->float("latitudine");
     $table->float("longitudine");
