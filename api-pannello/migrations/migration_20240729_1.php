@@ -30,7 +30,7 @@ Capsule::schema()->create('ct_themes', function ($table) {
     $table->text("description")->nullable();
     $table->text("long_description")->nullable();
     
-    $table->integer("icon")->unsigned();
+    $table->integer("icon")->unsigned()->nullable();
     $table->foreign("icon")->references("file_id")->on("up_files")->onDelete("cascade");
 
     $table->timestamps();

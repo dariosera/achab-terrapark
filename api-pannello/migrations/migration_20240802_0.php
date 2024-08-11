@@ -15,7 +15,7 @@ Capsule::schema()->create('hp_slides', function ($table) {
     $table->integer("customerID")->unsigned()->nullable();
     $table->foreign("customerID")->references("customerID")->on("cu_customers");
 
-    $table->integer("image")->unsigned();
+    $table->integer("image")->unsigned()->nullable();
     $table->foreign("image")->references("file_id")->on("up_files")->onDelete("cascade");
 
     $table->timestamps();
