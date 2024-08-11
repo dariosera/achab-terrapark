@@ -85,9 +85,9 @@ Capsule::schema()->create('ct_contents', function ($table) {
     $table->integer("image")->unsigned()->nullable();
     $table->foreign("image")->references("file_id")->on("up_files")->onDelete("cascade");
 
-    $table->text("string")->default('{}');
+    $table->string("media")->default('{}');
 
-    $table->text("string")->default('{}');
+    $table->string("meta")->default('{}');
 
     $table->integer("typologyID")->unsigned()->nullable();
     $table->foreign("typologyID")->references("typologyID")->on("ct_typologies");

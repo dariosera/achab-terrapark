@@ -35,7 +35,7 @@ Capsule::schema()->create('it_comuni', function ($table) {
 });
 
 Capsule::schema()->create('aa_informazioni_extra', function ($table) {
-    $table->integer("IDutente");
+    $table->integer("IDutente")->unsigned();
     $table->foreign("IDutente")->references("IDutente")->on("aa_utenti");
 
     $table->integer("comune")->nullable();
