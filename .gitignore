@@ -12,3 +12,6 @@ pannello/node_modules
 */.env.production
 
 */.last_migration
+
+*/composer.lock
+*/package-lock.json
