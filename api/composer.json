@@ -1,0 +1,21 @@
+{
+    "name": "dariosera/terrapark-pannello-api",
+    "authors": [
+        {
+            "name": "Dario Sera",
+            "email": "dario@sera.im"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "name" : "dariosera/kadro-api-core",
+            "url": "https://github.com/dariosera/kadro-api-core.git",
+            "branch" : "master"
+        }
+    ],
+    "require": {
+        "dariosera/kadro-api-core": "@dev",
+        "gumlet/php-image-resize": "^2.0"
+    }
+}

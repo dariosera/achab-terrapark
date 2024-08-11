@@ -1,0 +1,63 @@
+{
+    "common" : {
+        "scopriDiPiu" : "Scopri di più",
+        "temi" : "Temi",
+        "argomento" : "Argomento",
+        "corsi" : "Corsi",
+        "durata" : "Durata",
+        "tipologia" : "Tipologia",
+        "lingua" : "Lingua",
+        "catalogo" : "Catalogo",
+    },
+    "catalogo" : {
+        "filtri" : "Filtri",
+    },
+    "nav" : {
+        "cerca" : "Cerca con SophIA",
+        "notifiche" : "Notifiche",
+        "home" : "Home",
+        "temi" : "Temi",
+        "catalogo" : "Catalogo",
+        "relatori" : "Relatori"
+    },
+    "locale": {
+        "it" : "Italiano",
+        "en" : "English"
+    },
+    "home" : {
+        "iTuoiCorsi" : "I tuoi corsi",
+        "continuaAdImparare" : "continua ad imparare",
+        "vistiDiRecente" : "Visti di recente"
+    },
+    "temi" : {
+        "0" : "Mobilità",
+        "1" : "Economia circolare",
+        "2" : "Cambiamento climatico",
+        "3" : "Biodiversità",
+        "4" : "Transizione energetica"
+    },
+    "profilo": {
+        "datiPersonali": "I tuoi dati personali",
+        "nome": "Nome",
+        "cognome" : "Cognome",
+        "email": "Email",
+        "telefono" : "Telefono",
+        "citta" : "Città",
+        "anno_nascita" : "Anno di nascita",
+        "aggiornaDatiPersonali": "Aggiorna dati personali",
+        "cambioPassword": "Cambio password",
+        "passwordAttuale": "Password attuale",
+        "nuovaPassword": "Nuova password",
+        "confermaNuovaPassword": "Conferma nuova password",
+        "cambiaPassword": "Cambia password",
+        "eliminaAccount": "Elimina account",
+        "avvertimentoEliminaAccount": "Attenzione: eliminare il tuo account è irreversibile."
+      },
+      "contatti" : {
+        "nome" : "Nome",
+        "email" : "Email",
+        "messaggio" : "Il tuo messaggio",
+        "privacy" : "Do il consenso al trattamento dei dati personali forniti per le finalità indicate nella",
+        "inviaMessaggio" : "Invia il messaggio"
+      }
+}

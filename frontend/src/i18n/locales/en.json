@@ -1,0 +1,37 @@
+{
+    "common" : {
+        "scopriDiPiu" : "Find out more",
+        "temi" : "Themes"
+    },
+    "nav" : {
+        "cerca" : "Search using SophIA",
+        "notifiche" : "Notifications",
+        "home" : "Home",
+        "temi" : "Themes",
+        "catalogo" : "Catalogue",
+        "relatori" : "Speakers"
+    },
+    "home" : {
+        "iTuoiCorsi" : "Your courses",
+        "continuaAdImparare" : "keep learning",
+        "vistiDiRecente" : "Last watched"
+    },
+    "temi" : {
+        "0" : "Mobility",
+        "1" : "Circular economy",
+        "2" : "Climate change"
+    },
+    "profilo": {
+        "datiPersonali": "Your Personal Data",
+        "nome": "Name",
+        "email": "Email",
+        "aggiornaDatiPersonali": "Update Personal Data",
+        "cambioPassword": "Change Password",
+        "passwordAttuale": "Current Password",
+        "nuovaPassword": "New Password",
+        "confermaNuovaPassword": "Confirm New Password",
+        "cambiaPassword": "Change Password",
+        "eliminaAccount": "Delete Account",
+        "avvertimentoEliminaAccount": "Warning: Deleting your account is irreversible."
+      }
+}

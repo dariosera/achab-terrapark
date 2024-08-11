@@ -1,0 +1,14 @@
+api/vendor/*
+api-pannello/vendor/*
+api-pannello/.uploads/*
+*.yaml
+*/auth.json
+
+frontend/node_modules
+pannello/node_modules
+
+*/.env
+*/.env.local
+*/.env.production
+
+*/.last_migration

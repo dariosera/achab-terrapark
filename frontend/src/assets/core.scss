@@ -1,0 +1,176 @@
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+@import '@splidejs/vue-splide/css';
+
+@import "./splide-custom.scss";
+
+body {
+  position: relative;
+}
+
+// * {
+//     font-family: "Titillium Web", sans-serif;
+//     outline: 1px dotted rgba(255,0,0,.2);
+
+//     &:hover {
+//       outline: 1px dotted rgba(255,0,0,.6);
+//     }
+// }
+
+.material-symbols-outlined {
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 200,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+.material-symbols-outlined.fill {
+
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 200,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+section {
+
+  &.with-top-border {
+    border-top: 2px solid var(--bs-body-color);
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+
+  h2 {
+    font-weight: bold;
+    font-size: 22px;
+  }
+
+} 
+
+
+$border-radius-oval: 0;
+
+input:not([type="checkbox"]),
+select,
+button,
+.btn {
+  border-radius: $border-radius-oval !important;
+}
+
+.form-control {
+  border-radius: $border-radius-oval !important;
+}
+
+textarea {
+  border-radius: 10px;
+}
+
+.btn {
+  border-radius: $border-radius-oval !important;
+}
+
+.custom-select {
+  border-radius: $border-radius-oval !important;
+}
+
+// Override additional Bootstrap components if needed
+.input-group-text,
+.input-group-append .btn,
+.input-group-prepend .btn {
+  border-radius: $border-radius-oval !important;
+}
+
+// Ensure consistency across all states (hover, focus, active)
+input:not([type="checkbox"]):focus,
+select:focus,
+button:focus,
+.btn:focus,
+.form-control:focus,
+.custom-select:focus,
+.input-group-text:focus,
+.input-group-append .btn:focus,
+.input-group-prepend .btn:focus {
+  border-radius: $border-radius-oval !important;
+}
+
+
+.card {
+  border: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+  box-shadow: var(--bs-box-shadow-sm) !important;
+
+  .card-header {
+    border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+
+   
+  }
+}
+
+// Define the border-radius variable for oval shape
+$card-border-radius-oval: 0;
+
+// Apply the border-radius to the card components
+.card {
+  border-radius: $card-border-radius-oval !important;
+}
+
+// Ensure consistency across card components and states
+.card-header,
+.card-footer,
+.card-body,
+.card-img,
+.card-img-top,
+.card-img-bottom,
+.card-title,
+.card-subtitle,
+.card-text {
+  border-radius: $card-border-radius-oval !important;
+}
+
+// Adjust card image to maintain rounded corners
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  border-radius: $card-border-radius-oval $card-border-radius-oval 0 0 !important;
+}
+
+// Override additional card components if needed
+.card-header,
+.card-footer {
+  border-radius: $card-border-radius-oval $card-border-radius-oval 0 0 !important;
+  padding: var(--bs-card-cap-padding-y) calc(var(--bs-card-cap-padding-x)*1.5);
+}
+
+.card-body {
+  border-radius: 0 0 $card-border-radius-oval $card-border-radius-oval !important;
+}
+
+
+.container h1 {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+
+@keyframes pulse-bg {
+  0% {
+    background-color: #ddd;
+  }
+  50% {
+    background-color: #d0d0d0;
+  }
+  100% {
+    background-color: #ddd;
+  }
+}
+
+
+.skeleton {
+  animation: pulse-bg 1s infinite;
+}

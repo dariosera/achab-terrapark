@@ -1,0 +1,1 @@
+import{_ as e,o as t,c,p as s,j as d,a}from"./index-sp5jN1Kp.js";const n={},_=o=>(s("data-v-84aa5ddd"),o=o(),d(),o),r={class:"container"},p=_(()=>a("div",null,[a("h1",null,"404"),a("p",null,"Pagina non trovata")],-1)),i=[p];function l(o,u){return t(),c("div",r,i)}const f=e(n,[["render",l],["__scopeId","data-v-84aa5ddd"]]);export{f as default};
