@@ -96,7 +96,7 @@ Capsule::schema()->create('ct_contents', function ($table) {
     $table->foreign("authorID")->references("authorID")->on("ct_authors");
 
     $table->integer("customerID")->unsigned()->nullable();
-    $table->foreign("customerID")-references("customerID")->on("cu_customers");
+    $table->foreign("customerID")->references("customerID")->on("cu_customers");
 
     $table->tinyInteger("draft")->default(1);
     $table->tinyInteger("deleted")->default(0);
