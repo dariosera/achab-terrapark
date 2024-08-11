@@ -38,8 +38,8 @@ Capsule::schema()->create('aa_informazioni_extra', function ($table) {
     $table->integer("IDutente")->unsigned();
     $table->foreign("IDutente")->references("IDutente")->on("aa_utenti");
 
-    $table->integer("comune")->nullable();
-    $table->foreign("comune")->references("IDcomune")->on("it_comuni");
+    $table->string("comune")->nullable();
+    $table->foreign("comune")->references("codice_catastale")->on("it_comuni");
 
     $table->string("anno_nascita", 4)->nullable();
 
