@@ -101,7 +101,7 @@ if (isLogged()) {
 
             .logo {
                 display: block;
-                height: 3rem;
+                height: 2rem;
                 margin-right: .5rem;
             }
         }

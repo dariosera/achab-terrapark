@@ -12,6 +12,66 @@ body {
   position: relative;
 }
 
+.loader {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  cursor: wait;
+  left: 0;
+  top: 0;
+  z-index: 2000;
+}
+
+body.wait .loader {
+  display: block;
+}
+
+.load-bar {
+  position:relative;
+  margin-top:0;
+  width:100%;
+  height:3px;
+  background-color:#fdba2c
+}
+.bar {
+  content:"";
+  display:inline;
+  position:absolute;
+  width:0;
+  height:3px;
+  left:50%;
+  text-align:center
+}
+.bar:nth-child(1) {
+  background-color:#e25c49;
+  animation:loading 3s linear infinite
+}
+.bar:nth-child(2) {
+  background-color:#1e88e5;
+  animation:loading 3s linear 1s infinite
+}
+.bar:nth-child(3) {
+  background-color:#fdba2c;
+  animation:loading 3s linear 2s infinite
+}
+@keyframes loading {
+  0% {
+    left:50%;
+    width:0;
+    z-index:100
+  }
+  33.3333% {
+    left:0;
+    width:100%;
+    z-index:10
+  }
+  to {
+    left:0;
+    width:100%
+  }
+}
+
 // * {
 //     font-family: "Titillium Web", sans-serif;
 //     outline: 1px dotted rgba(255,0,0,.2);

@@ -107,7 +107,7 @@ watch(() => props.data,() => {
 
 const renderMeta = (meta) => {
     if (meta?.duration) {
-        return `Durata: ${parseInt(meta.duration/60)} min.`;
+        return `Durata: ${Math.ceil(meta.duration/60)} min.`;
     }
 
     if (meta?.pages) {

@@ -71,6 +71,12 @@ const toggleTop = function(condensed = null) {
     }
 }
 
+function toggleIfCondensed() {
+    if (topCondensed.value) {
+        toggleTop()
+    }
+}
+
 // Add the scroll event listener in the onMounted hook
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
@@ -126,7 +132,7 @@ const setContentAsOpened = (index) => {
 </script>
 <template>
     <div v-if="corso.permalink" class="container large">
-        <div class="row top" :class="{'minimized' : topCondensed}">
+        <div class="row top" :class="{'minimized' : topCondensed}" @click="toggleIfCondensed">
             <div class="col-lg-6 p-5 left">
                 <h1>{{ corso.title }}</h1>
 
@@ -140,9 +146,8 @@ const setContentAsOpened = (index) => {
                         &middot;
                         <span>Argomento: <strong><router-link :to="`/catalogo?topics=${corso.topicID}`">{{ tps.getTopic(corso.topicID).title }}</router-link></strong></span>
                     </div>
-                    <div>
+                    <div class="meta-row">
                         <span v-if="stats.duration">Durata totale: <strong>{{ stats.duration }} minuti</strong></span>
-                        &middot;
                         <span v-if="stats.pages">{{stats.pages }} pagine</span>
                     </div>
                 </div>
@@ -153,7 +158,7 @@ const setContentAsOpened = (index) => {
 
                 <Actions :permalink="corso.permalink"/>
             </div>
-            <button class="toggle" @click="toggleTop()">
+            <button class="toggle" @click.stop="toggleTop()">
                 <span v-if="!topCondensed" class="material-symbols-outlined">keyboard_arrow_up</span>
                 <span v-if="topCondensed" class="material-symbols-outlined">keyboard_arrow_down</span>
         </button>
@@ -249,6 +254,14 @@ const setContentAsOpened = (index) => {
             }
 
         }   
+
+        .meta-row {
+            :not(:last-child) {
+                ::after {
+                    content: " · "
+                }
+            }
+        }
     }
 
     .toggle {
@@ -265,8 +278,11 @@ const setContentAsOpened = (index) => {
     }
 
     &.minimized {
+        cursor: s-resize;
         position: sticky;
         border-bottom: 2px solid rgba(var(--bs-body-color-rgb), .25);
+        border-left: 2px solid rgba(var(--bs-body-color-rgb), .25);
+        border-right: 2px solid rgba(var(--bs-body-color-rgb), .25);
         background: var(--bs-body-bg);
         top: 0;
         z-index: 100;

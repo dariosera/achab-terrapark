@@ -12,11 +12,13 @@ export const useFavoritesStore = defineStore('favorites', () => {
   let loop = false;
 
 
-  const getFavorite = async (permalink) => {
+  const getFavorite = (permalink) => {
     return new Promise(resolve => {
       if (permalink in contents) {
+          console.log(`Trovato ${permalink} in cache`)
           resolve(contents[permalink])
       } else {
+        console.log(`Non trovato ${permalink} in cache`)
         contents_to_fetch.push(permalink)
         requests_to_resolve.push({
           resolve,
@@ -37,6 +39,8 @@ export const useFavoritesStore = defineStore('favorites', () => {
   }
 
   const fetchAll = () => {
+
+    console.log(`fetch contents`)
     
     request({
       hideLoader : true,

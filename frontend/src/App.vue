@@ -32,7 +32,7 @@ if (isLogged()) {
 }
 </script>
 <template>
-  <template v-if="projectReady">
+  <div v-if="projectReady">
     <template v-if="route.path.startsWith('/embed')">
       <RouterView />
     </template>
@@ -43,13 +43,11 @@ if (isLogged()) {
       </main>
       <Footer v-if="route.path !== '/login'" />
     </template>
-  </template>
-  <template v-else>
-    <div class="big-loader">
-      <div class="spinner-border text-primary" role="status">
-      </div>
+  </div>
+  <div v-else class="big-loader">
+    <div class="spinner-border text-primary" role="status">
     </div>
-  </template>
+  </div>
 </template>
 <style scoped>
 main {
@@ -65,4 +63,6 @@ main {
   width: 100%;
   height: 100%;
 }
+
+
 </style>
