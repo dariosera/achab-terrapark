@@ -5,7 +5,7 @@ $this->db->insertInto("ua_favorites",[
     "IDutente" => $this->user["IDutente"],
 ]);
 
-//$this->run("public/evlogger",["eventCategory"=>"userLists","eventAction"=>"addToFavorites","eventValue"=>$d["permalink"]]);
+//$this->run("frontend/public/evlogger",["eventCategory"=>"userLists","eventAction"=>"addToFavorites","eventValue"=>$d["permalink"]]);
 
 
 return ["ok" => true];

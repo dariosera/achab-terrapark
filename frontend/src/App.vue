@@ -33,16 +33,11 @@ if (isLogged()) {
 </script>
 <template>
   <div v-if="projectReady">
-    <template v-if="route.path.startsWith('/embed')">
-      <RouterView />
-    </template>
-    <template v-else>
-      <Topbar v-if="route.path !== '/login'" />
+      <Topbar v-if="!route.meta.isPublic" />
       <main>
         <RouterView />
       </main>
-      <Footer v-if="route.path !== '/login'" />
-    </template>
+      <Footer v-if="!route.meta.isPublic" />
   </div>
   <div v-else class="big-loader">
     <div class="spinner-border text-primary" role="status">

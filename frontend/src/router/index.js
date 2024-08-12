@@ -8,7 +8,26 @@ export function createRouter(app) {
       {
         path: '/login',
         name: 'login',
-        component: () => import('../views/login/login.vue')
+        component: () => import('../views/login/login.vue'),
+        meta : {
+          isPublic: true,
+        }
+      },
+      {
+        path: '/registrati',
+        name: 'registrati',
+        component: () => import('../views/registrati/registrati.vue'),
+        meta : {
+          isPublic: true,
+        }
+      },
+      {
+        path: '/recupero-password',
+        name: 'Recupero password',
+        component: () => import('../views/recupero-password/recupero-password.vue'),
+        meta : {
+          isPublic: true,
+        }
       },
       {
         path: '/',

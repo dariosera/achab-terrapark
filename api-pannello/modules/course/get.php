@@ -9,7 +9,7 @@ if (count($list) !== 1) {
 $list[0]["standalone"] = $list[0]["standalone"] == '0' ? false : true;
 
 if ($list[0]["image"] !== null) {
-    $list[0]["image_url"] = $this->config["s3"]["origin_endpoint"] . "/" . $this->config["s3"]["prefix"] . "/" . $d["permalink"] . ".jpg";
+    $list[0]["image_url"] = $this->config["s3"]["origin_endpoint"] . "/" . $this->config["s3"]["prefix"] . "/c/640x360/" .$d["permalink"] . ".jpg";
 }
 
 $list[0]["previews"] = [];

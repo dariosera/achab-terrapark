@@ -53,6 +53,9 @@ const sliderOptions = {
 		},
         576: {
             perPage: 1,
+            padding: {
+                right: "100px",
+            }
         }
   }
 }
@@ -68,7 +71,7 @@ const mostraDettaglio = function(i) {
 }
 </script>
 <template>
-    <div>
+    <div class="slider-outer">
         <template v-if="contenuti.length === 0">
             <Splide :options="sliderOptions" v-if="waiting">
                 <SplideSlide v-for="i in [0,1,2,3]" :key="i" class="py-3">
@@ -92,3 +95,10 @@ const mostraDettaglio = function(i) {
         </div>
     </div>
 </template>
+<style scoped>
+@media screen and (max-width: 768px) {
+   .slider-outer {
+    padding: 0 2.5rem;
+   }
+}
+</style>

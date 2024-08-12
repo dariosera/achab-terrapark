@@ -70,7 +70,7 @@ footer {
         align-items: center;
         gap: 20px;
 
-        height: 2rem;
+        min-height: 2rem;
         margin-left: 2rem;
 
         img {

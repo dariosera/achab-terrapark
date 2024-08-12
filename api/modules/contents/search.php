@@ -73,11 +73,15 @@ foreach ($list as $i=>$l) {
         $course_contents = $this->db->sql_select("SELECT contentID FROM co_course_contents WHERE courseID = ?",  $l["contentID"]);
         $opened_contents = $this->db->sql_select("SELECT permalink FROM ua_opened_contents WHERE course_permalink = ? AND IDutente = ?",  $l["permalink"], $this->user["IDutente"]);
 
+        if (count($course_contents) == 0) {
+            $list[$i]["progress"] = 0;
+        } else {
+            $list[$i]["progress"] = count($opened_contents) / count($course_contents);
+        }
         
-        $list[$i]["progress"] = count($opened_contents) / count($course_contents);
 
     } else {
-        $list[$i]["position"] = $this->run("userActions/getMediaPosition",["permalink" => $l["permalink"]])["position"];
+        $list[$i]["position"] = $this->run("frontend/userActions/getMediaPosition",["permalink" => $l["permalink"]])["position"];
     }
 
     $list[$i]["meta"] = json_decode($list[$i]["meta"], true);

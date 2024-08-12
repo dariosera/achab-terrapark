@@ -1,6 +1,6 @@
 <?php
 
-$IDlista = $this->run("userLists/getFavoritesId");
+$IDlista = $this->run("frontend/userLists/getFavoritesId");
 
 
 if (isset($d["only_permalink"])) {

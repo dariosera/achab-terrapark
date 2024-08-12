@@ -6,4 +6,4 @@ if ($d["type"] == "contenuti") {
     $target = "favoritedCourses";
 }
 
-return $this->run("contents/search", ["target" => $target]);
+return $this->run("frontend/contents/search", ["target" => $target]);

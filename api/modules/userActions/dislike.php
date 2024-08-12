@@ -1,7 +1,7 @@
 <?php
 
 // Eseguo removeLike
-$this->run("userActions/removeLike",["permalink" => $d["permalink"]]);
+$this->run("frontend/userActions/removeLike",["permalink" => $d["permalink"]]);
 
 
 $this->db->insertInto("ua_dislikes",[
@@ -9,7 +9,7 @@ $this->db->insertInto("ua_dislikes",[
     "IDutente" => $this->user["IDutente"],
 ]);
 
-//$this->run("public/evlogger",["eventCategory"=>"userEngagement","eventAction"=>"dislike","eventValue"=>$d["permalink"]]);
+//$this->run("frontend/public/evlogger",["eventCategory"=>"userEngagement","eventAction"=>"dislike","eventValue"=>$d["permalink"]]);
 
 return [
     "ok" => true

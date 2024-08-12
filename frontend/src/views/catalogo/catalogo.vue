@@ -461,7 +461,7 @@ function deserializeFilters(queryString) {
 
 .grid-anteprime {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
     margin: -1rem;
     grid-auto-flow: dense;

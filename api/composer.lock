@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7ebdd7c990d458a21dc502338de5ca3",
+    "content-hash": "afe7cbf5788304ea5a2abc661fbad106",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.316.10",
+            "version": "3.319.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "eeb8df6ff6caa428e8bcd631ad2a96430900a249"
+                "reference": "99b75502221af095f0a5a72b0df7ec44e865e699"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/eeb8df6ff6caa428e8bcd631ad2a96430900a249",
-                "reference": "eeb8df6ff6caa428e8bcd631ad2a96430900a249",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/99b75502221af095f0a5a72b0df7ec44e865e699",
+                "reference": "99b75502221af095f0a5a72b0df7ec44e865e699",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,10 @@
                 ],
                 "psr-4": {
                     "Aws\\": "src/"
-                }
+                },
+                "exclude-from-classmap": [
+                    "src/data/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -151,9 +154,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.316.10"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.319.2"
             },
-            "time": "2024-07-30T18:10:20+00:00"
+            "time": "2024-08-09T18:32:29+00:00"
         },
         {
             "name": "brick/math",
@@ -290,12 +293,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:dariosera/kadro-api-core.git",
-                "reference": "bbc84b30976b007e93ec7cbc28928a09a09cded5"
+                "reference": "9f3d0fc1184cf9e573f81e0f60f1f50f58f71f68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dariosera/kadro-api-core/zipball/bbc84b30976b007e93ec7cbc28928a09a09cded5",
-                "reference": "bbc84b30976b007e93ec7cbc28928a09a09cded5",
+                "url": "https://api.github.com/repos/dariosera/kadro-api-core/zipball/9f3d0fc1184cf9e573f81e0f60f1f50f58f71f68",
+                "reference": "9f3d0fc1184cf9e573f81e0f60f1f50f58f71f68",
                 "shasum": ""
             },
             "require": {
@@ -326,7 +329,7 @@
                 "source": "https://github.com/dariosera/kadro-api-core/tree/master",
                 "issues": "https://github.com/dariosera/kadro-api-core/issues"
             },
-            "time": "2024-07-31T14:21:31+00:00"
+            "time": "2024-08-12T17:49:55+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -627,7 +630,7 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.366.0",
+            "version": "v0.368.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
@@ -665,7 +668,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.366.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.368.0"
             },
             "time": "2024-07-11T01:08:44+00:00"
         },
@@ -1115,7 +1118,7 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v10.48.18",
+            "version": "v10.48.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -1170,7 +1173,7 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v10.48.18",
+            "version": "v10.48.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -1216,7 +1219,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v10.48.18",
+            "version": "v10.48.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1267,7 +1270,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v10.48.18",
+            "version": "v10.48.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1315,16 +1318,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v10.48.18",
+            "version": "v10.48.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "ba9a3fe3a834c47f7a0aef1697816c3063cb692e"
+                "reference": "f11ecaa2b29f3fb9c0a46ef20ad93508372ef833"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/ba9a3fe3a834c47f7a0aef1697816c3063cb692e",
-                "reference": "ba9a3fe3a834c47f7a0aef1697816c3063cb692e",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/f11ecaa2b29f3fb9c0a46ef20ad93508372ef833",
+                "reference": "f11ecaa2b29f3fb9c0a46ef20ad93508372ef833",
                 "shasum": ""
             },
             "require": {
@@ -1384,11 +1387,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-07-30T06:53:27+00:00"
+            "time": "2024-08-07T21:07:46+00:00"
         },
         {
             "name": "illuminate/hashing",
-            "version": "v10.48.18",
+            "version": "v10.48.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/hashing.git",
@@ -1436,7 +1439,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v10.48.18",
+            "version": "v10.48.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1482,16 +1485,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v10.48.18",
+            "version": "v10.48.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "263f389d81488c237846b69469f91387ca2729f3"
+                "reference": "56c6d9895605b019e3debb9440454596ef99312a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/263f389d81488c237846b69469f91387ca2729f3",
-                "reference": "263f389d81488c237846b69469f91387ca2729f3",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/56c6d9895605b019e3debb9440454596ef99312a",
+                "reference": "56c6d9895605b019e3debb9440454596ef99312a",
                 "shasum": ""
             },
             "require": {
@@ -1549,7 +1552,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-05-16T21:33:51+00:00"
+            "time": "2024-05-20T13:31:33+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2025,16 +2028,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.39",
+            "version": "3.0.41",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "211ebc399c6e73c225a018435fe5ae209d1d1485"
+                "reference": "621c73f7dcb310b61de34d1da4c4204e8ace6ceb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/211ebc399c6e73c225a018435fe5ae209d1d1485",
-                "reference": "211ebc399c6e73c225a018435fe5ae209d1d1485",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/621c73f7dcb310b61de34d1da4c4204e8ace6ceb",
+                "reference": "621c73f7dcb310b61de34d1da4c4204e8ace6ceb",
                 "shasum": ""
             },
             "require": {
@@ -2115,7 +2118,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.39"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.41"
             },
             "funding": [
                 {
@@ -2131,7 +2134,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-24T06:27:33+00:00"
+            "time": "2024-08-12T00:13:54+00:00"
         },
         {
             "name": "psr/cache",

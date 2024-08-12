@@ -8,7 +8,7 @@ $this->db->delete("ua_favorites",[
     ] 
 ]);
 
-//$this->run("public/evlogger",["eventCategory"=>"userLists","eventAction"=>"removeFromFavorites","eventValue"=>$d["permalink"]]);
+//$this->run("frontend/public/evlogger",["eventCategory"=>"userLists","eventAction"=>"removeFromFavorites","eventValue"=>$d["permalink"]]);
 
 
 return ["ok" => true];

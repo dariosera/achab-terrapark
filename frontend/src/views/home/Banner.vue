@@ -22,7 +22,7 @@ const props = defineProps(["slide"])
 </template>
 <style lang="scss" scoped>
 
-$size : 15px;
+$size : 13px;
 
 
 .banner .image {
@@ -66,7 +66,7 @@ $size : 15px;
 }
 
 
-@media (min-width: 992px)  {
+@media screen and (min-width: 992px)  {
   .image {
     aspect-ratio: 1;
   }

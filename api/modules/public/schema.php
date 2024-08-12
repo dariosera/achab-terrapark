@@ -3,7 +3,7 @@
 $themes = $this->db->sql_select("SELECT themeID, title, description FROM ct_themes ORDER BY title");
 
 foreach ($themes as $i=>$l) {
-    $themes[$i]["url"] = $this->run("public/safeUrlString",["input" => $l["title"]])["output"];
+    $themes[$i]["url"] = $this->run("frontend/public/safeUrlString",["input" => $l["title"]])["output"];
 }
 
 return [

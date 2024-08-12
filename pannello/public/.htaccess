@@ -5,5 +5,15 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{REQUEST_URI} !^/$
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . /index.html?nocache=1 [L]
+RewriteRule . /index.html [L]
+
+<Files "index.html">
+    FileETag None
+    <IfModule mod_headers.c>
+        Header unset ETag
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+    </IfModule>
+</Files>
 

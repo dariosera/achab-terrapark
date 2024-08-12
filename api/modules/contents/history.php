@@ -1,4 +1,4 @@
 <?php
 
 
-return $this->run("contents/search", ["target" => "history"]);
+return $this->run("frontend/contents/search", ["target" => "history"]);

@@ -25,7 +25,7 @@ export function request(obj) {
             document.querySelector("body").classList.add("wait");
 
         axios.post(
-            import.meta.env.VITE_API_ENDPOINT + "/?task=" + obj.task,
+            import.meta.env.VITE_API_ENDPOINT + "/?task=" + (obj.task.startsWith("core") ? obj.task : 'frontend/' + obj.task),
             obj.data,
             axios_config)
         .then(response => {
