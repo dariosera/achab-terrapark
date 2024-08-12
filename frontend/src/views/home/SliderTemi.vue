@@ -153,4 +153,10 @@ const selezionaTema = (i) => {
             font-weight: bold;
         }
     }
+
+@media screen and (max-width: 768px) {
+   .grid-temi {
+        padding: 0 2.5rem;
+   }
+}
 </style>

@@ -1,4 +1,5 @@
 import i18n from "@/i18n"
+import useToasts from "@/stores/toasts"
 const Trans = {
     get supportedLocales() {
       return import.meta.env.VITE_SUPPORTED_LOCALES.split(",")
@@ -12,6 +13,14 @@ const Trans = {
         Trans.currentLocale = newLocale
         document.querySelector("html").setAttribute("lang", newLocale)
         localStorage.setItem("user-locale", newLocale)
+
+        if (newLocale !== "it") {
+          useToasts().addToast({
+            title : "Traduzioni non disponibili",
+            content : `Le traduzioni in <b>${newLocale}</b> non sono complete. Alcune parti del sito potrebbero non essere tradotte!`
+          })
+        }
+
     },
     isLocaleSupported(locale) { // <--- 1
         return Trans.supportedLocales.includes(locale)

@@ -63,6 +63,10 @@ function removeFromFavorites(i) {
 
       <h1>{{ titolo[tipoPreferiti] }}</h1>
 
+      <div v-if="favorites.length === 0">
+        <small class="text-secondary">Non hai ancora aggiunto dei contenuti alla lista dei preferiti.</small>
+      </div>
+
       <div class="lista mt-5">
 
         <div v-for="(c,i) in favorites" :key="i">
@@ -74,6 +78,7 @@ function removeFromFavorites(i) {
               <div class="row">
                 <div class="col">
                   <div class="titolo"  @click="open(i)">{{ c.title }}</div>
+                  <div class="descrizione"  @click="open(i)">{{ c.description.split("|")[0] }}</div>
                 </div>
                 <div class="col-auto d-flex">
           
@@ -88,7 +93,7 @@ function removeFromFavorites(i) {
                   </div>
                 </div>
               </div>
-              <div class="descrizione"  @click="open(i)">{{ c.description.split("|")[0] }}</div>
+              
             </div>
           
           </div>
@@ -140,7 +145,14 @@ function removeFromFavorites(i) {
     font-weight: bold;
   }
   .descrizione {
-    font-size: .9rem;
+    font-size: 13px;
+    color: var(--bs-secondary);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .contenuto .image img {
+    width: 90px;
   }
 }
 </style>

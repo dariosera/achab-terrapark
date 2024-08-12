@@ -31,7 +31,7 @@ if (isLogged()) {
 
             <div class="right">
 
-                <input type="text" class="form-control global-search" :placeholder="$t('nav.cerca')">
+                <input type="text" disabled class="form-control global-search" :placeholder="$t('nav.cerca')">
 
                 <LanguageSwitcher />
 

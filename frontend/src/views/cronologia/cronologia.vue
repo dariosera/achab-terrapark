@@ -31,6 +31,10 @@ function close(i) {
 
       <h1>Cronologia</h1>
 
+      <div v-if="history.length === 0">
+          <small class="text-secondary">La tua cronologia è ancora vuota.</small>
+        </div>
+
       <div class="lista mt-5">
 
 
@@ -43,6 +47,8 @@ function close(i) {
               <div class="row">
                 <div class="col">
                   <div class="titolo"  @click="open(i)">{{ c.title }}</div>
+                  <div class="descrizione"  @click="open(i)">{{ c.description.split("|")[0] }}</div>
+                  <div class="when">{{ formatDistance(new Date(c.last_seen), new Date(), {locale: it, addSuffix: true}) }}</div>
                 </div>
                 <div class="col-auto d-flex">
           
@@ -57,13 +63,14 @@ function close(i) {
                   </div> -->
                 </div>
               </div>
-              <div class="descrizione"  @click="open(i)">{{ c.description.split("|")[0] }}</div>
-              <div class="text-muted">{{ formatDistance(new Date(c.last_seen), new Date(), {locale: it, addSuffix: true}) }}</div>
+              
             </div>
           
           </div>
           <Dettaglio v-if="c.open" :data="c" @close="close(i)" :showRelated="false" class="mb-3" />
         </div>
+
+        
 
 
 
@@ -98,8 +105,12 @@ function close(i) {
 
   .image {
     cursor: pointer;
+    width: 200px;
+    height: 100%;
+
     img {
-      width: 200px;
+      width: 100%;
+      object-fit: cover;
     }
   }
 
@@ -111,9 +122,23 @@ function close(i) {
     font-weight: bold;
     cursor: pointer;
   }
+
   .descrizione {
-    font-size: .9rem;
+    font-size: 13px;
+    color: var(--bs-secondary);
     cursor: pointer;
+  }
+
+  .when {
+    font-size: 13px;
+    color: var(--bs-secondary);
+    cursor: pointer;
+    font-weight: 300;
+  }
+}
+@media screen and (max-width: 768px) {
+  .contenuto .image {
+    width: 90px;
   }
 }
 </style>

@@ -1,14 +1,20 @@
 <script setup>
 import { request } from '@/utils/request';
-import {reactive, ref} from 'vue'
+import {reactive, ref, onMounted} from 'vue'
+import QRCode from 'qrcode'
 
 const profile = reactive({})
 const extra = reactive({})
+const qrcodecanvas = ref(null)
+
+
 
 request({
   task : "profile/get",
   callback : dt => {
     Object.assign(profile, dt)
+    QRCode.toCanvas(qrcodecanvas.value, `https://users.terrapark.it/${btoa(profile.profile_signature)}`)
+
   }
 })
 
@@ -169,6 +175,17 @@ const impostaComune = () => {
         </form>
       </div>
     </div>
+
+
+     <div class="card mb-4">
+      <h5 class="card-header">
+        Il tuo qrcode
+      </h5>
+      <div class="card-body">
+        <canvas ref="qrcodecanvas"></canvas>
+      </div>
+    </div>
+
         </div>
 
 
@@ -184,5 +201,8 @@ const impostaComune = () => {
   </div>
 </template>
 <style scoped>
-
+canvas {
+  width: 100%;
+  
+}
 </style>

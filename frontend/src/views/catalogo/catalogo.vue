@@ -2,8 +2,6 @@
  import Anteprima from '@/components/Anteprima.vue';
  import SkeletonAnteprima from '@/components/SkeletonAnteprima.vue';
  import Dettaglio from '@/components/Dettaglio.vue';
- //import anteprimaCasuale from '@/fake_data/anteprimaCasuale';
-//import getTemi from '@/fake_data/temi';
 import { reactive, onMounted , ref, watch} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useTerraParkStore } from '@/stores/commons';
@@ -96,33 +94,41 @@ const filters = reactive({
             c.isVisible = true;
         } else {
 
-            c.isVisible = false;
+            c.isVisible = true;
 
             // Argomento
             if (filters.topics.length > 0) {
                 if (filters.topics.includes(c.topicID)) {
-                    c.isVisible = true
+                    //c.isVisible = true
+                } else {
+                    c.isVisible = false
                 }
             }
 
             // Tipologia
             if (filters.typologies.length > 0) {
                 if (filters.typologies.includes(c.typologyID)) {
-                    c.isVisible = true
+                    //c.isVisible = true
+                } else {
+                    c.isVisible = false
                 }
             }
 
             // Lingua
             if (filters.languages.length > 0) {
                 if (filters.languages.includes(c.language)) {
-                    c.isVisible = true
+                    //c.isVisible = true
+                } else {
+                    c.isVisible = false
                 }
             }
 
             // Tema
             if (filters.themes.length > 0) {
                 if (filters.themes.includes(c.themeID)) {
-                    c.isVisible = true
+                    //c.isVisible = true
+                } else {
+                    c.isVisible = false
                 }
             }
 
@@ -476,6 +482,13 @@ function deserializeFilters(queryString) {
             grid-column-start: 1;
             grid-column-end: -1;
         }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .grid-temi .tema .icona {
+        width: 60px;
+        padding: 6px;
     }
 }
 </style>
