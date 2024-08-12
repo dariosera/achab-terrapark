@@ -11,4 +11,5 @@ return [
     "topics" => $this->db->sql_select("SELECT topicID, themeID, title FROM ct_topics"),
     "typologies" => $this->db->sql_select("SELECT typologyID, description, icon FROM ct_typologies"),
     "languages" => $this->db->sql_select("SELECT * FROM tr_languages"),
+    "authors" => $this->db->sql_select("SELECT authorID, name, surname FROM ct_authors"),
 ];

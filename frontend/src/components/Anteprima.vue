@@ -57,7 +57,9 @@ const clickAnteprima = () => {
                     <span v-if="props.data.isCourse && props.data.progress > 0">{{parseInt(props.data.progress * 100) }}% completato</span>
                 </div>
 
-                <h3 class="title">{{ props.data.title }}</h3>
+                <div class="outer-title">
+                    <h3 class="title">{{ props.data.title }}</h3>
+                </div>
                 <div class="subtitle">{{ tps.getTopic(props.data.topicID).title }}</div>
                 <div v-if="props.data.isCourse" class="icons">
                     <!-- <span v-for="i in ['video','pdf','test']" :key="i" class="material-symbols-outlined">{{icone_tipologie_contenuto[i]}}</span> -->
@@ -84,6 +86,7 @@ const clickAnteprima = () => {
 
 </template>
 <style lang="scss" scoped>
+
 
 .anteprima {
     transition-property: all;
@@ -173,14 +176,23 @@ const clickAnteprima = () => {
             }
         }
         
+        .outer-title {
+            height: 32px;
+            
+        }
 
        .title {
-        font-size: 20px;
+        font-size: 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         font-weight: 700;
         margin-bottom: 0;
         padding-bottom: 0;
-        height: 26px;
-        line-height: 26px;
+        line-height: 16px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        --webkit-line-clamp: 2;
+        line-clamp: 2;
        }
 
        .subtitle {
@@ -212,7 +224,7 @@ const clickAnteprima = () => {
 
        .description {
         font-size: 13px;
-        height: 75px;
+        height: 65px;
        }
 
        .bottom {

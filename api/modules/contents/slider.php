@@ -12,4 +12,16 @@ if ($d["sliderID"] === "__courses__") {
     return $this->run("contents/search", ["target" => "courses"]);
 }
 
+/// __author:1__
+if (strpos($d["sliderID"],"__author") === 0) {
+    $authorID = intval(
+        explode("_",
+            explode(":",$d["sliderID"])[1]
+        )[0]
+    );
+
+    return $this->run("contents/search", ["target" => "author", "authorID" => $authorID]);
+
+}
+
 return $this->run("contents/search", ["target" => "boh"]);

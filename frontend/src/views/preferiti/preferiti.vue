@@ -1,12 +1,19 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, watch} from 'vue'
 import {useRoute} from 'vue-router';
 import { request } from '@/utils/request';
 import Dettaglio from '@/components/Dettaglio.vue';
 
 const route = useRoute()
 
-const tipoPreferiti = route.params.tipo;
+const tipoPreferiti = ref(route.params.tipo);
+watch(
+  () => route.params.tipo,
+  (newId, oldId) => {
+    tipoPreferiti.value = newId
+    fetch()
+  }
+)
 
 const titolo = {
   'corsi' : 'I tuoi corsi preferiti',
@@ -15,14 +22,18 @@ const titolo = {
 
 const favorites = ref([])
 
-request({
+function fetch() {
+  request({
   task : "contents/favorites",
   data : {
-    type: tipoPreferiti,
+    type: tipoPreferiti.value,
   }, callback : function(dt) {
     favorites.value = dt;
   }
 })
+}
+
+fetch()
 
 function open(i) {
   favorites.value.forEach(c => c.open = false)
@@ -112,6 +123,8 @@ function removeFromFavorites(i) {
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 20px;
+
+ 
 
   .image {
     img {

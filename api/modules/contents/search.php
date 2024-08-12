@@ -19,10 +19,12 @@ if (!isset($d["target"])) {
     $d["target"] = "boh";
 }
 
+$standard_fields = "contentID, ct_contents.permalink, title, description, language, topicID, typologyID, authorID, isCourse, image, meta";
+
 switch ($d["target"]) {
 
     case "history":
-        $query = "SELECT contentID, ct_contents.permalink, title, description, language, topicID, typologyID, isCourse, image, meta, ua_history.updated_at AS last_seen FROM ct_contents JOIN ua_history ON ua_history.permalink = ct_contents.permalink WHERE (isCourse = 1 OR standalone = 1) AND ($constraints_sql) AND ua_history.IDutente = ? ORDER BY last_seen DESC";
+        $query = "SELECT $standard_fields, ua_history.updated_at AS last_seen FROM ct_contents JOIN ua_history ON ua_history.permalink = ct_contents.permalink WHERE (isCourse = 1 OR standalone = 1) AND ($constraints_sql) AND ua_history.IDutente = ? ORDER BY last_seen DESC";
         $list = $this->db->sql_select($query, $this->user["IDutente"]);
 
         $list = array_map(function($x) { $x["last_seen"] = (new DateTime($x["last_seen"]))->format("c"); return $x; }, $list);
@@ -30,28 +32,33 @@ switch ($d["target"]) {
         break;
 
     case "favoritedStandalones":
-        $query = "SELECT contentID, permalink, title, description, language, topicID, typologyID, isCourse, image, meta FROM ct_contents WHERE (standalone = 1) AND ($constraints_sql) AND permalink IN (SELECT permalink FROM ua_favorites WHERE IDutente = ?)";
+        $query = "SELECT $standard_fields FROM ct_contents WHERE (standalone = 1) AND ($constraints_sql) AND permalink IN (SELECT permalink FROM ua_favorites WHERE IDutente = ?)";
         $list = $this->db->sql_select($query, $this->user["IDutente"]);
         break;
 
     case "favoritedCourses":
-        $query = "SELECT contentID, permalink, title, description, language, topicID, typologyID, isCourse, image, meta FROM ct_contents WHERE (isCourse = 1) AND ($constraints_sql) AND permalink IN (SELECT permalink FROM ua_favorites WHERE IDutente = ?)";
+        $query = "SELECT $standard_fields FROM ct_contents WHERE (isCourse = 1) AND ($constraints_sql) AND permalink IN (SELECT permalink FROM ua_favorites WHERE IDutente = ?)";
         $list = $this->db->sql_select($query, $this->user["IDutente"]);
         break;
 
     case "myCourses":
-        $query = "SELECT contentID, permalink, title, description, language, topicID, typologyID, isCourse, image, meta FROM ct_contents WHERE (isCourse = 1) AND ($constraints_sql) AND permalink IN (SELECT permalink FROM ua_history WHERE IDutente = ?)";
+        $query = "SELECT $standard_fields FROM ct_contents WHERE (isCourse = 1) AND ($constraints_sql) AND permalink IN (SELECT permalink FROM ua_history WHERE IDutente = ?)";
         $list = $this->db->sql_select($query, $this->user["IDutente"]);
         break;
     
     case "courses":
-        $query = "SELECT contentID, permalink, title, description, language, topicID, typologyID, isCourse, image, meta FROM ct_contents WHERE isCourse = 1 AND ($constraints_sql)";
+        $query = "SELECT $standard_fields FROM ct_contents WHERE isCourse = 1 AND ($constraints_sql)";
         $list = $this->db->sql_select($query);
+        break;
+
+    case "author":
+        $query = "SELECT $standard_fields FROM ct_contents WHERE (isCourse = 1 OR standalone = 1) AND ($constraints_sql) AND authorID = ?";
+        $list = $this->db->sql_select($query, $d["authorID"]);
         break;
 
 
     default:
-        $query = "SELECT contentID, permalink, title, description, language, topicID, typologyID, isCourse, image, meta FROM ct_contents WHERE (isCourse = 1 OR standalone = 1) AND ($constraints_sql)";
+        $query = "SELECT $standard_fields FROM ct_contents WHERE (isCourse = 1 OR standalone = 1) AND ($constraints_sql)";
         $list = $this->db->sql_select($query);
 
 }

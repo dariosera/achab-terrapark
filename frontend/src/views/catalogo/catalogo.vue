@@ -31,7 +31,7 @@ const fetch = () => {
                 c.themeID = tps.getTopic(c.topicID).themeID
             })
 
-            let ms = 2000 / Math.abs(nSkeletons.value - contenuti.value.length);
+            let ms = 1000 / Math.abs(nSkeletons.value - contenuti.value.length);
 
             let interval = setInterval(() => {
                 if (nSkeletons.value < contenuti.value.length) {
@@ -43,6 +43,8 @@ const fetch = () => {
                     fetching.value = false
                 }
             }, ms)
+
+            filters._update = (new Date()).getTime()
             
         }
     })
@@ -50,8 +52,12 @@ const fetch = () => {
 
 fetch()
 
+const temi = ref([])
+const topics = ref(tps.getTopics())
+const typologies = ref(tps.getTypologies())
+const languages = ref(tps.getLanguages())
 
-onMounted(() => {
+onMounted(async () => {
     // if ("undefined" !== typeof(route.params.id)) {
     //     selezionaTema(route.params.id)
     // }
@@ -63,12 +69,11 @@ onMounted(() => {
             filters[ft] = filtersFromUrl[ft]
         }
     }
+
+    tps.getThemes().then(t => temi.value = t)
 })
 
-const temi = tps.getThemes()
-const topics = ref(tps.getTopics())
-const typologies = ref(tps.getTypologies())
-const languages = ref(tps.getLanguages())
+
 
 const filters = reactive({
     themes : [],
@@ -167,6 +172,7 @@ const filters = reactive({
   const params = new URLSearchParams();
 
   for (const key in filters) {
+    if (key === "_update") continue;
     if (filters.hasOwnProperty(key)) {
       const value = filters[key];
 

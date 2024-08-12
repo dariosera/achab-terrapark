@@ -1,7 +1,9 @@
 <script setup>
-import { defineProps, reactive, ref, watch } from 'vue';
+import { defineProps, reactive, ref, watch, onMounted} from 'vue';
 import Anteprima from './Anteprima.vue';
 import Actions from './Actions.vue';
+import Tags from './Tags.vue';
+import Author from './Author.vue';
 import {Splide, SplideSlide} from '@splidejs/vue-splide'
 import anteprimaCasuale from '@/fake_data/anteprimaCasuale';
 import Contenuto from './Contenuto.vue';
@@ -54,6 +56,7 @@ request({
 
 
 const mostraOriginale = () => {
+    Object.assign(contenuto, {})
     Object.assign(contenuto, props.data)
     guardaCorrelato.value = false;
     correlati.value.forEach(correlato => {
@@ -137,11 +140,20 @@ const renderMeta = (meta) => {
                 <div class="mt-1">{{ contenuto.description.split('|')[1] }}</div>
             </div>
 
-            <div class="meta">
-                <div>Tema: <strong>{{ tps.getTheme(tps.getTopic(contenuto.topicID).themeID ).title }}</strong></div>
-                <div>Argomento: <strong>{{  tps.getTopic(contenuto.topicID).title  }}</strong></div>
+            <div class="meta mt-3">
 
+                <div>
+                    <span>Tema: <strong><router-link :to="`/catalogo?themes=${tps.getTopic(contenuto.topicID).themeID}`">{{ tps.getTheme(tps.getTopic(contenuto.topicID).themeID ).title }}</router-link></strong></span>
+                    &middot;
+                    <span>Argomento: <strong><router-link :to="`/catalogo?topics=${contenuto.topicID}`">{{ tps.getTopic(contenuto.topicID).title }}</router-link></strong></span>
+                </div>
                 {{ renderMeta(contenuto.meta) }}
+
+                <Tags  v-if="contenuto" :permalink="contenuto.permalink"></Tags>
+
+                <Author :authorID="contenuto.authorID"/>
+
+                
             </div>
         </div>
         <div class="col-12" v-if="correlati.length > 0">
@@ -173,21 +185,34 @@ const renderMeta = (meta) => {
         aspect-ratio: 16/9;
     }
 
+    h3 {
+        font-size: 19px;
+        user-select: none;
+    }
+
     .descrizione {
-        font-size: .9rem;
+        font-size: 13px;
+        color: var(--bs-secondary);
+        user-select: none;
+
     }
 
     .meta {
-        list-style: none;
-        margin-top: 10px;
-        padding: 0;
-        font-size: .9rem;
+        display: block;
+        font-size: 13px;
+        font-weight: 300;
+        gap: .5rem;
+        color: var(--bs-secondary-color);
 
-        li {
-            margin: 0;
-            padding: 0;
-            line-height: 1rem;
-        }
+        strong, strong a {
+            color: var(--bs-body-color);
+            text-decoration: none;
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+        }   
     }
 
     .image {

@@ -34,7 +34,7 @@ request({
                         <h1 class="nome">{{author.name}} {{ author.surname }}</h1>
                         <h5 class="ruolo">{{author.role}}</h5>
 
-                        <div class="bio text-muted">{{ author.bio }}</div>
+                        <div class="bio">{{ author.bio }}</div>
                     </div>
 
                     <div class="col-lg-5">
@@ -68,9 +68,9 @@ request({
         </div>
 
         <section class="mt-5">
-            <h2>Contenuti</h2>
+            <h2>I contenuti di {{ author.name + " " + author.surname }}</h2>
 
-            <SliderContenuti />
+            <SliderContenuti :sliderID="`__author:${route.params.id}__`" />
         </section>
     </div>
 
@@ -90,11 +90,12 @@ request({
 
     .ruolo {
         margin-top: 0;
-        font-size: 18px;
+        font-size: 15px;
     }
 
     .bio {
-        font-size: 14px;
+        font-size: 13px;
+        color: var(--bs-secondary);
     }
 
     .foto {
@@ -102,7 +103,8 @@ request({
         width: 100%;
         max-width: 150px;
         aspect-ratio: 1;
-        background-color: rgba(var(--bs-body-color-rgb),.05)
+        background-color: rgba(var(--bs-body-color-rgb),.05);
+        object-fit: cover;
     }
 
     h3 {

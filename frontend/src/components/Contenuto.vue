@@ -116,9 +116,11 @@ const pdfViewer = reactive({
     isVisible: false,
     show : function() {
         pdfViewer.isVisible = true
+        document.querySelector("body").style.overflow = 'hidden';
     },
     hide : function() {
         pdfViewer.isVisible = false
+        document.querySelector("body").style.overflow = 'auto';
     },
     src : () => {
         return `${window.location.protocol}//${window.location.host}/pdfviewer_legacy/web/viewer.html?url=${btoa(props.data.media.pdf_data.url)}`
@@ -160,12 +162,12 @@ const audioTimeUpdate = (event) => {
             </div>
     
             <div v-if="props.data.media.mediaType == 'pdf'" class="pdfpreview" @click="pdfViewer.show()" >
-                <div class="card-top"><span class="material-symbols-outlined me-2">description</span>  {{ props.data.title }}</div>
+                <div class="card-top"><span class="material-symbols-outlined me-2">description</span>  <div class="text">{{ props.data.title }}</div></div>
                 <img :src="props.data.image">
     
                 <div class="card-bottom">
-                    <span>10 pagine</span>
-                    <span>Download consentito</span>
+                    Documento pdf &middot; <span>{{props.data.meta.pages}} pagin{{ props.data.meta.pages == 1 ? 'a' : 'e' }}</span> &middot; Clicca per visualizzare
+                    <!-- <span>Download consentito</span> -->
                 </div>
             </div>
     
@@ -231,6 +233,17 @@ iframe {
         display: flex;
         align-items: center;
         margin-bottom: 1rem;
+        overflow: hidden;
+        width: 100%;
+
+        .text {
+            font-size: 14px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            flex:1;
+        }
+
     }
 
 

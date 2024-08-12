@@ -6,14 +6,14 @@ import Media from './Media.vue';
 const emit = defineEmits(["deleted"])
 
 
-const props = defineProps(["content"]);
+const props = defineProps(["content","noStandalone"]);
 
 const newTag = reactive({
     add : function() {
        request({
         task : "content/addTag",
         data : {
-            contentID : props.content.contentID,
+            permalink : props.content.permalink,
             tagID : newTag.id,
         },
         callback : function(dt) {
@@ -47,7 +47,7 @@ const deleteTag = (id) => {
     request({
         task : "content/removeTag",
         data : {
-            contentID : props.content.contentID,
+            permalink : props.content.permalink,
             tagID : id,
         },
         callback : function(dt) {
@@ -85,7 +85,7 @@ const confermaEliminazione = reactive({
             <div class="row g-3">
                 <div class="col-lg-10">
                     <label>Titolo</label>
-                    <input type="text" class="form-control" v-model="props.content.title">
+                    <input maxlength="65" type="text" class="form-control" v-model="props.content.title">
                 </div>
                 <div class="col-lg-2">
                     <label>Permalink</label>
@@ -152,6 +152,7 @@ const confermaEliminazione = reactive({
                                 v-model="props.content.standalone">
                             <label class="form-check-label" for="standalone">Contenuto singolo</label>
                         </div>
+                        <!-- <small v-if="props?.noStandalone">N.B.: Questo contenuto fa parte di un corso!</small> -->
                     </div>
 
                     <div class="mt-3">

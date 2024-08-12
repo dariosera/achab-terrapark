@@ -6,6 +6,8 @@ const router = useRouter()
 const tdata = reactive({rowData : [], columnDefs: []})
 const testoNoRisultati = ref(null);
 
+const frontendUrl = import.meta.env.VITE_TERRAPARK_FRONTEND;
+
 const ui = useModals();
 
 const getWidgets = () => {
@@ -34,7 +36,7 @@ const getWidgets = () => {
 
                                 ui.msgbox({
                                     title : "Anteprima",
-                                    content : `<iframe style="border: 1px solid grey; width: 100%; height: 600px;" src="http://localhost:5174/embed.html?id=${p.widgetID}"></iframe>`,
+                                    content : `<iframe style="border: 1px solid grey; width: 100%; height: 600px;" src="${frontendUrl}/embed.html?id=${p.widgetID}"></iframe>`,
                                     size: "xl"
                                 })
 
@@ -86,6 +88,10 @@ const modificaWidget = reactive({
     ],
     htmlcode : () => {
 
+        if (modificaWidget.data.new) {
+            return `Salva il widget per ottenere il codice`
+        }
+
         const conf = new URLSearchParams();
 
         conf.append("id",modificaWidget.data.widgetID);
@@ -99,7 +105,7 @@ const modificaWidget = reactive({
             conf.append("title","false")
         }
 
-        return `<iframe src="http://localhost:5174/embed.html?${conf.toString()}"></iframe>`
+        return `<iframe src="${frontendUrl}/embed.html?${conf.toString()}"></iframe>`
     },
     iframeconf : {
         title : true

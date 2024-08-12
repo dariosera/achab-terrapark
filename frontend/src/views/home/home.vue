@@ -1,6 +1,7 @@
 <script setup>
 import {Splide, SplideSlide, SplideTrack} from '@splidejs/vue-splide'
 import Banner from './Banner.vue';
+import SkeletonBanner from './SkeletonBanner.vue';
 import SliderContenuti from '@/components/SliderContenuti.vue'
 import {ref} from 'vue'
 import { request } from '@/utils/request';
@@ -71,6 +72,7 @@ const splideOptions = {
                 </div>
             </div>
         </Splide>
+        <SkeletonBanner v-else />
 
         <section class="with-top-border">
             <h2>{{$t('home.iTuoiCorsi')}}: {{ $t('home.continuaAdImparare') }}</h2>

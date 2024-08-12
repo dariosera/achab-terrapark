@@ -59,6 +59,7 @@ const sliderOptions = {
 
 
 const mostraDettaglio = function(i) {
+    contenutoSelezionato.value = null;
     contenutoSelezionato.value = contenuti.value[i];
     window.scrollTo({
         top: tagDettaglio.value.offsetTop,

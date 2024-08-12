@@ -1,17 +1,21 @@
 <script setup>
 import SliderContenuti from '@/components/SliderContenuti.vue';
-import anteprimaCasuale from '@/fake_data/anteprimaCasuale';
 import Contenuto from '@/components/Contenuto.vue';
+import Actions from '@/components/Actions.vue';
 import {ref, onBeforeMount, onMounted, onUnmounted, reactive, watch} from 'vue'
 import { icone_tipologie_contenuto } from '@/utils/icone';
 import { request } from '@/utils/request';
-import { useRoute } from 'vue-router';
+import { routerKey, useRoute } from 'vue-router';
 import { useTerraParkStore } from '@/stores/commons';
 
 const route = useRoute();
 const tps = useTerraParkStore()
 
 const corso = reactive({})
+const stats = reactive({
+    duration: false,
+    pages: false,
+})
 
 onBeforeMount(() => {
     request({
@@ -22,6 +26,23 @@ onBeforeMount(() => {
         callback : function(dt) {
             Object.assign(corso, dt);
             setContentAsOpened(0)
+
+            // Calcolo totali
+            let duration = 0, pages = 0;
+            corso.contents.forEach(c => {
+                const meta = c.meta;
+                if (meta?.duration) {
+                    duration += Math.ceil(meta.duration / 60);
+                }
+
+                if (meta?.pages) {
+                    pages += parseInt(meta.pages);
+                }
+
+            })
+
+            if (duration > 0) stats.duration = duration;
+            if (pages > 0) stats.pages = pages;
 
         }
     })
@@ -71,7 +92,7 @@ const contenutoSelezionato = ref(0)
 
 const renderMeta = (meta) => {
     if (meta?.duration) {
-        return `${parseInt(meta.duration/60)} min.`;
+        return `${Math.ceil(meta.duration/60)} min.`;
     }
 
     if (meta?.pages) {
@@ -113,22 +134,24 @@ const setContentAsOpened = (index) => {
                     <div v-for="(par,pn) in corso.description.split('|')" :key="pn">{{ par }}</div>
                 </div>
 
-                <div class="meta mt-3 d-flex">
-                    <div>Tema: <strong>{{ tps.getTheme(tps.getTopic(corso.topicID).themeID ).title }}</strong></div>
-                    <div>Argomento: <strong>{{ tps.getTopic(corso.topicID).title }}</strong></div>
-                    <div>Durata: <strong>{{ 'TODO' }} min.</strong></div>
+                <div class="meta mt-3">
+                    <div>
+                        <span>Tema: <strong><router-link :to="`/catalogo?themes=${tps.getTopic(corso.topicID).themeID}`">{{ tps.getTheme(tps.getTopic(corso.topicID).themeID ).title }}</router-link></strong></span>
+                        &middot;
+                        <span>Argomento: <strong><router-link :to="`/catalogo?topics=${corso.topicID}`">{{ tps.getTopic(corso.topicID).title }}</router-link></strong></span>
+                    </div>
+                    <div>
+                        <span v-if="stats.duration">Durata totale: <strong>{{ stats.duration }} minuti</strong></span>
+                        &middot;
+                        <span v-if="stats.pages">{{stats.pages }} pagine</span>
+                    </div>
                 </div>
 
             </div>
             <div class="col-lg-6 p-5 right">
                 <img class="image" :src="corso.image">
 
-                <div class="actions">
-                    <span class="material-symbols-outlined">thumb_up</span>
-                    <span class="material-symbols-outlined">thumb_down</span>
-                    <span class="material-symbols-outlined">favorite</span>
-                    <span class="material-symbols-outlined">ios_share</span>
-                </div>
+                <Actions :permalink="corso.permalink"/>
             </div>
             <button class="toggle" @click="toggleTop()">
                 <span v-if="!topCondensed" class="material-symbols-outlined">keyboard_arrow_up</span>
@@ -202,20 +225,30 @@ const setContentAsOpened = (index) => {
     }
 
     .descrizione {
+
+        color: var(--bs-secondary-color);
+
         div:not(:first-child) {
             margin-top: 10px;
         }
     }
 
     .meta {
-        font-size: 14px;
+        display: block;
+        font-size: 13px;
+        font-weight: 300;
         gap: .5rem;
+        color: var(--bs-secondary-color);
 
-        div:not(:last-child) {
-            padding-right: .5rem;
-            border-right: 1px solid rgba(var(--bs-body-color-rgb), .1);
-        }
+        strong, strong a {
+            color: var(--bs-body-color);
+            text-decoration: none;
 
+            a:hover {
+                text-decoration: underline;
+            }
+
+        }   
     }
 
     .toggle {

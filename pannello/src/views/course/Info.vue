@@ -7,22 +7,6 @@ const emit = defineEmits(["deleted"])
 
 const props = defineProps(["content"]);
 
-const newTag = reactive({
-    add : function() {
-       request({
-        task : "content/addTag",
-        data : {
-            contentID : props.content.contentID,
-            tagID : newTag.id,
-        },
-        callback : function(dt) {
-            newTag.id = undefined;
-            props.content.tags = dt;
-        }
-       })
-    },
-    id : undefined,
-})
 
 const doUpload = function(e) {
 
@@ -42,18 +26,7 @@ upload({
 
 }
 
-const deleteTag = (id) => {
-    request({
-        task : "content/removeTag",
-        data : {
-            contentID : props.content.contentID,
-            tagID : id,
-        },
-        callback : function(dt) {
-            props.content.tags = dt;
-        }
-       })
-}
+
 
 const confermaEliminazione = reactive({
     actions : [
@@ -84,7 +57,7 @@ const confermaEliminazione = reactive({
             <div class="row g-3">
                 <div class="col-lg-12">
                     <label>Titolo</label>
-                    <input type="text" class="form-control" v-model="props.content.title">
+                    <input type="text" maxlength="65" class="form-control" v-model="props.content.title">
                 </div>
                 
                 <div class="col-lg-6">
@@ -113,16 +86,10 @@ const confermaEliminazione = reactive({
 
                         <div class="tag-area mt-2">
                             <span v-for="tag,i in props.content.tags" :key="i" class="badge border text-muted px-2 me-2">
-                                {{ tag.description }}
-                                <i style="cursor: pointer" @click="deleteTag(tag.tagID)" class="bi bi-x-lg ms-2"></i></span>
+                                {{ tag.description }}</span>
 
                             <small v-if="props.content.tags.length === 0">Nessun tag</small>
                         </div>
-                        <form @submit.prevent="newTag.add" class="d-flex mt-3">
-                            <SearchSelect class="me-1" required placeholder="Aggiungi tag" task="tags.search"
-                                onCreate="tags.create" v-model="newTag.id" />
-                            <button class="btn btn-primary" type="submit"><i class="bi bi-plus"></i> Aggiungi</button>
-                        </form>
                     </div>
                 </div>
                 <div class="col-lg-6">

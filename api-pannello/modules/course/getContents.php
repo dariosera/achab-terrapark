@@ -8,6 +8,9 @@ foreach ($list as $i=>$l) {
     if ($list[$i]["image"] !== null) {
         $list[$i]["image_url"] = $this->config["s3"]["origin_endpoint"] . "/" . $this->config["s3"]["prefix"] . "/c/160x90/" . $list[$i]["permalink"] . ".jpg";
     }
+    $list[$i]["tags"] = $this->run("content/getTags", ["permalink" => $list[$i]["permalink"]]);
+
 }
+
 
 return $list;

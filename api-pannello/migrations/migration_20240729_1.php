@@ -114,9 +114,10 @@ Capsule::schema()->create('ct_tags', function ($table) {
 Capsule::schema()->create('ct_content_tags', function ($table) {
     $table->integer("tagID")->unsigned();
     $table->foreign("tagID")->references("tagID")->on("ct_tags")->onDelete("cascade");
-    $table->integer("contentID")->unsigned();
-    $table->foreign("contentID")->references("contentID")->on("ct_contents")->onDelete("cascade");
-    $table->primary(["tagID","contentID"]);
+
+    $table->string("permalink");
+    $table->foreign("permalink")->references("permalink")->on("ct_contents")->onDelete("cascade");
+    $table->primary(["tagID","permalink"]);
     $table->timestamps();
 });
 

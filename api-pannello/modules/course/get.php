@@ -30,7 +30,7 @@ if (isset($media["mediaType"]) && count(array_keys($media[$media["mediaType"]."_
 
 }
 
-$list[0]["tags"] = $this->run("content/getTags", ["contentID" => $list[0]["contentID"]]);
+$list[0]["tags"] = [];
 
 
 

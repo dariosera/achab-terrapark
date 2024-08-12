@@ -7,7 +7,8 @@ export const useTerraParkStore = defineStore('schema', () => {
     themes : [],
     topics : [],
     typologies: [],
-    languages : []
+    languages : [],
+    authors: [],
   })
 
   const requests_to_resolve = [];
@@ -101,7 +102,16 @@ export const useTerraParkStore = defineStore('schema', () => {
     return schema.languages;
   }
 
+  const getAuthor = (id) => {
+    const filtered = schema.authors.filter(t => t.authorID == id);
+
+    if (filtered.length === 1) {
+      return filtered[0]
+    } else {
+      return { authorID : id, name : null, surname: null}
+    }
+  }
 
 
-  return { schema, init, getTheme, getThemes, getTopic, getTopics, getTypology, getTypologies, getLanguages}
+  return { schema, init, getTheme, getThemes, getTopic, getTopics, getTypology, getTypologies, getLanguages, getAuthor}
 })

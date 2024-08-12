@@ -60,6 +60,15 @@ const getCourseContents = () => {
         },
         callback : function(dt) {
             courseContents.value = dt;
+
+            courseContents.value.forEach(c => {
+                c.tags.forEach(t => {
+                    content.tags.push(t)
+                })
+            })
+            content.tags = content.tags.filter((value, index, self) =>
+                index === self.findIndex((obj) => obj.tagID === value.tagID)
+            );
         }
     })
 }
@@ -391,7 +400,7 @@ const eliminaCorso = () => {
                     <div>Nessun contenuto</div>
                 </div>
                 <div v-else class="content-list">
-                    <div v-for="(subc, i) in courseContents" :key="i" class="content">
+                    <div v-for="(subc, i) in courseContents" :key="i" class="content" :class="{'draft' : subc.draft == 1}">
                         <div class="updown">
                             <div class="btn-group-vertical btn-group-sm" role="group"
                                 aria-label="Vertical button group">
@@ -406,7 +415,7 @@ const eliminaCorso = () => {
                             <img :src="subc.image_url" class="w-100">
                         </div>
                         <div class="info">
-                            <div><strong>{{ subc.title }}</strong></div>
+                            <div><span v-if="subc.draft == 1">Bozza -</span> <strong>{{ subc.title }}</strong></div>
                             <div><em>{{ subc?.description?.split("|")[0] || 'Senza descrizione' }}</em></div>
                             <div>Tipologia: {{ subc.typology || "-" }} | Tema: {{ subc.theme || "-" }} | Argomento: {{
                                 subc.topic || "-" }}</div>
@@ -455,7 +464,7 @@ const eliminaCorso = () => {
 
     <Modal title="Modifica contenuto" :actions="modificaContenuto.actions" @hidden="modificaContenuto.onHidden"
         :canDismiss="false" size="fullscreen-xxl-down" @ready="(t) => modificaContenuto.modal = t">
-        <Contenuto v-if="modificaContenuto.content" :content="modificaContenuto.content"
+        <Contenuto :noStandalone="true" v-if="modificaContenuto.content" :content="modificaContenuto.content"
             @deleted="() => {modificaContenuto.modal.hide(); modificaContenuto.content = null; getCourseContents(); }" />
     </Modal>
 </template>
@@ -464,6 +473,13 @@ const eliminaCorso = () => {
     .content {
         display: flex;
         padding: .4rem;
+
+        &.draft {
+            .img, .info {
+                opacity: .6;
+            }
+            
+        }
 
         &:not(:last-child) {
             border-bottom: 1px solid rgba(var(--bs-body-color-rgb),.2);
@@ -480,11 +496,17 @@ const eliminaCorso = () => {
         }
 
         .img {
-            max-width: 150px;
+            width: 160px;
+            height: 90px;
+            overflow: hidden;
+
+
             
             img {
                 display: block;
+                object-fit: cover;
             }
+
         }
 
         .info {

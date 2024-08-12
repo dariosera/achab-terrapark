@@ -10,7 +10,7 @@ foreach ($list as $i=>$l) {
 
     // Ottengo tag contenuti associati ad autore
 
-    $list[$i]["tags"] = $this->db->sql_select("SELECT ct_tags.tagID, ct_tags.description FROM ct_contents JOIN ct_content_tags ON ct_content_tags.contentID = ct_contents.contentID JOIN ct_tags ON ct_content_tags.tagID = ct_tags.tagID WHERE authorID = ?", $d["authorID"]);
+    $list[$i]["tags"] = $this->db->sql_select("SELECT ct_tags.tagID, ct_tags.description FROM ct_contents JOIN ct_content_tags ON ct_content_tags.permalink = ct_contents.permalink JOIN ct_tags ON ct_content_tags.tagID = ct_tags.tagID WHERE authorID = ?", $d["authorID"]);
 
 }
 
