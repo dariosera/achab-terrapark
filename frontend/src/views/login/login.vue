@@ -10,6 +10,8 @@ import useToasts from '@/stores/toasts';
 
 let email = "", password = "";
 
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
 const errorMessage = reactive({ text: null });
 const ps = useProjectStore()
 const tps = useTerraParkStore()
@@ -135,7 +137,7 @@ const handleGoogleCallback = (res) => {
                             <div class="text-center my-3">oppure</div>
                             <div class="mt-3 sso-button-container text-center">
                                 <GoogleLogin
-                                    clientId="265242670424-qp64siqcjtuku5v6uvvmabsq4omvtk1t.apps.googleusercontent.com"
+                                    :clientId="googleClientId"
                                     :callback="handleGoogleCallback"></GoogleLogin>
                             </div>
                             <div v-if="errorMessage?.text" class="alert alert-danger mt-2">{{ errorMessage.text }}</div>

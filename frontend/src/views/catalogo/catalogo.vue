@@ -328,11 +328,9 @@ function deserializeFilters(queryString) {
         </div>
 
         <div v-if="fetching === true" class="grid-anteprime p-3">
-            <template v-for="j in nSkeletons" :key="j">
-                <div class="single">
-                        <SkeletonAnteprima />
-                </div>
-            </template>
+            <div v-for="j in nSkeletons" :key="j" class="single">
+                    <SkeletonAnteprima />
+            </div>
         </div>
         <div v-else class="grid-anteprime p-3">
             <template v-for="(c,j) in contenuti" :key="j">

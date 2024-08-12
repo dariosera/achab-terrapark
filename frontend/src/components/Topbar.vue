@@ -21,70 +21,62 @@ if (isLogged()) {
 
 </script>
 <template>
-    <nav class="navbar first-nav bg-body-tertiary">
-        <div class="container-fluid">
-            <div class="logos">
-                <a href="/">
-                    <img class="logo" :src="theme.logo.image_url">
-                </a>
-            </div>
-
-            <div class="right">
-
-                <input type="text" disabled class="form-control global-search" :placeholder="$t('nav.cerca')">
-
-                <LanguageSwitcher />
-
-                <RouterLink class="icon-action" to="/preferiti/corsi"><span class="material-symbols-outlined">favorite</span></RouterLink>
-
-                <RouterLink class="icon-action" to="/attestati"><span class="material-symbols-outlined">beenhere</span></RouterLink>
-
-                <div class="btn-group no-arrow">
-                    <button class="icon-action dropdown-toggle" data-bs-toggle="dropdown"><span class="material-symbols-outlined">notifications</span></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><h6 class="dropdown-header">{{ $t('nav.notifiche') }}</h6></li>
-                        <p class="px-3">Non hai notifiche</p>
-                    </ul>
+    <div>
+        <nav class="navbar first-nav bg-body-tertiary">
+            <div class="container-fluid">
+                <div class="logos">
+                    <a href="/">
+                        <img class="logo" :src="theme.logo.image_url">
+                    </a>
                 </div>
-
-                
-                <div class="btn-group profile-dropdown no-arrow">
-                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                       {{ iniziali }}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span class="dropdown-item-text"></span></li>
-                        <!-- <li><button class="dropdown-item" type="button">Action</button></li>
-                        <li><button class="dropdown-item" type="button">Another action</button></li> -->
-                        <li><h6 class="dropdown-header">Preferiti</h6></li>
-                        <li><RouterLink to="/preferiti/corsi" class="dropdown-item">Corsi</RouterLink></li>
-                        <li><RouterLink to="/preferiti/contenuti" class="dropdown-item">Contenuti</RouterLink></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><h6 class="dropdown-header">Profilo</h6></li>
-                        <li><RouterLink class="dropdown-item" to="/profilo">Dati personali</RouterLink></li>
-                        <li><RouterLink class="dropdown-item" to="/attestati">Qualifiche e attestati</RouterLink></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><RouterLink to="/cronologia" class="dropdown-item">Cronologia</RouterLink></li>
-                        <li><RouterLink to="/contatti" class="dropdown-item">Contatti e assistenza</RouterLink></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><button @click="logout" class="dropdown-item" type="button">Logout</button></li>
-                    </ul>
+                <div class="right">
+                    <input type="text" disabled class="form-control global-search" :placeholder="$t('nav.cerca')">
+                    <LanguageSwitcher />
+                    <RouterLink class="icon-action" to="/preferiti/corsi"><span class="material-symbols-outlined">favorite</span></RouterLink>
+                    <RouterLink class="icon-action" to="/attestati"><span class="material-symbols-outlined">beenhere</span></RouterLink>
+                    <div class="btn-group no-arrow">
+                        <button class="icon-action dropdown-toggle" data-bs-toggle="dropdown"><span class="material-symbols-outlined">notifications</span></button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header">{{ $t('nav.notifiche') }}</h6></li>
+                            <p class="px-3">Non hai notifiche</p>
+                        </ul>
+                    </div>
+        
+                    <div class="btn-group profile-dropdown no-arrow">
+                        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                           {{ iniziali }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><span class="dropdown-item-text"></span></li>
+                            <!-- <li><button class="dropdown-item" type="button">Action</button></li>
+                            <li><button class="dropdown-item" type="button">Another action</button></li> -->
+                            <li><h6 class="dropdown-header">Preferiti</h6></li>
+                            <li><RouterLink to="/preferiti/corsi" class="dropdown-item">Corsi</RouterLink></li>
+                            <li><RouterLink to="/preferiti/contenuti" class="dropdown-item">Contenuti</RouterLink></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Profilo</h6></li>
+                            <li><RouterLink class="dropdown-item" to="/profilo">Dati personali</RouterLink></li>
+                            <li><RouterLink class="dropdown-item" to="/attestati">Qualifiche e attestati</RouterLink></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><RouterLink to="/cronologia" class="dropdown-item">Cronologia</RouterLink></li>
+                            <li><RouterLink to="/contatti" class="dropdown-item">Contatti e assistenza</RouterLink></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><button @click="logout" class="dropdown-item" type="button">Logout</button></li>
+                        </ul>
+                    </div>
                 </div>
-
-
-
             </div>
-        </div>
-    </nav>
-    <nav class="navbar second-nav bg-body-tertiary">
-        <div class="container-fluid pages">
-            <router-link to="/">Home</router-link>
-            <router-link to="/temi">{{$t('nav.temi')}}</router-link>
-            <router-link to="/catalogo">{{$t('nav.catalogo')}}</router-link>
-            <router-link to="/relatori">{{$t('nav.relatori')}}</router-link>
-        </div>
-    </nav>
+        </nav>
+        <nav class="navbar second-nav bg-body-tertiary">
+            <div class="container-fluid pages">
+                <router-link to="/">Home</router-link>
+                <router-link to="/temi">{{$t('nav.temi')}}</router-link>
+                <router-link to="/catalogo">{{$t('nav.catalogo')}}</router-link>
+                <router-link to="/relatori">{{$t('nav.relatori')}}</router-link>
+            </div>
+        </nav>
+    </div>
 </template>
 <style lang="scss" scoped>
 
