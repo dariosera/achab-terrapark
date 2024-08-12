@@ -282,7 +282,7 @@ function deserializeFilters(queryString) {
                     </div>
                 </div> -->
 
-                <span class="bg-warning">--- FILTRO DURATA ? ---</span>
+                <!-- <span class="bg-warning">--- FILTRO DURATA ? ---</span> -->
 
                 <div class="dropdown">
                     <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
@@ -461,7 +461,7 @@ function deserializeFilters(queryString) {
 
 .grid-anteprime {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
     margin: -1rem;
     grid-auto-flow: dense;

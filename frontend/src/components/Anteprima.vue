@@ -224,7 +224,9 @@ const clickAnteprima = () => {
 
        .description {
         font-size: 13px;
-        height: 65px;
+        height: 64px;
+        line-height: 16px;
+        overflow: hidden;
        }
 
        .bottom {

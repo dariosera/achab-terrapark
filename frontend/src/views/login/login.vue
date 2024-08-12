@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router';
 import { GoogleLogin } from 'vue3-google-login'
 import { useProjectStore } from '@/stores/project';
 import { useTerraParkStore } from '@/stores/commons';
+import useToasts from '@/stores/toasts';
 
 let email = "", password = "";
 
@@ -44,8 +45,14 @@ const login = (e) => {
 
             tps.init();
 
+            useToasts().addToast({
+                title : "Benvenuto!",
+                content : `Login avvenuto correttamente`
+            })
+
             const after_login_redirect = sessionStorage.getItem("sspa_after_login_redirect");
             if (after_login_redirect !== null) {
+                sessionStorage.removeItem("sspa_after_login_redirect");
                 router.push({ path: after_login_redirect })
             } else {
                 router.push({ path: "/" })

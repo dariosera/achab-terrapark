@@ -1,13 +1,19 @@
 import axios from 'axios';
 import { isLogged, getToken, logout} from './auth';
+import useToasts from '@/stores/toasts';
 
 function fatalError(a,b) {
-    alert(`${a} - ${b}`)
+    toasts.addToast({
+        title : "Errore",
+        content : `<i class="bi bi-exclamation-triangle"></i> TerraPark si è interrotto in modo anomalo.`,
+        autohide: false
+    })
 }
 
 export function request(obj) {
 
         //let uT = useToasts();    
+        const toasts = useToasts();
 
         const axios_config = {
             // validateStatus: function (status) {
@@ -47,6 +53,10 @@ export function request(obj) {
                     if ("undefined" !== typeof(obj.error)) {
                         obj.error(response.data);
                     } else {
+                        toasts.addToast({
+                            title : `<i class="bi bi-exclamation-triangle"></i> Errore`,
+                            content : `${response.data.error}`,
+                        })
                         console.error(`[KADRO-DEBUGGER] ${response.data.error}`)
                     }
                     
@@ -66,44 +76,35 @@ export function request(obj) {
 
             if (typeof(error?.response?.status) !== "undefined") {
                 if (error?.response?.status === 401) {
-                    alert("Auth_required")
+                    sessionStorage.setItem(window.location.pathname);
                     logout()
                     return;
                 }
     
                 else if (error?.response?.status === 403) {
-                    // uT.addToast({
-                    //     title : "403 - Forbidden",
-                    //     content : `Non sei autorizzato a svolgere questa azione.
-                    //                 <hr>
-                    //                 <i class="bi bi-exclamation-square"></i> <code>${obj.task}</code>
-                    //                 `
-    
-                    // })
-                    alert("not authorized")
+                    toasts.addToast({
+                        title : "Ooops!",
+                        content : "Non hai l'autorizzazione per eseguire questa azione.",
+                        autohide: false
+                    })
                     return; 
                 }
     
                
                 else if (error?.response?.status === 404) {
-                    // uT.addToast({
-                    //     title : "404 - Not found",
-                    //     content : `Non è stato possibile completare questa richiesta.
-                    //     <hr>
-                    //     <i class="bi bi-exclamation-square"></i> <code>${obj.task}</code>
-                    //     `
-    
-                    // })
-                    alert("404")
+                    toasts.addToast({
+                        title : "Ooops!",
+                        content : "Si è verificato un errore (404)",
+                        autohide: false
+                    })
                     return; 
                 } else {
                     
-                    // uT.addToast({
-                    //     title : "5XX - Network error",
-                    //     content : "Impossibile contattare il server"
-    
-                    // })
-                    alert("5XX")
+                    toasts.addToast({
+                        title : "Ooops!",
+                        content : "Si è verificato un errore (5xx)",
+                        autohide: false
+                    })
                     return; 
                     
 
