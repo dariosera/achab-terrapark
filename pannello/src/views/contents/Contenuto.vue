@@ -1,10 +1,11 @@
 <script setup>
-import {SearchSelect, request, upload, Modal} from 'kadro-core';
+import {SearchSelect, request, upload, useModals} from 'kadro-core';
 import {reactive, defineProps} from 'vue';
 import Media from './Media.vue';
 
 const emit = defineEmits(["deleted"])
 
+const um = useModals()
 
 const props = defineProps(["content","noStandalone"]);
 
@@ -56,8 +57,19 @@ const deleteTag = (id) => {
        })
 }
 
-const confermaEliminazione = reactive({
-    actions : [
+
+
+function confermaEliminazione() {
+
+    /* <Modal title="Conferma eliminazione" :actions="confermaEliminazione.actions" :canDismiss="true"
+        size="sm" @ready="(t) => confermaEliminazione.modal = t">
+        <p>Confermi di voler eliminare il contenuto?</p>
+    </Modal>*/
+
+    um.msgbox({
+        title : "Conferma eliminazione",
+        content : `Confermi di voler eliminare il contenuto?`,
+        actions : [
         {
             text : 'Confermo, elimina il contenuto',
             class : 'btn-danger',
@@ -76,8 +88,9 @@ const confermaEliminazione = reactive({
             }
         }
     ],
-    modal : null,
-})
+    })
+
+}
 </script>
 <template>
     <div class="row" v-if="props.content">
@@ -208,17 +221,11 @@ const confermaEliminazione = reactive({
 
                     <hr>
 
-                    <button class="btn btn-outline-danger" @click="confermaEliminazione.modal.show"><i class="bi bi-trash"></i> Elimina contenuto</button>
+                    <button class="btn btn-outline-danger" @click="confermaEliminazione"><i class="bi bi-trash"></i> Elimina contenuto</button>
 
                 </div>
             </div>
 
         </div>
     </div>
-
-
-    <Modal title="Conferma eliminazione" :actions="confermaEliminazione.actions" :canDismiss="true"
-        size="sm" @ready="(t) => confermaEliminazione.modal = t">
-        <p>Confermi di voler eliminare il contenuto?</p>
-    </Modal>
 </template>

@@ -51,7 +51,6 @@ const doUpload = function (e) {
 
 </script>
 <template>
-    {{ theme }}
     <div class="card">
         <div class="card-body">
             

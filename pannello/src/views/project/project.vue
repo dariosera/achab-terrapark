@@ -34,7 +34,7 @@ const saveProject = () => {
 }
 </script>
 <template>
-
+    <div>
     <div v-if="project.archived==1" class="bg-danger text-center text-white">
         <span>Il project è archiviato. <button type="button" @click="archiviaproject(false)"
                 class="btn btn-link text-white"><i class="bi bi-arrow-counterclockwise"></i> Riattiva
@@ -245,7 +245,7 @@ const saveProject = () => {
 
     </div>
 
-
+</div>
 </template>
 <style lang="scss" scoped>
 .row.section {
