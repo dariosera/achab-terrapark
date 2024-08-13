@@ -10,6 +10,8 @@ Capsule::schema()->create('ua_likes', function ($table) {
     $table->string("permalink");
     $table->foreign("permalink")->references("permalink")->on("ct_contents");
 
+    $table->primary(["IDutente","permalink"]);
+
     $table->timestamps();
 });
 
@@ -20,6 +22,8 @@ Capsule::schema()->create('ua_dislikes', function ($table) {
     $table->string("permalink");
     $table->foreign("permalink")->references("permalink")->on("ct_contents");
 
+    $table->primary(["IDutente","permalink"]);
+
     $table->timestamps();
 });
 
@@ -29,6 +33,8 @@ Capsule::schema()->create('ua_favorites', function ($table) {
 
     $table->string("permalink");
     $table->foreign("permalink")->references("permalink")->on("ct_contents");
+
+    $table->primary(["IDutente","permalink"]);
 
     $table->timestamps();
 });

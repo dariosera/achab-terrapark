@@ -10,6 +10,8 @@ Capsule::schema()->create('ua_history', function ($table) {
     $table->string("permalink");
     $table->foreign("permalink")->references("permalink")->on("ct_contents");
 
+    $table->primary(["IDutente","permalink"]);
+
     $table->timestamps();
 });
 

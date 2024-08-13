@@ -11,6 +11,9 @@ $constraints = [];
 foreach ($required_fields as &$field) {
     $constraints[] = "$field IS NOT NULL";
 }
+$constraints[] = "draft = 0";
+$constraints[] = "deleted = 0";
+
 $constraints_sql = implode(" AND ",$constraints);
 
 
