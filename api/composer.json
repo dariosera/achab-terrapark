@@ -16,6 +16,7 @@
     ],
     "require": {
         "dariosera/kadro-api-core": "@dev",
-        "gumlet/php-image-resize": "^2.0"
+        "gumlet/php-image-resize": "^2.0",
+        "tecnickcom/tcpdf": "^6.7"
     }
 }

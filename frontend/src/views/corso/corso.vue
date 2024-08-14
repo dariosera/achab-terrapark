@@ -28,7 +28,7 @@ onBeforeMount(() => {
             setContentAsOpened(0)
 
             // Calcolo totali
-            let duration = 0, pages = 0;
+            let duration = 0, pages = 0, seen = 0;
             corso.contents.forEach(c => {
                 const meta = c.meta;
                 if (meta?.duration) {
@@ -128,6 +128,22 @@ const setContentAsOpened = (index) => {
     }
 }
 
+function getCertificate() {
+    request({
+        task : `certificates/create`,
+        data : {
+            course : corso.permalink,
+        },
+        callback : function(dt) {
+            const aElement = document.createElement('a');
+            aElement.href = dt.s3.url;
+            aElement.setAttribute('target', '_blank');
+            aElement.click();
+        }
+    })
+}
+
+let dev = import.meta.env.DEV
 
 </script>
 <template>
@@ -181,6 +197,11 @@ const setContentAsOpened = (index) => {
                         </div>
                     </div>
                 </div>
+
+                <div v-if="dev && corso.contents.filter(c => c.seen == 0).length == 0" class="mt-3 text-center">
+                    <button class="btn btn-outline-secondary" @click="getCertificate">Scarica il certificato</button>
+                </div>
+
             </div>
             <div class="col-lg-7">
                 <Contenuto :data="corso.contents[contenutoSelezionato]" />

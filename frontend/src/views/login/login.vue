@@ -1,5 +1,5 @@
 <script setup>
-import { setToken } from '../../utils/auth';
+import { setToken, AFTER_LOGIN_REDIRECT } from '../../utils/auth';
 import { request } from '../../utils/request';
 import { reactive, inject } from 'vue';
 import { useRouter } from 'vue-router';
@@ -52,9 +52,9 @@ const login = (e) => {
                 content : `Login avvenuto correttamente`
             })
 
-            const after_login_redirect = sessionStorage.getItem("sspa_after_login_redirect");
+            const after_login_redirect = sessionStorage.getItem(AFTER_LOGIN_REDIRECT);
             if (after_login_redirect !== null) {
-                sessionStorage.removeItem("sspa_after_login_redirect");
+                sessionStorage.removeItem(AFTER_LOGIN_REDIRECT);
                 router.push({ path: after_login_redirect })
             } else {
                 router.push({ path: "/" })

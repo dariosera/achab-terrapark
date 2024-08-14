@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { isLogged, getToken, logout} from './auth';
+import { isLogged, getToken, logout, AFTER_LOGIN_REDIRECT} from './auth';
 import useToasts from '@/stores/toasts';
 
 function fatalError(a,b) {
@@ -76,7 +76,7 @@ export function request(obj) {
 
             if (typeof(error?.response?.status) !== "undefined") {
                 if (error?.response?.status === 401) {
-                    sessionStorage.setItem(window.location.pathname);
+                    sessionStorage.setItem(AFTER_LOGIN_REDIRECT,window.location.pathname);
                     logout()
                     return;
                 }
