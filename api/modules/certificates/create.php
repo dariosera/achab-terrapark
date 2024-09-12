@@ -62,7 +62,7 @@ $pdf->SetTextColor(68, 64, 65);
 $w = 189;
 $h = 24;
 $x = 22;
-$y = 110;
+$y = 120;
 
 // Add text on top of the background image
 $pdf->SetFont('noteworthylt', '', 40);

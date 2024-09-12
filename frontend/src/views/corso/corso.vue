@@ -43,8 +43,7 @@ onBeforeMount(() => {
             setContentAsOpened(0)
 
             // Calcolo totali
-            let duration = 0, pages = 0, seen = 0;
-            let countSeen = 0;
+            let duration = 0, pages = 0;
             corso.contents.forEach(c => {
                 const meta = c.meta;
                 if (meta?.duration) {
@@ -56,17 +55,14 @@ onBeforeMount(() => {
                 }
 
 
-                if (c.seen) {
-                    countSeen++;
-                }
             })
 
             if (duration > 0) stats.duration = duration;
             if (pages > 0) stats.pages = pages;
 
-            if (countSeen == corso.contents.length) {
-                canDownloadCertificate.value = true;
-            }
+            // if (countSeen == corso.contents.length) {
+            //     canDownloadCertificate.value = true;
+            // }
 
         }
     })
@@ -154,7 +150,7 @@ const setContentAsOpened = (index) => {
 
 function getCertificate() {
 
-    if (canDownloadCertificate) {
+    if (canDownloadCertificate.value) {
         request({
             task : `certificates/create`,
             data : {

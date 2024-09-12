@@ -408,9 +408,7 @@ const eliminaCorso = () => {
                         </div>
                         <div class="info">
                             <div><span v-if="subc.draft == 1">Bozza -</span> {{ i+1 }}. <strong>{{ subc.title }}</strong></div>
-                            <div><em>{{ subc?.description?.split("|")[0] || 'Senza descrizione' }}</em></div>
-                            <div>Tipologia: {{ subc.typology || "-" }} | Tema: {{ subc.theme || "-" }} | Argomento: {{
-                                subc.topic || "-" }}</div>
+                            <div>Tipologia: {{ subc.typology || "-" }}</div>
                         </div>
                         <div class="actions">
                             <button class="d-block btn btn-sm btn-outline-danger"

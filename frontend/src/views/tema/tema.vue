@@ -5,6 +5,7 @@ import { request } from '@/utils/request';
 import { useRoute } from 'vue-router';
 import Anteprima from '@/components/Anteprima.vue';
 import SkeletonAnteprima from '@/components/SkeletonAnteprima.vue';
+import Dettaglio from '@/components/Dettaglio.vue';
 
 const route = useRoute()
 const temi = ref([])
@@ -64,6 +65,23 @@ const fetch = () => {
         }
     })
 }
+
+const open = (i) => {
+    contenuti.value.forEach((c,j) => {
+        if (j == i) {
+            c.isOpen = true
+        } else {
+            c.isOpen = false
+        }
+    })
+    window.setTimeout(() => {
+        window.scrollTo({
+        top: document.querySelector(".single.expand")?.offsetTop,
+        behavior : 'smooth'
+    })
+    },50)
+    
+ }
 
 fetch()
 
@@ -165,15 +183,15 @@ lungo possibile.</p>
             </div>
         </div>
         <div v-else class="grid-anteprime p-3">
-            <div v-for="(c,j) in contenuti" :key="j">
+            <template v-for="(c,j) in contenuti" :key="j">
                 <div v-if="c.isVisible" class="single" :class="{'expand' : c.isOpen}">
                         <Anteprima v-if="!c.isOpen" :data="c" @mostraDettaglio="open(j)" />
                         <Dettaglio v-else :data="c" @close="open(null)" :showRelated="false" />
                 </div>
-            </div>
-            <div v-if="contenuti.filter(c => c.isVisible).length === 0">
+            </template>
+            <template v-if="contenuti.filter(c => c.isVisible).length === 0">
                 <div class="alert text-center">Nessun risultato</div>
-            </div>
+            </template>
         </div>
 
         </section>

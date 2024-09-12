@@ -204,7 +204,7 @@ const clickAnteprima = () => {
         text-transform: uppercase;
         color: rgba(var(--bs-body-color-rgb),.5);
         height: 21px;
-        line-height: 21x;
+        line-height: 1.2;
        }
 
        .icons {

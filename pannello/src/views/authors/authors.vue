@@ -180,7 +180,6 @@ upload({
                     <img :src="modificaAutore.data.picture_url" style="display:block; max-height: 200px;">
                     <button class="btn btn-sm btn-link" @click="() => modificaAutore.data.picture_url=null">Cambia immagine</button>
                 </div>
-                {{ modificaAutore.data }}
             </div>
         </div>
     </Modal>
