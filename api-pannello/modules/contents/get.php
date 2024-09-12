@@ -1,6 +1,6 @@
 <?php
 
-$list = $this->db->sql_select("SELECT permalink, ct_contents.title, language, ct_topics.title AS topic, ct_themes.title AS theme, standalone, ct_typologies.description AS typology, draft, customer FROM ct_contents LEFT JOIN ct_topics ON ct_topics.topicID = ct_contents.topicID LEFT JOIN ct_themes ON ct_topics.themeID = ct_themes.themeID LEFT JOIN ct_typologies ON ct_contents.typologyID = ct_typologies.typologyID LEFT JOIN cu_customers ON cu_customers.customerID = ct_contents.customerID WHERE deleted = 0 AND isCourse = 0");
+$list = $this->db->sql_select("SELECT permalink, ct_contents.title, language, ct_topics.title AS topic, ct_themes.title AS theme, standalone, ct_typologies.description AS typology, draft, customer FROM ct_contents LEFT JOIN ct_topics ON ct_topics.topicID = ct_contents.topicID LEFT JOIN ct_themes ON ct_contents.themeID = ct_themes.themeID LEFT JOIN ct_typologies ON ct_contents.typologyID = ct_typologies.typologyID LEFT JOIN cu_customers ON cu_customers.customerID = ct_contents.customerID WHERE deleted = 0 AND isCourse = 0");
 
 foreach ($list as $i=>$l) {
     $list[$i]["standalone"] = $list[$i]["standalone"] == '0' ? false : true;

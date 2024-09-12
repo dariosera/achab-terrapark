@@ -3,6 +3,8 @@ import {useRoute, useRouter, request, Modal, quickTable, AgGridVue} from 'kadro-
 import {reactive, ref, onMounted, watch} from 'vue'
 import Info from './Info.vue';
 import Contenuto from '../contents/Contenuto.vue';
+import Correlati from './Correlati.vue';
+import Certificato from './Certificato.vue';
 
 const unsavedChanges = ref(false);
 const route = useRoute();
@@ -59,16 +61,7 @@ const getCourseContents = () => {
             courseID : content.contentID,
         },
         callback : function(dt) {
-            courseContents.value = dt;
-
-            courseContents.value.forEach(c => {
-                c.tags.forEach(t => {
-                    content.tags.push(t)
-                })
-            })
-            content.tags = content.tags.filter((value, index, self) =>
-                index === self.findIndex((obj) => obj.tagID === value.tagID)
-            );
+            courseContents.value = dt;  
         }
     })
 }
@@ -304,6 +297,7 @@ const nuovoContenuto = () => {
                 previews : {},
                 draft : 1,
                 customerID: null,
+                authors: [],
             }
             modificaContenuto.modal.show()
 
@@ -326,10 +320,9 @@ const salvaCorso = (autoSave) => {
                 window.clearTimeout(autoloopSave);
                 autoloopSave = null;
             }
-                
-
-
+            
         }
+
     })
 }
 
@@ -392,9 +385,11 @@ const eliminaCorso = () => {
         <div class="row m-2">
             <div class="col-xl-4">
                 <Info :content="content" />
+
+                <Certificato :course="route.params.permalink"></Certificato>
             </div>
             <div class="col-xl-8">
-                Gestione contenuti
+               <h3>Contenuti del corso</h3>
 
                 <div v-if="courseContents.length === 0" class="text-center">
                     <div>Nessun contenuto</div>
@@ -411,11 +406,8 @@ const eliminaCorso = () => {
 
                             </div>
                         </div>
-                        <div class="img">
-                            <img :src="subc.image_url" class="w-100">
-                        </div>
                         <div class="info">
-                            <div><span v-if="subc.draft == 1">Bozza -</span> <strong>{{ subc.title }}</strong></div>
+                            <div><span v-if="subc.draft == 1">Bozza -</span> {{ i+1 }}. <strong>{{ subc.title }}</strong></div>
                             <div><em>{{ subc?.description?.split("|")[0] || 'Senza descrizione' }}</em></div>
                             <div>Tipologia: {{ subc.typology || "-" }} | Tema: {{ subc.theme || "-" }} | Argomento: {{
                                 subc.topic || "-" }}</div>
@@ -439,6 +431,12 @@ const eliminaCorso = () => {
                     <button class="btn btn-outline-primary" @click="nuovoContenuto"><i class="bi bi-plus"></i> Crea un
                         nuovo contenuto</button>
                 </div>
+
+                <hr>
+
+                <h3>Contenuti correlati</h3>
+
+                <Correlati :course="route.params.permalink" />
             </div>
         </div>
     </div>
@@ -464,7 +462,7 @@ const eliminaCorso = () => {
 
     <Modal title="Modifica contenuto" :actions="modificaContenuto.actions" @hidden="modificaContenuto.onHidden"
         :canDismiss="false" size="fullscreen-xxl-down" @ready="(t) => modificaContenuto.modal = t">
-        <Contenuto :noStandalone="true" v-if="modificaContenuto.content" :content="modificaContenuto.content"
+        <Contenuto :courseEditor="true" v-if="modificaContenuto.content" :content="modificaContenuto.content"
             @deleted="() => {modificaContenuto.modal.hide(); modificaContenuto.content = null; getCourseContents(); }" />
     </Modal>
 </template>

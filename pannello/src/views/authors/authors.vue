@@ -1,10 +1,15 @@
 <script setup>
 import {request, upload, AgGridVue, quickTable, useRouter, Modal} from 'kadro-core'
 import { reactive, ref } from 'vue';
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
 
 const router = useRouter()
 const tdata = reactive({rowData : [], columnDefs: []})
 const testoNoRisultati = ref(null);
+
+const myQuill = ref(null)
 
 const getAuthors = () => {
         request({
@@ -36,7 +41,13 @@ const getAuthors = () => {
                                         authorID : p.authorID
                                     },
                                     callback : function(dt) {
+                                        
                                         modificaAutore.data = dt[0]
+
+                                        if (myQuill.value !== null) {
+                                            myQuill.value.setHTML(modificaAutore.data.bibliography)
+                                        }
+
                                         modificaAutore.modal.show()
                                     }
                                 })
@@ -59,6 +70,10 @@ const modificaAutore = reactive({
             text : "Salva",
             class : "btn-primary",
             callback : function() {
+
+                modificaAutore.data.bibliography = myQuill.value.getHTML()
+                myQuill.value.setHTML('')
+
                 request({
                     task : "authors/update",
                     data : modificaAutore.data,
@@ -147,6 +162,12 @@ upload({
                     <label>Biografia</label>
                     <textarea class="form-control" v-model="modificaAutore.data.bio"></textarea>
                 </div>
+
+                <div class="mt-3">
+                    <label>Bibliografia</label>
+                    <QuillEditor @ready="() => myQuill.setHTML(modificaAutore.data.bibliography)" ref="myQuill" theme="snow" :toolbar="['bold', 'italic', 'underline',{ list: 'ordered' }, { list: 'bullet' }]" />
+                </div>
+
             </div>
             <div class="col-lg-5">
                 <label>Immagine</label>
@@ -159,6 +180,7 @@ upload({
                     <img :src="modificaAutore.data.picture_url" style="display:block; max-height: 200px;">
                     <button class="btn btn-sm btn-link" @click="() => modificaAutore.data.picture_url=null">Cambia immagine</button>
                 </div>
+                {{ modificaAutore.data }}
             </div>
         </div>
     </Modal>

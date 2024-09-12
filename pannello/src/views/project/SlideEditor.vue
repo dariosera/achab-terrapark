@@ -4,7 +4,7 @@ import { defineProps, defineEmits, reactive, watch } from 'vue';
 import { request, Modal, upload, SearchSelect } from 'kadro-core';
 
 const props = defineProps(["slide"])
-const emit = defineEmits(["created"])
+const emit = defineEmits(["created", "modified"])
 
 const actions = [
 {
@@ -40,6 +40,8 @@ const actions = [
                     if (props.slide.isNew) {
                         props.slide.isNew = false;
                         emit('created', props.slide.slideID);
+                    } else {
+                        emit('modified');
                     }
                 }
             })
@@ -105,7 +107,7 @@ const doUpload = function(e) {
                     <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-upload"></i></button>
                 </form>
                 <div v-else>
-                    <img :src="props.slide.image_url" style="display:block; max-height: 200px; max-width: 100%">
+                    <img :src="props.slide.image_url+'?t='+(new Date()).getTime()" style="display:block; max-height: 200px; max-width: 100%">
                     <button class="btn btn-sm btn-link" @click="() => props.slide.image_url=null">Cambia immagine</button>
                 </div>
             </div>

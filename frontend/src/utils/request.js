@@ -3,7 +3,7 @@ import { isLogged, getToken, logout, AFTER_LOGIN_REDIRECT} from './auth';
 import useToasts from '@/stores/toasts';
 
 function fatalError(a,b) {
-    toasts.addToast({
+    useToasts().addToast({
         title : "Errore",
         content : `<i class="bi bi-exclamation-triangle"></i> TerraPark si è interrotto in modo anomalo.`,
         autohide: false

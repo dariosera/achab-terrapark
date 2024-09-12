@@ -2,7 +2,7 @@
 import SliderContenuti from '@/components/SliderContenuti.vue';
 import Contenuto from '@/components/Contenuto.vue';
 import Actions from '@/components/Actions.vue';
-import {ref, onBeforeMount, onMounted, onUnmounted, reactive, watch} from 'vue'
+import {ref, onBeforeMount, onMounted, onUnmounted, reactive, watch, computed} from 'vue'
 import { icone_tipologie_contenuto } from '@/utils/icone';
 import { request } from '@/utils/request';
 import { routerKey, useRoute } from 'vue-router';
@@ -17,6 +17,21 @@ const stats = reactive({
     pages: false,
 })
 
+const canDownloadCertificate = computed(() => {
+    let countSeen = 0;
+    corso.contents.forEach(c => {
+        if (c.seen) {
+            countSeen++;
+        }
+    })
+
+    if (countSeen == corso.contents.length) {
+       return true
+    } else {
+        return false
+    }
+})
+
 onBeforeMount(() => {
     request({
         task : "course/get",
@@ -29,6 +44,7 @@ onBeforeMount(() => {
 
             // Calcolo totali
             let duration = 0, pages = 0, seen = 0;
+            let countSeen = 0;
             corso.contents.forEach(c => {
                 const meta = c.meta;
                 if (meta?.duration) {
@@ -39,10 +55,18 @@ onBeforeMount(() => {
                     pages += parseInt(meta.pages);
                 }
 
+
+                if (c.seen) {
+                    countSeen++;
+                }
             })
 
             if (duration > 0) stats.duration = duration;
             if (pages > 0) stats.pages = pages;
+
+            if (countSeen == corso.contents.length) {
+                canDownloadCertificate.value = true;
+            }
 
         }
     })
@@ -94,7 +118,7 @@ const handleScroll = () => {
     }
 }
 
-const contenutoSelezionato = ref(0)
+const contenutoSelezionato = ref(null)
 
 const renderMeta = (meta) => {
     if (meta?.duration) {
@@ -129,18 +153,22 @@ const setContentAsOpened = (index) => {
 }
 
 function getCertificate() {
-    request({
-        task : `certificates/create`,
-        data : {
-            course : corso.permalink,
-        },
-        callback : function(dt) {
-            const aElement = document.createElement('a');
-            aElement.href = dt.s3.url;
-            aElement.setAttribute('target', '_blank');
-            aElement.click();
-        }
-    })
+
+    if (canDownloadCertificate) {
+        request({
+            task : `certificates/create`,
+            data : {
+                permalink : corso.permalink,
+            },
+            callback : function(dt) {
+                const aElement = document.createElement('a');
+                aElement.href = dt.s3.url;
+                aElement.setAttribute('target', '_blank');
+                aElement.click();
+            }
+        })
+    }
+   
 }
 
 let dev = import.meta.env.DEV
@@ -196,30 +224,38 @@ let dev = import.meta.env.DEV
                             <span>{{ renderMeta(c.meta) }}</span>
                         </div>
                     </div>
+                    <div class="contenuto" @click="getCertificate">
+                        <div class="stato">
+                            <span class="material-symbols-outlined">{{ ['lock','new_releases'][canDownloadCertificate ? 1 : 0] }}</span>
+                        </div>
+                        <div class="titolo">
+                            {{ corso.contents.length + 1 }}. {{ canDownloadCertificate ? 'Scarica il certificato' : 'Completa il corso per ottenere il certificato'}}
+                        </div>
+                        <div class="meta text-muted">
+                           
+                        </div>
+                    </div>
                 </div>
 
-                <div v-if="dev && corso.contents.filter(c => c.seen == 0).length == 0" class="mt-3 text-center">
-                    <button class="btn btn-outline-secondary" @click="getCertificate">Scarica il certificato</button>
-                </div>
 
             </div>
             <div class="col-lg-7">
-                <Contenuto :data="corso.contents[contenutoSelezionato]" />
+                <Contenuto v-if="contenutoSelezionato !== null" :data="corso.contents[contenutoSelezionato]" :autoOpenPdf="true"/>
 
-                <div class="mt-3">
+                <!-- <div class="mt-3">
                     <h3 class="title">{{ corso.contents[contenutoSelezionato].title }}</h3>
                     <div class="text-muted description">
                         <p class="mb-2">{{ corso.contents[contenutoSelezionato].description.split("|")[0] }}</p>
                         <p class="p-0 mt-0">{{ corso.contents[contenutoSelezionato].description.split("|")[1] }}</p>
                     </div>
-                </div>
+                </div> -->
             </div>
             </div>
         </section>
         <section class="mt-5">
             <h2>Ti potrebbero interessare</h2>
 
-            <SliderContenuti :showRelated="false"/>
+            <SliderContenuti :showRelated="false" :sliderID="`__related:${route.params.permalink}__`"/>
         </section>
         
     </div>
@@ -266,12 +302,13 @@ let dev = import.meta.env.DEV
         gap: .5rem;
         color: var(--bs-secondary-color);
 
-        strong, strong a {
-            color: var(--bs-body-color);
+        a {
+            color: var(--bs-primary)!important;
+            font-weight: 500;
             text-decoration: none;
 
-            a:hover {
-                text-decoration: underline;
+            &:hover {
+                text-decoration: underline!important;
             }
 
         }   

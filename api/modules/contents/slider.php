@@ -24,4 +24,14 @@ if (strpos($d["sliderID"],"__author") === 0) {
 
 }
 
+/// __related:permalink__
+if (strpos($d["sliderID"],"__related") === 0) {
+    $course = explode("__",
+            explode(":",$d["sliderID"])[1]
+        )[0];
+
+    return $this->run("frontend/contents/search", ["target" => "related", "course" => $course]);
+
+}
+
 return $this->run("frontend/contents/search", ["target" => "boh"]);

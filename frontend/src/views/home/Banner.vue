@@ -3,7 +3,7 @@ const props = defineProps(["slide"])
 </script>
 <template>
 
-    <div class="row banner bg-light">
+    <div class="row banner">
         <div class="col-lg-6 order-lg-last image" :style="{backgroundImage : `url(${props.slide.image_url})`}">
             
         </div>
@@ -39,6 +39,7 @@ $size : 13px;
 .image {
     aspect-ratio: 16/9;
     background-size: cover;
+    overflow: hidden;
 }
 
 .text {
@@ -47,6 +48,7 @@ $size : 13px;
     justify-content: center;
     gap: 1rem;
     padding: $size*3 $size*3 $size*3 $size*6;
+    overflow: hidden;
 
     h2 {
         font-weight: 700;
@@ -69,6 +71,7 @@ $size : 13px;
 @media screen and (min-width: 992px)  {
   .image {
     aspect-ratio: 1;
+    background-position: center center;
   }
 }
 </style>

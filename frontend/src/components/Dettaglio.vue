@@ -142,16 +142,16 @@ const renderMeta = (meta) => {
 
             <div class="meta mt-3">
 
-                <div>
-                    <span>Tema: <strong><router-link :to="`/catalogo?themes=${tps.getTopic(contenuto.topicID).themeID}`">{{ tps.getTheme(tps.getTopic(contenuto.topicID).themeID ).title }}</router-link></strong></span>
-                    &middot;
-                    <span>Argomento: <strong><router-link :to="`/catalogo?topics=${contenuto.topicID}`">{{ tps.getTopic(contenuto.topicID).title }}</router-link></strong></span>
+                <div class="topic-theme">
+                    <span v-if="contenuto.themeID !== null ">Tema: <strong><router-link :to="`/catalogo?themes=${contenuto.themeID}`">{{ tps.getTheme(contenuto.themeID).title }}</router-link></strong></span>
+                    <span v-if="contenuto.topicID">Argomento: <strong><router-link :to="`/catalogo?topics=${contenuto.topicID}`">{{ tps.getTopic(contenuto.topicID).title }}</router-link></strong></span>
                 </div>
-                {{ renderMeta(contenuto.meta) }}
+
+                <div>{{ renderMeta(contenuto.meta) }}</div>
 
                 <Tags  v-if="contenuto" :permalink="contenuto.permalink"></Tags>
 
-                <Author :authorID="contenuto.authorID"/>
+                <Author :authors="contenuto.authors"/>
 
                 
             </div>
@@ -174,6 +174,15 @@ const renderMeta = (meta) => {
     </div>
 </template>
 <style lang="scss" scoped>
+
+a {
+    font-weight: 500;
+    color: var(--bs-primary)!important;
+
+    &:hover {
+        text-decoration: underline!important;
+    }
+}
 
 .dettaglio {
     padding: 2rem;
@@ -203,6 +212,17 @@ const renderMeta = (meta) => {
         font-weight: 300;
         gap: .5rem;
         color: var(--bs-secondary-color);
+
+        div {
+            margin-bottom: .4rem;
+        }
+
+        .topic-theme {
+            span:not(:last-child)::after {
+                content: '·';
+                margin: 0 .5rem;
+            }
+        }
 
         strong, strong a {
             color: var(--bs-body-color);

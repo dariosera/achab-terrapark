@@ -40,14 +40,7 @@ request({
                     <div class="col-lg-5">
                         <h3>Bibliografia</h3>
 
-                        <span class="bg-warning">--- --- --- TODO BIBLIOGRAFIA --- --- --- </span>
-
-                        <ul class="elenco-bibliografia text-muted">
-                            <li> Lorem ipsum dolor sit amet</li>
-                            <li> Lorem ipsum dolor sit amet</li>
-                            <li> Lorem ipsum dolor sit amet</li>
-                            <li> Lorem ipsum dolor sit amet</li>
-                        </ul>
+                        <div class="bibliography" v-html="author.bibliography"></div>
                     </div>
 
                 </div>
@@ -75,6 +68,11 @@ request({
     </div>
 
 </template>
+<style lang="scss">
+.bibliography p {
+    margin-bottom: 0;
+}
+</style>
 <style lang="scss" scoped>
 .top {
 
@@ -94,6 +92,11 @@ request({
     }
 
     .bio {
+        font-size: 13px;
+        color: var(--bs-secondary);
+    }
+
+    .bibliography {
         font-size: 13px;
         color: var(--bs-secondary);
     }

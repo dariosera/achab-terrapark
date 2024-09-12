@@ -92,8 +92,6 @@ const saveProject = () => {
                 <form @submit.prevent="saveProject">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Informazioni sul progetto</h5>
-
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mt-2">

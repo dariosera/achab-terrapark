@@ -1,6 +1,6 @@
 <?php
 
-$list = $this->db->sql_select("SELECT ct_contents.*, themeID FROM ct_contents LEFT JOIN ct_topics ON ct_topics.topicID = ct_contents.topicID WHERE permalink = ?", $d["permalink"]);
+$list = $this->db->sql_select("SELECT ct_contents.* FROM ct_contents WHERE permalink = ?", $d["permalink"]);
 
 if (count($list) !== 1) {
     return ["error" => "Contenuto non trovato"];
@@ -30,7 +30,8 @@ if (isset($media["mediaType"]) && count(array_keys($media[$media["mediaType"]."_
 
 }
 
-$list[0]["tags"] = [];
+$list[0]["tags"] = $this->run("content/getTags", ["permalink" => $list[0]["permalink"]]);
+
 
 
 

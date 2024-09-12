@@ -8,7 +8,7 @@ const switchLanguage = async (newLocale) => {
     await Tr.switchLanguage(newLocale)
 }
 </script>
-<template>
+<!-- <template>
 <div class="dropdown">
   <button id="language-switcher" class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
     {{locale.toUpperCase()}}
@@ -19,7 +19,8 @@ const switchLanguage = async (newLocale) => {
     </li>
   </ul>
 </div>
-  </template>
+  </template> -->
+<template></template>
 <style scoped lang="scss">
 
 #language-switcher {

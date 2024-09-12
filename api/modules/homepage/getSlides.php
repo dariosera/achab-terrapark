@@ -1,6 +1,8 @@
 <?php
 
-$slides = $this->db->sql_select("SELECT * FROM hp_slides");
+$pro = $this->run("frontend/public/projectInfo");
+
+$slides = $this->db->sql_select("SELECT * FROM pr_visible_slides JOIN hp_slides ON hp_slides.slideID = pr_visible_slides.slideID WHERE projectID = ?",$pro["projectID"]);
 
 
 foreach ($slides as $i=>$s) {

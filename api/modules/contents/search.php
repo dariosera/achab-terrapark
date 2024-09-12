@@ -22,7 +22,7 @@ if (!isset($d["target"])) {
     $d["target"] = "boh";
 }
 
-$standard_fields = "contentID, ct_contents.permalink, title, description, language, topicID, typologyID, authorID, isCourse, image, meta";
+$standard_fields = "contentID, ct_contents.permalink, title, description, language, topicID, themeID, typologyID, isCourse, image, meta";
 
 switch ($d["target"]) {
 
@@ -55,8 +55,13 @@ switch ($d["target"]) {
         break;
 
     case "author":
-        $query = "SELECT $standard_fields FROM ct_contents WHERE (isCourse = 1 OR standalone = 1) AND ($constraints_sql) AND authorID = ?";
+        $query = "SELECT $standard_fields FROM ct_contents WHERE (isCourse = 1 OR standalone = 1) AND ($constraints_sql) AND ct_contents.permalink IN (SELECT permalink FROM ct_content_authors WHERE authorID = ?)";
         $list = $this->db->sql_select($query, $d["authorID"]);
+        break;
+
+    case "related":
+        $query = "SELECT $standard_fields FROM co_related_contents JOIN ct_contents ON co_related_contents.permalink = ct_contents.permalink WHERE (standalone = 1) AND ($constraints_sql) AND co_related_contents.course = ?";
+        $list = $this->db->sql_select($query, $d["course"]);
         break;
 
 
@@ -88,6 +93,8 @@ foreach ($list as $i=>$l) {
     }
 
     $list[$i]["meta"] = json_decode($list[$i]["meta"], true);
+
+    $list[$i]["authors"] = $this->run("frontend/content/getAuthors",["permalink" => $l["permalink"]]);
 
     unset($list[$i]["contentID"]);
 

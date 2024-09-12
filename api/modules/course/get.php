@@ -6,7 +6,7 @@ possibili filtri
 corsi / contenuti singoli
 */
 
-$required_fields = ["title","description","image"];
+$required_fields = ["title"];
 $constraints = [];
 foreach ($required_fields as &$field) {
     $constraints[] = "$field IS NOT NULL";

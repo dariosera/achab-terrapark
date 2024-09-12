@@ -1,5 +1,25 @@
 <?php
 
+// Ottengo modello certificato
+$template = $this->db->sql_select("SELECT * FROM ce_templates JOIN up_files ON ce_templates.template = up_files.file_id WHERE course = ?", $d["permalink"]);
+
+if (count($template) !== 1) {
+    return ["error" => "Il certificato non può essere generato (manca modello)."];
+}
+
+$upload_date = (new DateTime($template[0]["created_at"]))->format("Y/m/d");
+$template_path =  __DIR__ . '/../../../api-pannello/.uploads/'.$upload_date.'/'.$template[0]["file_name"];
+
+// Cerco certificati già generati
+$cert = $this->db->sql_select("SELECT * FROM ce_certificates WHERE IDutente = ? AND permalink = ?", $this->user["IDutente"], $d["permalink"]);
+
+if (count($cert) === 1) {
+    $key = $fname = 'certificates/certificate_'.$d["permalink"].".".$this->user["IDutente"].".".$cert[0]["certificateID"].'.pdf';
+    return [
+        "s3" => $this->run("core/s3/get", ["key" => $key, "duration" => 1]),
+    ];
+}
+
 
 $user = $this->db->sql_select("SELECT nome, cognome FROM aa_utenti WHERE IDutente = ?",$this->user["IDutente"]);
 
@@ -20,9 +40,6 @@ $pdf->AddFont('noteworthylt', '', $fontPath);
 // Add a page
 $pdf->AddPage();
 
-// Set the background image
-$imageFile = __DIR__ . '/../../.uploads/attestato_base.jpg';
-
 // Get the dimensions for A4 landscape
 $pageWidth = 297; // A4 landscape width in mm
 $pageHeight = 210; // A4 landscape height in mm
@@ -35,10 +52,11 @@ $pdf->setPrintFooter(false);
 
 $pdf->SetAutoPageBreak(false, 0);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-$pdf->Image($imageFile, 0, 0, $pageWidth, $pageHeight, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image($template_path, 0, 0, $pageWidth, $pageHeight, '', '', '', false, 300, '', false, false, 0);
 
 // Set font and text color
-$pdf->SetTextColor(0, 0, 0);
+//rgb(68, 64, 65)
+$pdf->SetTextColor(68, 64, 65);
 
 // Set the position for the text (x, y coordinates)
 $w = 189;
@@ -75,11 +93,14 @@ $qrcodeSize = 35; // Size in mm
 // Add QR code
 $pdf->write2DBarcode($qrcodeContent, 'QRCODE,H', $qrcodeX, $qrcodeY, $qrcodeSize, $qrcodeSize, null, 'N');
 
+$certificateID = $this->db->insertInto("ce_certificates",[
+    "permalink" => $d["permalink"],
+    "IDutente" => $this->user["IDutente"],
+]);
 
 
 // Output the new PDF to a file
-$rand = bin2hex(random_bytes(10));
-$fname = 'attestato-'.$rand.'.pdf';
+$fname = 'certificate_'.$d["permalink"].".".$this->user["IDutente"].".".$certificateID.'.pdf';
 $outputFile = __DIR__ . '/../../.uploads/'.$fname;
 $pdf->Output($outputFile, 'F');
 

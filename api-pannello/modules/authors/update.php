@@ -1,7 +1,7 @@
 <?php
 
 if (isset($d["new"]) && $d["new"] === true) {
-    $this->db->insertInto("ct_authors",[
+    $authorID = $this->db->insertInto("ct_authors",[
         "name" => $d["name"],
         "surname" => $d["surname"],
         "role" => $d["role"],
@@ -9,6 +9,8 @@ if (isset($d["new"]) && $d["new"] === true) {
         "picture" => !isset($d["picture"]) ? null : $d["picture"],
     ]);
 } else {
+    $authorID = $d["authorID"];
+
     $this->db->update("ct_authors",[
         "name" => $d["name"],
         "surname" => $d["surname"],
@@ -17,5 +19,10 @@ if (isset($d["new"]) && $d["new"] === true) {
         "picture" => !isset($d["picture"]) ? null : $d["picture"],
     ],["authorID" => $d["authorID"]]);
 }
+
+$bibliography_clean = preg_replace('/\s*[a-zA-Z\-]+="[^"]*"/i', '', $d["bibliography"]);
+$this->db->update("ct_authors",[
+    "bibliography" => $bibliography_clean,
+], ["authorID" => $authorID],  true);
 
 return ["ok" => true];

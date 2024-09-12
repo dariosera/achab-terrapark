@@ -1,6 +1,6 @@
 <?php
 
-$list = $this->db->sql_select("SELECT ct_contents.*, themeID FROM ct_contents LEFT JOIN ct_topics ON ct_topics.topicID = ct_contents.topicID WHERE permalink = ?", $d["permalink"]);
+$list = $this->db->sql_select("SELECT * FROM ct_contents WHERE permalink = ?", $d["permalink"]);
 
 if (count($list) !== 1) {
     return ["error" => "Contenuto non trovato"];
@@ -11,6 +11,8 @@ $list[0]["standalone"] = $list[0]["standalone"] == '0' ? false : true;
 if ($list[0]["image"] !== null) {
     $list[0]["image_url"] = $this->config["s3"]["origin_endpoint"] . "/" . $this->config["s3"]["prefix"] . "/c/640x360/" . $d["permalink"] . ".jpg";
 }
+
+$list[0]["authors"] = $this->run("content/getAuthors", ["permalink" => $list[0]["permalink"]]);
 
 $list[0]["previews"] = [];
 $media = json_decode($list[0]["media"], true);

@@ -111,9 +111,7 @@ const addContent = reactive({
 
 </script>
 <template>
-    <h5 class="card-title">Contenuti visibili</h5>
-
-    <div class="border-bottom py-3">
+    <div class="border-bottom">
         <strong>Temi visibili</strong>
 
         <div class="mt-2">

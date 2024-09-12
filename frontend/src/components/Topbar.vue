@@ -4,10 +4,14 @@ import {ref} from 'vue'
 import { logout, isLogged } from "@/utils/auth";
 import { request } from "@/utils/request";
 import { useProjectStore } from "@/stores/project";
+import { useTerraParkStore } from "@/stores/commons";
 
 const iniziali = ref('')
 const ps = useProjectStore()
 const theme = ps.getTheme()
+
+const tps = useTerraParkStore()
+const temi_visibili = tps.getThemes()
 
 if (isLogged()) {
     request({
@@ -32,7 +36,7 @@ if (isLogged()) {
                 <div class="right">
                     <input type="text" disabled class="form-control global-search" :placeholder="$t('nav.cerca')">
                     <LanguageSwitcher />
-                    <RouterLink class="icon-action" to="/preferiti/corsi"><span class="material-symbols-outlined">favorite</span></RouterLink>
+                    <RouterLink class="icon-action" to="/preferiti/contenuti"><span class="material-symbols-outlined">favorite</span></RouterLink>
                     <RouterLink class="icon-action" to="/attestati"><span class="material-symbols-outlined">beenhere</span></RouterLink>
                     <div class="btn-group no-arrow">
                         <button class="icon-action dropdown-toggle" data-bs-toggle="dropdown"><span class="material-symbols-outlined">notifications</span></button>
@@ -71,9 +75,10 @@ if (isLogged()) {
         <nav class="navbar second-nav bg-body-tertiary">
             <div class="container-fluid pages">
                 <router-link to="/">Home</router-link>
-                <router-link to="/temi">{{$t('nav.temi')}}</router-link>
+                <router-link v-if="temi_visibili.length > 1" to="/temi">{{$t('nav.temi')}}</router-link>
+                <router-link v-else to="/tema">Tema</router-link>
                 <router-link to="/catalogo">{{$t('nav.catalogo')}}</router-link>
-                <router-link to="/relatori">{{$t('nav.relatori')}}</router-link>
+                <router-link to="/autori">{{$t('nav.autori')}}</router-link>
             </div>
         </nav>
     </div>
@@ -81,6 +86,7 @@ if (isLogged()) {
 <style lang="scss" scoped>
 
     .first-nav {
+        padding: 3px;
         border-bottom: 1px solid var(--bs-border-color);
     
 
@@ -93,13 +99,13 @@ if (isLogged()) {
 
             .logo {
                 display: block;
-                height: 2rem;
+                max-height: 60px;
                 margin-right: .5rem;
             }
         }
 
         .right {
-        
+            padding: 11px 0;
             display: flex;
             gap: .5rem;
             align-items: center;
@@ -182,7 +188,7 @@ if (isLogged()) {
                 text-decoration: none;
                 font-weight: bold;
 
-                &.router-link-active {
+                &.router-link-active, &:hover {
                     color: rgba(var(--bs-body-color-rgb), 1);
                 }
             }

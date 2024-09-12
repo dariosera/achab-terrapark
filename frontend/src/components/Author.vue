@@ -1,35 +1,56 @@
 <script setup>
 import { useTerraParkStore } from '@/stores/commons';
-import { reactive, watch} from 'vue';
-const props = defineProps(["authorID"])
+import { ref, watch} from 'vue';
+const props = defineProps(["authors"])
 
 const tps = useTerraParkStore();
 
-const author = reactive({})
+const authors = ref([])
 
-watch(() => props.authorID, (a,b) => {
+watch(() => props.authors, (a,b) => {
     get()
 })
 
 function get() {
-    Object.assign(author,tps.getAuthor(props.authorID))
+    props.authors.forEach(id => {
+        authors.value.push(tps.getAuthor(id))
+    })
 }
 
 get()
 </script>
 <template>
-    <div v-if="author.name">Relatore: <strong><router-link :to="`/relatore/${author.authorID}`">{{ author.name }} {{ author.surname }}</router-link></strong></div>
+    <div class="authors">
+        {{ authors.length == 1 ? 'Autore' : 'Autori' }}:
+
+        <span v-for="author in authors" class="author me-1">
+            <strong><router-link :to="`/autore/${author.authorID}`">{{ author.name }} {{ author.surname }}</router-link></strong>
+        </span>
+
+    </div>
+    
 </template>
 <style scoped lang="scss">
 strong {
     color: var(--bs-dark);
 
     a {
-        color: var(--bs-dark);
+        font-weight: 500;
+        color: var(--bs-primary)!important;
         text-decoration: none;
 
         &:hover {
-            text-decoration: underline;
+            text-decoration: underline!important;
+        }
+
+       
+    }
+}
+
+.authors {
+    .author:not(:last-child) {
+        &::after {
+            content: ","
         }
     }
 }

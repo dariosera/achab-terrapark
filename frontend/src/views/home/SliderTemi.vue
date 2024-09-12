@@ -49,7 +49,7 @@ const selezionaTema = (i) => {
 }
 </script>
 <template>
-    <section class="with-top-border">
+    <section class="with-top-border" v-if="temi.length > 1">
 
         <h2>{{ $t('common.temi') }}</h2>
 
@@ -102,15 +102,16 @@ const selezionaTema = (i) => {
                 display: block;
             }
 
-            padding: 1rem;
-    
-            width: 100%;
-            aspect-ratio: 1;
-            background-color: rgba(var(--bs-body-color-rgb), .05);
-            background-size: 80% auto;
-            background-position: center center;
-            background-repeat: no-repeat;
-            transition: all .3s ease-in-out;
+            & {
+                padding: 1rem;
+                width: 100%;
+                aspect-ratio: 1;
+                background-color: rgba(var(--bs-body-color-rgb), .05);
+                background-size: 80% auto;
+                background-position: center center;
+                background-repeat: no-repeat;
+                transition: all .3s ease-in-out;
+            }
 
             &:hover {
                 background-color: rgba(var(--bs-body-color-rgb), .08);

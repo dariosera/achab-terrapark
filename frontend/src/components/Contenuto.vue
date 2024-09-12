@@ -2,7 +2,7 @@
 import Player from '@vimeo/player';
 import { defineProps, ref, reactive, onMounted, onBeforeUnmount, watch} from 'vue';
 import { request } from '@/utils/request';
-const props = defineProps(["data"])
+const props = defineProps(["data","autoOpenPdf"])
 import VueAudioPlayer from '@liripeng/vue-audio-player'
 const audioPlayer = ref(null)
 const vimeoPlayer = ref(null)
@@ -36,10 +36,7 @@ onBeforeUnmount(() => {
 
 watch(() => props.data,(prev,next) => {
     console.log("changed")
-    if (prev.media.mediaType !== next.media.mediaType) {
-        console.log("load")
-        setup()
-    }
+    setup()
 }, {deep: true})
 
 const setup = () => {
@@ -87,6 +84,10 @@ const setup = () => {
                 }
             })
     }
+
+    if (props.data.media.mediaType === 'pdf' && props.autoOpenPdf === true) {
+        pdfViewer.show()
+    }
 }
 
 watch(currentTime, (prev,next) => {
@@ -117,6 +118,11 @@ const pdfViewer = reactive({
     show : function() {
         pdfViewer.isVisible = true
         document.querySelector("body").style.overflow = 'hidden';
+        history.pushState({closeViewer: true},"")
+
+        addEventListener("popstate", (event) => { if (event.state.closeViewer) pdfViewer.hide() }, {once: true});
+
+        
     },
     hide : function() {
         pdfViewer.isVisible = false

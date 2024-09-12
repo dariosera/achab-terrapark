@@ -60,7 +60,9 @@ const clickAnteprima = () => {
                 <div class="outer-title">
                     <h3 class="title">{{ props.data.title }}</h3>
                 </div>
-                <div class="subtitle">{{ tps.getTopic(props.data.topicID).title }}</div>
+                <div class="subtitle" v-if="props.data.topicID !== null">{{ tps.getTopic(props.data.topicID).title }}</div>
+                <div class="subtitle" v-else>{{ tps.getTheme(props.data.themeID).title }}</div>
+
                 <div v-if="props.data.isCourse" class="icons">
                     <!-- <span v-for="i in ['video','pdf','test']" :key="i" class="material-symbols-outlined">{{icone_tipologie_contenuto[i]}}</span> -->
                 </div>
@@ -155,6 +157,7 @@ const clickAnteprima = () => {
                 height: 3px;
                 background: red;
                 border-radius: 0;
+                max-width: 100%;
             }
         }
 

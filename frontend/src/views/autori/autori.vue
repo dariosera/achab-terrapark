@@ -17,9 +17,9 @@ request({
    
 <div class="container">
     <section class="mt-3">
-        <h1>Relatori</h1>
+        <h1>Autori</h1>
         <div  class="grid-relatori">
-            <RouterLink :to="`/relatore/${author.authorID}`" v-for="(author,i) in authors" :key="author.authorID">
+            <RouterLink :to="`/autore/${author.authorID}`" v-for="(author,i) in authors" :key="author.authorID">
                 <div class="relatore shadow-sm">
                     <img :src="author.picture_url">
         
@@ -43,17 +43,17 @@ request({
     a {
         text-decoration: none;
         transition: background-color .2s ease-in-out;
-
-        &:hover {
-            background-color: rgba(var(--bs-body-color-rgb),.03);
-            box-shadow: var(--bs-box-shadow) !important;
-        }
     }
 
     .relatore {
         width: 200px;
         padding: 1rem;
         cursor: pointer;
+
+        &:hover {
+            background-color: rgba(var(--bs-body-color-rgb),.03);
+            box-shadow: var(--bs-box-shadow) !important;
+        }
 
         img {
             display: block;

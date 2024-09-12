@@ -95,10 +95,17 @@ const mostraDettaglio = function(i) {
         </div>
     </div>
 </template>
-<style scoped>
+<style lang="scss">
 @media screen and (max-width: 768px) {
    .slider-outer {
     padding: 0 2.5rem;
    }
 }
+
+.slider-outer {
+    .splide__track {
+        overflow: visible;
+    }
+}
+
 </style>

@@ -50,6 +50,36 @@ const confermaEliminazione = reactive({
     modal : null,
 })
 
+const deleteTag = (id) => {
+    request({
+        task : "content/removeTag",
+        data : {
+            permalink : props.content.permalink,
+            tagID : id,
+        },
+        callback : function(dt) {
+            props.content.tags = dt;
+        }
+       })
+}
+
+const newTag = reactive({
+    add : function() {
+       request({
+        task : "content/addTag",
+        data : {
+            permalink : props.content.permalink,
+            tagID : newTag.id,
+        },
+        callback : function(dt) {
+            newTag.id = undefined;
+            props.content.tags = dt;
+        }
+       })
+    },
+    id : undefined,
+})
+
 </script>
 <template>
     <div class="row" v-if="props.content">
@@ -59,7 +89,7 @@ const confermaEliminazione = reactive({
                     <label>Titolo</label>
                     <input type="text" maxlength="65" class="form-control" v-model="props.content.title">
                 </div>
-                
+
                 <div class="col-lg-6">
                     <label>Tema</label>
                     <SearchSelect class="w-100 d-block" required placeholder="Cerca..." task="themes.search"
@@ -85,11 +115,20 @@ const confermaEliminazione = reactive({
                         <label>Tag</label>
 
                         <div class="tag-area mt-2">
-                            <span v-for="tag,i in props.content.tags" :key="i" class="badge border text-muted px-2 me-2">
-                                {{ tag.description }}</span>
+                            <span v-for="tag, i in props.content.tags" :key="i"
+                                class="badge border text-muted px-2 me-2">
+                                {{ tag.description }}
+                                <i style="cursor: pointer" @click="deleteTag(tag.tagID)"
+                                    class="bi bi-x-lg ms-2"></i></span>
 
                             <small v-if="props.content.tags.length === 0">Nessun tag</small>
                         </div>
+                        <form @submit.prevent="newTag.add" class="d-flex mt-3">
+                            <SearchSelect class="me-1" required placeholder="Aggiungi tag" task="tags.search"
+                                onCreate="tags.create" v-model="newTag.id" />
+                            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-plus"></i>
+                                Aggiungi</button>
+                        </form>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -106,13 +145,13 @@ const confermaEliminazione = reactive({
                             v-model="props.content.customerID" />
                     </div>
                 </div>
-                
+
 
 
             </div>
         </div>
         <div class="col-12 mt-3">
-            <div class="card" >
+            <div class="card">
                 <div class="card-body">
                     <label>Immagine di anteprima</label>
 
@@ -121,8 +160,9 @@ const confermaEliminazione = reactive({
                         <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-upload"></i></button>
                     </form>
                     <div v-else>
-                        <img :src="props.content.image_url" class="w-100">
-                        <button class="btn btn-sm btn-link" @click="() => props.content.image_url = null">Cambia immagine</button>
+                        <img :src="props.content.image_url+'?t='+(new Date()).getTime()" class="w-100">
+                        <button class="btn btn-sm btn-link" @click="() => props.content.image_url = null">Cambia
+                            immagine</button>
                     </div>
                 </div>
             </div>
@@ -132,8 +172,8 @@ const confermaEliminazione = reactive({
     </div>
 
 
-    <Modal title="Conferma eliminazione" :actions="confermaEliminazione.actions" :canDismiss="true"
-        size="sm" @ready="(t) => confermaEliminazione.modal = t">
+    <Modal title="Conferma eliminazione" :actions="confermaEliminazione.actions" :canDismiss="true" size="sm"
+        @ready="(t) => confermaEliminazione.modal = t">
         <p>Confermi di voler eliminare il contenuto?</p>
     </Modal>
 </template>

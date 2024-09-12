@@ -2,7 +2,8 @@
 
 $this->db->update("ct_contents",[
     "title" => $d["title"],
-    "topicID" => $d["topicID"],
+    "topicID" =>  !isset($d["topicID"]) ? null : $d["topicID"],
+    "themeID" =>  !isset($d["themeID"]) ? null : $d["themeID"],
     "typologyID" => !isset($d["typologyID"]) ? null : $d["typologyID"],
     "description" => $d["description"],
     "language" => !isset($d["language"]) ? null : $d["language"],

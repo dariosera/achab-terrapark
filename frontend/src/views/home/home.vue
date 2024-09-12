@@ -58,8 +58,6 @@ const splideOptions = {
 </script>
 <template>
     <div class="container">
-
-
         <Splide v-if="bannerContent.length > 0" :has-track="false" :options="splideOptions">
             <SplideTrack>
                 <SplideSlide v-for="(bC, i) in bannerContent " :key="i">
@@ -73,7 +71,8 @@ const splideOptions = {
             </div>
         </Splide>
         <SkeletonBanner v-else />
-
+    </div>
+    <div class="container">
         <section class="with-top-border">
             <h2>{{$t('home.iTuoiCorsi')}}: {{ $t('home.continuaAdImparare') }}</h2>
             <SliderContenuti  sliderID="__myCourses__" />

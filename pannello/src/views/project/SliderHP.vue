@@ -212,7 +212,7 @@ const removeSlide = (slideID) => {
                 </div>
             </div>
             <div class="img">
-                <img :src="sli.image_url" class="w-100">
+                <img :src="sli.image_url+'?t='+(new Date()).getTime()" class="w-100">
             </div>
             <div class="info">
                 <div><strong>{{ sli.title }}</strong></div>
@@ -248,7 +248,7 @@ const removeSlide = (slideID) => {
         </div>
     </Modal>
 
-    <SlideEditor @ready="(t) => editSlide.modal = t" :slide="editSlide.editing" @created="addSlide" />
+    <SlideEditor @ready="(t) => editSlide.modal = t" :slide="editSlide.editing" @created="addSlide" @modified="getSlides" />
 </template>
 <style lang="scss" scoped>
 .content-list {

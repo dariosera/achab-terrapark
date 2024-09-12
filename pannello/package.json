@@ -8,9 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "kadro-core" : "git+https://github.com/dariosera/kadro-core.git",
+    "@vueup/vue-quill": "^1.2.0",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
+    "kadro-core": "git+https://github.com/dariosera/kadro-core.git",
     "papaparse": "^5.4.1",
     "sass": "^1.69.5",
     "vue": "^3.3.4",

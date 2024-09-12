@@ -9,10 +9,16 @@ const theme = reactive({
         image : null,
         image_url : null
     },
+    loginPage : {
+        background: null,
+        cardBackground : null,
+        welcomeText : null,
+    },
+    footer : {
+        showSocialIcons : true,
+    },
     ...props.project.theme
 })
-
-
 
 const doUpload = function (e) {
 
@@ -48,6 +54,19 @@ const doUpload = function (e) {
 
 }
 
+function saveTheme() {
+    request({
+        task : "project/updateTheme",
+        data : {
+            projectID : props.project.projectID,
+            theme,
+        },
+        callback : (dt) => {
+            //ok
+        }
+    })
+}
+
 
 </script>
 <template>
@@ -62,11 +81,49 @@ const doUpload = function (e) {
                         <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-upload"></i></button>
                     </form>
                     <div v-else>
-                        <img :src="theme.logo.image_url" class="">
+                        <img :src="theme.logo.image_url+'?t='+(new Date()).getTime()" class="">
                         <button class="btn btn-sm btn-link" @click="() => theme.logo.image_url = null">Cambia immagine</button>
                     </div>
             </div>
-            
+
+            <hr>
+        
+            <table class="table table-sm">
+                <tr>
+                    <th colspan="3">Pagina di login</th>
+                </tr>
+                <tr>
+                    <td>Colore di sfondo</td>
+                    <td><input class="form-control" type="text" v-model="theme.loginPage.background"></td>
+                    <td><div :style="{'backgroundColor': (theme.loginPage.background), width: '6rem'}">&nbsp;</div></td>
+                </tr>
+                <tr>
+                    <td>Sfondo card</td>
+                    <td><input class="form-control" type="text" v-model="theme.loginPage.cardBackground"></td>
+                    <td><div :style="{'backgroundColor': (theme.loginPage.cardBackground), width: '6rem'}">&nbsp;</div></td>
+                </tr>
+                <tr>
+                    <td>Testo benvenuto</td>
+                    <td colspan="2"><input class="form-control" type="text" v-model="theme.loginPage.welcomeText"></td>
+                </tr>
+                <tr>
+                    <th colspan="3">Footer</th>
+                </tr>
+                <tr>
+                    <td>Mostra social</td>
+                    <td colspan="2">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" v-model="theme.footer.showSocialIcons" type="checkbox" role="switch" id="mostraSocial">
+                            <label class="form-check-label" for="mostraSocial">{{ theme.footer?.showSocialIcons == true ? 'Social visibili' : 'Social nascosti'}}</label>  
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="card-footer text-end">
+            <button class="btn btn-primary" @click="saveTheme"><i class="bi bi-save"></i> Salva</button>
         </div>
     </div>
 </template>

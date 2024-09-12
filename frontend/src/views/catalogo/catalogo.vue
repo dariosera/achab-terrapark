@@ -26,7 +26,6 @@ const fetch = () => {
             contenuti.value.forEach(c => {
                 c.isOpen = false
                 c.isVisible = true;
-                c.themeID = tps.getTopic(c.topicID).themeID
             })
 
             let ms = 1000 / Math.abs(nSkeletons.value - contenuti.value.length);
@@ -217,7 +216,7 @@ function deserializeFilters(queryString) {
 
             <h1>{{ $t('common.catalogo') }}</h1>
 
-            <div class="grid-temi">
+            <div class="grid-temi" v-if="temi.length > 1">
                 <a v-for="tema in temi" :key="tema.themeID" class="tema" :class="{selected : filters.themes.includes(tema.themeID)}" @click="toggleTema(tema.themeID)">
                     <div class="icona">
                         <img :src="tema.url_img">
@@ -229,7 +228,6 @@ function deserializeFilters(queryString) {
 
 
         <div class="filters">
-            <div class="heading">{{ $t('catalogo.filters') }}</div>
 
             <div class="filters-inner">
 
@@ -465,7 +463,7 @@ function deserializeFilters(queryString) {
 
 .grid-anteprime {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1rem;
     margin: -1rem;
     grid-auto-flow: dense;

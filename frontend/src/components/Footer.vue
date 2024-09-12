@@ -1,7 +1,11 @@
 <script setup>
+import { useProjectStore } from "../stores/project"
 const getAppVersion = () => {
     return import.meta.env.VITE_APP_VERSION
 }
+
+const ps = useProjectStore()
+const theme = ps.getTheme()
 </script>
 <template>
     <div class="footer-outer">
@@ -26,14 +30,14 @@ const getAppVersion = () => {
             <div class="links">
                 <a href="#">Informativa Privacy</a>
                 <a href="#">Informativa Cookies</a>
-                <div class="socials">
+                <div v-if="theme.footer.showSocialIcons" class="socials">
                     <a href="https://www.facebook.com/achabgroup/" target="_blank" class="circle facebook"></a>
                     <a href="https://www.linkedin.com/company/achab-srl/" target="_blank" class="circle linkedin"></a>
                     <a href="https://www.instagram.com/achabgroup/" target="_blank" class="circle instagram"></a>
                     <a href="https://www.youtube.com/@achabsrlsocietabenefit-ach1665" target="_blank" class="circle youtube"></a>
                 </div>
 
-                <div class=""><small>TerraPark v{{ getAppVersion() }}</small></div>
+                <div class="text-center mt-2"><small>v{{ getAppVersion() }}</small></div>
             </div>
         </footer>
     </div>

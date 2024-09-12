@@ -47,15 +47,15 @@ export function createRouter(app) {
         //beforeEnter: createAuthGuard(app)
       },
       {
-        path: '/relatori',
-        name: 'relatori',
-        component: () => import('../views/relatori/relatori.vue'),
+        path: '/autori',
+        name: 'autori',
+        component: () => import('../views/autori/autori.vue'),
         //beforeEnter: createAuthGuard(app)
       },
       {
-        path: '/relatore/:id',
-        name: 'relatore',
-        component: () => import('../views/relatore/relatore.vue'),
+        path: '/autore/:id',
+        name: 'autore',
+        component: () => import('../views/autore/autore.vue'),
         //beforeEnter: createAuthGuard(app)
       },
       {
@@ -68,6 +68,12 @@ export function createRouter(app) {
         path: '/temi',
         name: 'temi',
         component: () => import('../views/temi/temi.vue'),
+        //beforeEnter: createAuthGuard(app)
+      },
+      {
+        path: '/tema',
+        name: 'tema',
+        component: () => import('../views/tema/tema.vue'),
         //beforeEnter: createAuthGuard(app)
       },
       {

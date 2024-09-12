@@ -21,7 +21,8 @@ if (isset($d["media"]) && count($d["media"]) > 0 && isset($d["media"]["mediaType
 
 $this->db->update("ct_contents",[
     "title" => $d["title"],
-    "topicID" => $d["topicID"],
+    "themeID" => !isset($d["themeID"]) ? null : $d["themeID"],
+    "topicID" => !isset($d["topicID"]) ? null : $d["topicID"],
     "typologyID" => !isset($d["typologyID"]) ? null : $d["typologyID"],
     "description" => $d["description"],
     "language" => !isset($d["language"]) ? null : $d["language"],
