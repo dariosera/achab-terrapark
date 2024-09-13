@@ -45,7 +45,7 @@ switch ($d["target"]) {
         break;
 
     case "myCourses":
-        $query = "SELECT $standard_fields FROM ct_contents WHERE (isCourse = 1) AND ($constraints_sql) AND permalink IN (SELECT permalink FROM ua_history WHERE IDutente = ?)";
+        $query = "SELECT DISTINCT $standard_fields FROM ua_opened_contents JOIN ct_contents ON ua_opened_contents.course_permalink = ct_contents.permalink WHERE (isCourse = 1) AND ($constraints_sql) AND ua_opened_contents.IDutente = ?";
         $list = $this->db->sql_select($query, $this->user["IDutente"]);
         break;
     
@@ -62,6 +62,11 @@ switch ($d["target"]) {
     case "related":
         $query = "SELECT $standard_fields FROM co_related_contents JOIN ct_contents ON co_related_contents.permalink = ct_contents.permalink WHERE (standalone = 1) AND ($constraints_sql) AND co_related_contents.course = ?";
         $list = $this->db->sql_select($query, $d["course"]);
+        break;
+
+    case "latestContents":
+        $query = "SELECT $standard_fields FROM ct_contents WHERE (standalone = 1) AND ($constraints_sql) ORDER BY ct_contents.contentID DESC LIMIT 10";
+        $list = $this->db->sql_select($query);
         break;
 
 

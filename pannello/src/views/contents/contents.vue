@@ -130,6 +130,7 @@ const nuovoContenuto = () => {
                 previews : {},
                 draft : 1,
                 customerID: null,
+                authors : []
             }
             modificaContenuto.modal.show()
 

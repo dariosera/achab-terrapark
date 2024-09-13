@@ -68,6 +68,8 @@ export function request(obj) {
             
         }).catch(function(error) {
             
+            if (import.meta.env.DEV)
+                console.log(error)
 
             if ("undefined" !== typeof(obj.error)) {
                 obj.error(error.response.data)

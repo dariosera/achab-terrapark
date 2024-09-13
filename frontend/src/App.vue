@@ -5,6 +5,7 @@ import { useTerraParkStore } from './stores/commons';
 import { useProjectStore } from './stores/project';
 import { request } from './utils/request';
 import ToastArea from './components/ToastArea.vue';
+import ModalArea from './components/ModalArea.vue';
 
 import Topbar from './components/Topbar.vue';
 import Footer from './components/Footer.vue';
@@ -27,10 +28,6 @@ onBeforeMount(async () => {
   projectReady.value = true
 })
 
-const tps = useTerraParkStore()
-if (isLogged()) {
-  tps.init()
-}
 </script>
 <template>
   <div v-if="projectReady">
@@ -40,6 +37,7 @@ if (isLogged()) {
       </main>
       <Footer v-if="!route.meta.isPublic" />
       <ToastArea/>
+      <ModalArea/>
   </div>
   <div v-else class="big-loader">
     <div class="fancy-loader"></div>

@@ -40,6 +40,7 @@ const sliderOptions = {
     prev  : 'splide__arrow--prev arrow-prev-outside',
 	next  : 'splide__arrow--next arrow-next-outside',
   },
+  padding: { left : "0.5rem", right: "0.5rem"},
   gap: "1rem",
   breakpoints: {
         1400: {
@@ -71,29 +72,29 @@ const mostraDettaglio = function(i) {
 }
 </script>
 <template>
-    <div class="slider-outer">
-        <template v-if="contenuti.length === 0">
-            <Splide :options="sliderOptions" v-if="waiting">
-                <SplideSlide v-for="i in [0,1,2,3]" :key="i" class="py-3">
-                    <SkeletonAnteprima />
-                </SplideSlide>
-            </Splide>
-            <div v-else>
-                Nessun contenuto
+        <div class="slider-outer">
+            <template v-if="contenuti.length === 0">
+                <Splide :options="sliderOptions" v-if="waiting">
+                    <SplideSlide v-for="i in [0,1,2,3]" :key="i" class="py-3">
+                        <SkeletonAnteprima />
+                    </SplideSlide>
+                </Splide>
+                <div v-else>
+                    Nessun contenuto
+                </div>
+            </template>
+            <template v-else>
+                <Splide :options="sliderOptions">
+                    <SplideSlide v-for="(c,i) in contenuti" :key="i" class="py-3">
+                        <Anteprima :data="c" @mostraDettaglio="mostraDettaglio(i)" />
+                    </SplideSlide>
+                </Splide>
+            </template>
+        
+            <div ref="tagDettaglio" class="dettaglio" >
+                <Dettaglio v-if="contenutoSelezionato !== null" :data="contenutoSelezionato" @close="() => {contenutoSelezionato = null}" :showRelated="props?.showRelated" />
             </div>
-        </template>
-        <template v-else>
-            <Splide :options="sliderOptions">
-                <SplideSlide v-for="(c,i) in contenuti" :key="i" class="py-3">
-                    <Anteprima :data="c" @mostraDettaglio="mostraDettaglio(i)" />
-                </SplideSlide>
-            </Splide>
-        </template>
-       
-        <div ref="tagDettaglio" class="dettaglio" >
-            <Dettaglio v-if="contenutoSelezionato !== null" :data="contenutoSelezionato" @close="() => {contenutoSelezionato = null}" :showRelated="props?.showRelated" />
         </div>
-    </div>
 </template>
 <style lang="scss">
 @media screen and (max-width: 768px) {
@@ -101,11 +102,4 @@ const mostraDettaglio = function(i) {
     padding: 0 2.5rem;
    }
 }
-
-.slider-outer {
-    .splide__track {
-        overflow: visible;
-    }
-}
-
 </style>

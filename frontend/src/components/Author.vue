@@ -21,11 +21,12 @@ get()
 </script>
 <template>
     <div class="authors">
-        {{ authors.length == 1 ? 'Autore' : 'Autori' }}:
-
-        <span v-for="author in authors" class="author me-1">
-            <strong><router-link :to="`/autore/${author.authorID}`">{{ author.name }} {{ author.surname }}</router-link></strong>
-        </span>
+        <div v-if="authors.length > 0">
+            {{ authors.length == 1 ? 'Autore' : 'Autori' }}:
+            <span v-for="author in authors" :key="author.authorID" class="author me-1">
+                <strong><router-link :to="`/autore/${author.authorID}`">{{ author.name }} {{ author.surname }}</router-link></strong>
+            </span>
+        </div>
 
     </div>
     

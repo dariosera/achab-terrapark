@@ -16,7 +16,7 @@ $constraints[] = "deleted = 0";
 
 $constraints_sql = implode(" AND ",$constraints);
 
-$list = $this->db->sql_select("SELECT contentID, permalink, title, description, language, topicID, typologyID, isCourse, image, meta FROM ct_contents WHERE permalink = ? AND isCourse = 1 AND ($constraints_sql)", $d["permalink"]);
+$list = $this->db->sql_select("SELECT contentID, permalink, title, description, language, themeID, topicID, typologyID, isCourse, image, meta FROM ct_contents WHERE permalink = ? AND isCourse = 1 AND ($constraints_sql)", $d["permalink"]);
 
 if (count($list) !== 1) {
     return ["error" => "corso_inesistente"];
@@ -40,6 +40,7 @@ foreach ($contents as $i=>$c) {
 
 }
 
+$list[0]["authors"] = $this->run("frontend/content/getAuthors",["permalink" => $d["permalink"]]);
 
 $list[0]["contents"] = $contents;
 

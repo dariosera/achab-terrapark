@@ -35,6 +35,12 @@ if (isset($media["mediaType"]) && count(array_keys($media[$media["mediaType"]."_
         ];
     }
 
+    if ($media["mediaType"] == "embed") {
+        $out["embed_data"] = [
+            "url" => $media["embed_data"]["url"],
+        ];
+    }
+
 
 }
 

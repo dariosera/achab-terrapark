@@ -20,7 +20,7 @@ const theme = ps.getTheme()
             </div>
         
             <div class="bcorp logo">
-                <img src="@/assets/certificazioni.png" alt="B Corp">
+                <img style="height: 4rem" src="@/assets/certificazioni.png" alt="B Corp">
                 <div>
                     Sistema di Gestione per la Qualità e Ambiente<br>
                     ISO 9001:2015 e 14001:2015<br>

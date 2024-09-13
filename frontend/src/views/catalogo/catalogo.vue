@@ -22,7 +22,12 @@ const fetch = () => {
         task: "contents/search",
         data: {},
         callback: (dt) => {
-            contenuti.value = dt
+
+            dt.sort((a,b) => {
+                return Math.random() - 0.5;
+            })
+
+            contenuti.value = dt;
             contenuti.value.forEach(c => {
                 c.isOpen = false
                 c.isVisible = true;
@@ -304,7 +309,7 @@ function deserializeFilters(queryString) {
                     </div>
                 </div>
 
-                <div class="dropdown">
+                <div v-if="false" class="dropdown">
                     <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                         aria-expanded="false">
                         <span v-if="filters.languages.length > 0" class="material-symbols-outlined filter-icon">filter_alt</span>

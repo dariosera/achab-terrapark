@@ -51,6 +51,7 @@ const splideOptions = {
     type: 'loop',
     autoplay: true,
     pagination: false,
+    pauseOnHover: false,
     interval: 8000
 }
 
@@ -76,6 +77,13 @@ const splideOptions = {
         <section class="with-top-border">
             <h2>{{$t('home.iTuoiCorsi')}}: {{ $t('home.continuaAdImparare') }}</h2>
             <SliderContenuti  sliderID="__myCourses__" />
+        </section>
+
+        <section class="with-top-border">
+            <h2>Aggiunti di recente</h2>
+
+            <SliderContenuti  sliderID="__latest__"/>
+
         </section>
 
         <section class="with-top-border">

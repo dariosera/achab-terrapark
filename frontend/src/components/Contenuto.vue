@@ -143,9 +143,9 @@ const audioTimeUpdate = (event) => {
     
         <div ref="vimeoPlayer"></div>
     
-        <iframe v-if="props.data.media.mediaType == 'gioco'" src="https://achab-digilab-ppydk.ondigitalocean.app/lab_3_1.html"
+        <iframe v-if="props.data.media.mediaType == 'embed'" :src="props.data.media.embed_data.url"
             frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-            title="Storia dell'energia"></iframe>
+            ></iframe>
     
         <div v-if="props.data.media.mediaType == 'test'" class="test text-center">
             //
@@ -169,7 +169,10 @@ const audioTimeUpdate = (event) => {
     
             <div v-if="props.data.media.mediaType == 'pdf'" class="pdfpreview" @click="pdfViewer.show()" >
                 <div class="card-top"><span class="material-symbols-outlined me-2">description</span>  <div class="text">{{ props.data.title }}</div></div>
-                <img :src="props.data.image">
+                <img v-if="!props.autoOpenPdf" :src="props.data.image">
+                <div v-else class="small-pdf-viewer">
+                    <iframe :src="pdfViewer.src()"></iframe>
+                </div>
     
                 <div class="card-bottom">
                     Documento pdf &middot; <span>{{props.data.meta.pages}} pagin{{ props.data.meta.pages == 1 ? 'a' : 'e' }}</span> &middot; Clicca per visualizzare
@@ -311,6 +314,27 @@ iframe {
         position: absolute;
         top: .5rem;
         right: .5rem;
+    }
+}
+
+.small-pdf-viewer {
+    filter : blur(2px);
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+
+    &::after {
+        display: block; 
+        content : "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    iframe {
+        transform: translateY(-32px);
     }
 }
 

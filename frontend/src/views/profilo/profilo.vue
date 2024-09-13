@@ -83,7 +83,7 @@ const impostaComune = () => {
                 </div>
                 <div class="mb-3">
                   <label for="telefono" class="form-label">{{ $t('profilo.telefono') }}</label>
-                  <input type="tel" class="form-control" id="telefono" v-model="profile.telefono" required>
+                  <input type="tel" class="form-control" id="telefono" v-model="profile.telefono">
                 </div>
                 <div class="mb-3">
                   <label for="citta" class="form-label">{{ $t('profilo.citta') }}</label>

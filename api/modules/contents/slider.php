@@ -12,6 +12,10 @@ if ($d["sliderID"] === "__courses__") {
     return $this->run("frontend/contents/search", ["target" => "courses"]);
 }
 
+if ($d["sliderID"] === "__latest__") {
+    return $this->run("frontend/contents/search", ["target" => "latestContents"]);
+}
+
 /// __author:1__
 if (strpos($d["sliderID"],"__author") === 0) {
     $authorID = intval(

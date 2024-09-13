@@ -17,39 +17,53 @@ export const useTerraParkStore = defineStore('schema', () => {
 
 
   const init = async () => {
-    request({
-      task : "public/schema",
-      callback : async function(dt) {
-        Object.assign(schema, dt);
+    return new Promise(resolve => {
 
-        schema.themes.forEach(async (tema, i) => {
-          try {
-            let img = await import(`@/assets/theme_icons/${tema.url}.svg`)
-            schema.themes[i].url_img = img.default
-          } catch (e) {
-            schema.themes[i].url_img = "";
-          }
-        })
-
-        if (requests_to_resolve.length > 0) {
-          requests_to_resolve.forEach(req => {
-            console.log(`Ho i dati!!!`)
-            req.resolve(req.query());
-          })
-        }
-
-        ready = true;
+      if (ready) {
+        resolve();
+        return;
       }
+
+      request({
+        task : "public/schema",
+        callback : async function(dt) {
+          Object.assign(schema, dt);
+  
+          console.log({"schema":schema})
+  
+          schema.themes.forEach(async (tema, i) => {
+            try {
+              let img = await import(`@/assets/theme_icons/${tema.url}.svg`)
+              schema.themes[i].url_img = img.default
+            } catch (e) {
+              schema.themes[i].url_img = "";
+            }
+          })
+  
+          if (requests_to_resolve.length > 0) {
+            requests_to_resolve.forEach(req => {
+              console.log(`Ho i dati!!!`)
+              req.resolve(req.query());
+            })
+          }
+  
+          ready = true;
+          console.log("HOFFATOOOOOOOO")
+          resolve()
+        }
+      })
     })
+    
   }
 
   const getTheme = (id) => {
+
     const filtered = schema.themes.filter(t => t.themeID == id);
 
     if (filtered.length === 1) {
       return filtered[0]
     } else {
-      return { themeID : id, title : ""}
+      return { themeID : id, title : "Tema sconosciuto"}
     }
 
   }
@@ -76,7 +90,7 @@ export const useTerraParkStore = defineStore('schema', () => {
     if (filtered.length === 1) {
       return filtered[0]
     } else {
-      return { topicID : id, themeID: null, title : ""}
+      return { topicID : id, themeID: null, title : "Argomento sconosciuto"}
     }
   }
 

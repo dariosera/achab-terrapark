@@ -1,6 +1,8 @@
 <script setup>
 import SliderContenuti from '@/components/SliderContenuti.vue';
 import Contenuto from '@/components/Contenuto.vue';
+import Author from '@/components/Author.vue';
+import Tags from '@/components/Tags.vue';
 import Actions from '@/components/Actions.vue';
 import {ref, onBeforeMount, onMounted, onUnmounted, reactive, watch, computed} from 'vue'
 import { icone_tipologie_contenuto } from '@/utils/icone';
@@ -17,9 +19,11 @@ const stats = reactive({
     pages: false,
 })
 
+const showRelated = ref(true);
+
 const canDownloadCertificate = computed(() => {
     let countSeen = 0;
-    corso.contents.forEach(c => {
+    corso?.contents.forEach(c => {
         if (c.seen) {
             countSeen++;
         }
@@ -40,7 +44,7 @@ onBeforeMount(() => {
         },
         callback : function(dt) {
             Object.assign(corso, dt);
-            setContentAsOpened(0)
+            //setContentAsOpened(0)
 
             // Calcolo totali
             let duration = 0, pages = 0;
@@ -54,7 +58,6 @@ onBeforeMount(() => {
                     pages += parseInt(meta.pages);
                 }
 
-
             })
 
             if (duration > 0) stats.duration = duration;
@@ -63,6 +66,26 @@ onBeforeMount(() => {
             // if (countSeen == corso.contents.length) {
             //     canDownloadCertificate.value = true;
             // }
+
+            request({
+                task : "userActions/getCoursePosition",
+                data : {
+                    course_permalink : route.params.permalink
+                },
+                callback : (dt) => {
+                    if (dt.length > 0) {
+                        corso.contents.forEach((c,i) => {
+                            if (c.permalink == dt[0].permalink) {
+                                if (c.media.mediaType == "pdf") {
+                                    alert("riprendi dal pdf");
+                                } else {
+                                    contenutoSelezionato.value = i;
+                                }
+                            }
+                        })
+                    }
+                }
+            })
 
         }
     })
@@ -96,10 +119,10 @@ function toggleIfCondensed() {
         toggleTop()
     }
 }
-
 // Add the scroll event listener in the onMounted hook
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
+
 });
 
 // Remove the scroll event listener in the onUnmounted hook
@@ -146,6 +169,16 @@ const setContentAsOpened = (index) => {
             hideLoader : true
         })
     }
+
+    request({
+        task : "userActions/updateCoursePosition",
+        data : {
+            course_permalink : corso.permalink,
+            permalink : corso.contents[contenutoSelezionato.value].permalink
+        },
+        callback : () => {},
+        hideLoader: true
+    })
 }
 
 function getCertificate() {
@@ -181,79 +214,94 @@ let dev = import.meta.env.DEV
                 </div>
 
                 <div class="meta mt-3">
-                    <div>
-                        <span>Tema: <strong><router-link :to="`/catalogo?themes=${tps.getTopic(corso.topicID).themeID}`">{{ tps.getTheme(tps.getTopic(corso.topicID).themeID ).title }}</router-link></strong></span>
-                        &middot;
-                        <span>Argomento: <strong><router-link :to="`/catalogo?topics=${corso.topicID}`">{{ tps.getTopic(corso.topicID).title }}</router-link></strong></span>
+
+                    <div class="topic-theme">
+                        <span v-if="corso.themeID !== null ">Tema: <strong><router-link
+                                    :to="`/catalogo?themes=${corso.themeID}`">{{ tps.getTheme(corso.themeID).title
+                                    }}</router-link></strong></span>
+                        <span v-if="corso.topicID">Argomento: <strong><router-link
+                                    :to="`/catalogo?topics=${corso.topicID}`">{{ tps.getTopic(corso.topicID).title
+                                    }}</router-link></strong></span>
                     </div>
+
+                    <Author :authors="corso.authors"></Author>
+
                     <div class="meta-row">
                         <span v-if="stats.duration">Durata totale: <strong>{{ stats.duration }} minuti</strong></span>
                         <span v-if="stats.pages">{{stats.pages }} pagine</span>
                     </div>
+
+                    <Tags :permalink="route.params.permalink"></Tags>
                 </div>
 
             </div>
             <div class="col-lg-6 p-5 right">
                 <img class="image" :src="corso.image">
 
-                <Actions :permalink="corso.permalink"/>
+                <Actions :permalink="corso.permalink" />
             </div>
             <button class="toggle" @click.stop="toggleTop()">
                 <span v-if="!topCondensed" class="material-symbols-outlined">keyboard_arrow_up</span>
                 <span v-if="topCondensed" class="material-symbols-outlined">keyboard_arrow_down</span>
-        </button>
+            </button>
         </div>
         <section class="my-5" ref="sectionContenuti">
             <div class="row">
                 <div class="col-lg-5">
-                <h3>Contenuti del corso</h3>
-                <div class="contenuti">
-                    <div v-for="(c,i) in corso.contents" :key="i" class="contenuto" :class="{'selected' : i===contenutoSelezionato}" @click="() => contenutoSelezionato=i">
-                        <div class="stato">
-                            <span class="material-symbols-outlined">{{ ['check_box_outline_blank','check_box'][c.seen ? 1 : 0] }}</span>
+                    <h3>Contenuti del corso</h3>
+                    <div class="contenuti">
+                        <div v-for="(c,i) in corso.contents" :key="i" class="contenuto"
+                            :class="{'selected' : i===contenutoSelezionato}" @click="() => contenutoSelezionato=i">
+                            <div class="stato">
+                                <span class="material-symbols-outlined">{{
+                                    ['check_box_outline_blank','check_box'][c.seen ? 1 : 0] }}</span>
+                            </div>
+                            <div class="titolo">
+                                {{ i+1 }}. {{ c.title }}
+                            </div>
+                            <div class="meta text-muted">
+                                <span class="material-symbols-outlined">{{ tps.getTypology(c.typologyID).icon }}</span>
+                                <span>{{ renderMeta(c.meta) }}</span>
+                            </div>
                         </div>
-                        <div class="titolo">
-                            {{ i+1 }}. {{ c.title }}
-                        </div>
-                        <div class="meta text-muted">
-                            <span class="material-symbols-outlined">{{ tps.getTypology(c.typologyID).icon }}</span>
-                            <span>{{ renderMeta(c.meta) }}</span>
+                        <div class="contenuto" @click="getCertificate">
+                            <div class="stato">
+                                <span class="material-symbols-outlined">{{
+                                    ['lock','new_releases'][canDownloadCertificate ? 1 : 0] }}</span>
+                            </div>
+                            <div class="titolo">
+                                {{ corso.contents.length + 1 }}. {{ canDownloadCertificate ? 'Scarica il certificato' :
+                                'Completa il corso per ottenere il certificato'}}
+                            </div>
+                            <div class="meta text-muted">
+
+                            </div>
                         </div>
                     </div>
-                    <div class="contenuto" @click="getCertificate">
-                        <div class="stato">
-                            <span class="material-symbols-outlined">{{ ['lock','new_releases'][canDownloadCertificate ? 1 : 0] }}</span>
-                        </div>
-                        <div class="titolo">
-                            {{ corso.contents.length + 1 }}. {{ canDownloadCertificate ? 'Scarica il certificato' : 'Completa il corso per ottenere il certificato'}}
-                        </div>
-                        <div class="meta text-muted">
-                           
-                        </div>
-                    </div>
+
+
                 </div>
+                <div class="col-lg-7">
+                    <Contenuto v-if="contenutoSelezionato !== null" :data="corso.contents[contenutoSelezionato]"
+                        :autoOpenPdf="true" />
 
-
-            </div>
-            <div class="col-lg-7">
-                <Contenuto v-if="contenutoSelezionato !== null" :data="corso.contents[contenutoSelezionato]" :autoOpenPdf="true"/>
-
-                <!-- <div class="mt-3">
+                    <!-- <div class="mt-3">
                     <h3 class="title">{{ corso.contents[contenutoSelezionato].title }}</h3>
                     <div class="text-muted description">
                         <p class="mb-2">{{ corso.contents[contenutoSelezionato].description.split("|")[0] }}</p>
                         <p class="p-0 mt-0">{{ corso.contents[contenutoSelezionato].description.split("|")[1] }}</p>
                     </div>
                 </div> -->
-            </div>
+                </div>
             </div>
         </section>
-        <section class="mt-5">
+        <section v-if="showRelated" class="mt-5">
             <h2>Ti potrebbero interessare</h2>
 
-            <SliderContenuti :showRelated="false" :sliderID="`__related:${route.params.permalink}__`"/>
+            <SliderContenuti @emptySlider="() => showRelated=false" :showRelated="false"
+                :sliderID="`__related:${route.params.permalink}__`" />
         </section>
-        
+
     </div>
 
 </template>
@@ -297,6 +345,10 @@ let dev = import.meta.env.DEV
         font-weight: 300;
         gap: .5rem;
         color: var(--bs-secondary-color);
+        
+        div {
+            margin-bottom: .5rem;
+        }
 
         a {
             color: var(--bs-primary)!important;

@@ -63,7 +63,6 @@ const login = (e) => {
         },
         error: function (err) {
             e.submitter.disabled = false;
-
             errorMessage.text = err.error;
 
         }
@@ -107,11 +106,12 @@ const handleGoogleCallback = (res) => {
         <div class="login-card">
                     <div class="banner-left"  :style="{'background-color' : customTheme.loginPage.cardBackground}">
 
-                        <div class="logo"><img :src="customTheme.logo.image_url"></div>
+                        <div class="logo bg-white"><img :src="customTheme.logo.image_url"></div>
 
-                        <h2 v-html="customTheme.loginPage.welcomeText"></h2>
-
-                        <img class="banner-image" src="@/assets/graficalogin.jpg">
+                        <div class="banner-left-content">
+                            <h2 v-html="customTheme.loginPage.welcomeText"></h2>
+                            <img class="banner-image" src="@/assets/graficalogin.jpg">
+                        </div>
                     </div>
                     <div class="login-area">
 
@@ -184,7 +184,6 @@ const handleGoogleCallback = (res) => {
 
 
     .banner-left {
-        padding: 1rem;
         user-select: none;
 
         .logo {
@@ -192,6 +191,11 @@ const handleGoogleCallback = (res) => {
             img {
                 max-height: 3rem;
             }
+        }
+
+        .banner-left-content {
+            padding: 1rem;
+
         }
 
         h2 {
@@ -290,11 +294,17 @@ const handleGoogleCallback = (res) => {
 
     .banner-left {
         flex: 1;
-        padding: 3rem;
         user-select: none;
 
+        .banner-left-content {
+            padding: 3rem;
+        }
+
         .logo {
+
+            padding: 1rem;
             text-align: center;
+
             img {
                 max-height: 3rem;
             }

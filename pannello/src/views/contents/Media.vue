@@ -93,6 +93,7 @@ const audioPlayerReady = (ev) => {
                 <option value="pdf">Pdf</option>
                 <option value="audio">Audio</option>
                 <option value="h5p">H5P</option>
+                <option value="embed">Embed</option>
             </select>
         </div>
         <div class="col-12"><hr></div>
@@ -136,6 +137,13 @@ const audioPlayerReady = (ev) => {
             <div class="form-group">
                 <label>Video ID</label>
                 <input type="text" class="form-control" v-model="props.content.media.h5p_data.video_id">
+            </div>
+        </div>
+
+        <div v-if="props.content.media.mediaType == 'embed'" class="col-12">
+            <div class="form-group">
+                <label>URL</label>
+                <input type="text" class="form-control" v-model="props.content.media.embed_data.url">
             </div>
         </div>
 

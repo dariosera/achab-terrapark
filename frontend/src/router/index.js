@@ -1,7 +1,13 @@
 import { createRouter as createVueRouter, createWebHistory } from 'vue-router'
 import { isLogged } from '@/utils/auth'
+import { useTerraParkStore } from '@/stores/commons'
+import { request } from '@/utils/request';
+import useToasts from '@/stores/toasts';
+import useModals from '@/stores/modals';
+import CompletaProfilo from '@/components/CompletaProfilo.vue';
 
 export function createRouter(app) {
+  let checkProfileData = true;
   const _router = createVueRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -28,6 +34,18 @@ export function createRouter(app) {
         meta : {
           isPublic: true,
         }
+      },
+      { 
+        path: "/conferma-email/:vid/:uid",
+        name: "Conferma indirizzo email",
+        component: () => import("../views/conferma-email/view.vue"),
+        meta: { isPublic: true, fullPage: true } 
+      },
+      {
+        path: "/reimposta-password/:rid/:uid",
+        name: "Reimposta password",
+        component: () => import("../views/reimposta-password/view.vue"),
+        meta: { isPublic: true, fullPage: true }
       },
       {
         path: '/',
@@ -119,13 +137,39 @@ export function createRouter(app) {
   })
 
   _router.beforeEach(async (to, from) => {
-    if (!isLogged() && to.name !== 'login' && to?.meta.isPublic !== true) {
+    const l = isLogged()
+    if (!l && to.name !== 'login' && to?.meta.isPublic !== true) {
       // redirect the user to the login page
   
       sessionStorage.setItem("sspa_after_login_redirect", to.fullPath);
-  
       return { name: 'login' }
     }
+
+    if (l && checkProfileData) {
+      console.log("checkprofiledata");
+      checkProfileData = false;
+      request({
+        task : "profile/checkProfileData",
+        data : {},
+        callback : function(dt) {
+          if (dt.action_required) {
+            useModals().msgbox({
+              title : "Completa il profilo",
+              content: CompletaProfilo,
+              canDismiss: false,
+            })
+            
+          } else {
+            // Alcuni dati possibili da compilare
+          }
+        }
+      })
+    }
+    
+
+    const tps = useTerraParkStore();
+    await tps.init();
+    
   })
 
   return _router;
