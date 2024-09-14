@@ -2,6 +2,62 @@
 import {watch, reactive} from 'vue';
 import {upload, request} from 'kadro-core';
 const props = defineProps(["content"]);
+import Papa from 'papaparse'
+import useModals from '../../../../frontend/src/stores/modals';
+
+
+function handleCsvUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+        parseCSV(file);
+    }
+};
+
+function parseCSV(file) {
+    Papa.parse(file, {
+        header: false,
+        complete: (results) => {
+
+            // Rimuovo ultima riga se vuota
+            if ("undefined" === typeof(results.data[results.data.length-1][0])) {
+                results.data = results.data.slice(0,results.data.length -1);
+            }
+
+            props.content.media.quiz_data = {
+                questions: [],
+                duration: null,
+                threshold: null,
+            }
+           
+
+            results.data.forEach((row, i) => {
+                if (i == 0) {
+                    // Riga intestazione
+                    return; 
+                }
+                
+                const q = {
+                    "question" : row[0],
+                    "answers" : [],
+                    "info" : row[1],
+                }
+
+                for (let k=2; k<row.length; k++) {
+                    q.answers.push(row[k])
+                }
+
+                props.content.media.quiz_data.questions.push(q);
+
+            })
+
+            
+
+        },
+        error: (error) => {
+            console.error("Error parsing CSV:", error);
+        }
+    });
+}
 
 watch(() => props.content.media.mediaType, (prev,next) => {
     if ("undefined" === typeof(props.content.media[prev+"_data"])) {
@@ -83,6 +139,23 @@ const audioPlayerReady = (ev) => {
     }
 }
 
+const uploadCsv = function(e) {
+
+console.log(e)
+let formData = new FormData();
+formData.append("file", e.target[0].files[0]);
+formData.append("permalink",props.content.permalink)
+
+
+upload({
+    task : "content/uploadQuizCsv",
+    data : formData,
+    callback : function(dt) {
+        props.content.media.quiz_data = dt.data;
+    }
+})
+
+}
 </script>
 <template>
     <div class="row">
@@ -94,6 +167,7 @@ const audioPlayerReady = (ev) => {
                 <option value="audio">Audio</option>
                 <option value="h5p">H5P</option>
                 <option value="embed">Embed</option>
+                <option value="quiz">Quiz</option>
             </select>
         </div>
         <div class="col-12"><hr></div>
@@ -144,6 +218,33 @@ const audioPlayerReady = (ev) => {
             <div class="form-group">
                 <label>URL</label>
                 <input type="text" class="form-control" v-model="props.content.media.embed_data.url">
+            </div>
+        </div>
+
+        <div v-if="props.content.media.mediaType == 'quiz'" class="col-12">
+            <div class="form-group">
+                <label><i class="bi bi-filetype-csv"></i> Carica csv</label>
+
+                 <input @change="handleCsvUpload" required type="file" class="form-control form-control-sm me-2" accept="text/csv">
+
+                 <div class="d-flex mt-2 align-items-center">
+                    <span class="me-2">Durata:</span>
+                    <input v-model="props.content.media.quiz_data.duration" disabled type="number" class="form-control">
+                 </div>
+                 <small>Durata in minuti, facoltativa. Lasciando vuoto il campo, il test non ha limiti di tempo.</small>
+
+                 <div class="d-flex mt-2 align-items-center">
+                    <span class="me-2">Punteggio minimo:</span>
+                    <input v-model="props.content.media.quiz_data.threshold" type="number" class="form-control">
+                 </div>
+                 <small>Punteggio minimo richiesto per superare il test. Si può lasciare vuoto.</small>
+                 
+                 <hr>
+
+                 <div v-if="props.content.media.quiz_data.questions">Il file csv contiene {{ props.content.media.quiz_data.questions.length }} domande.
+
+                 </div>
+              
             </div>
         </div>
 

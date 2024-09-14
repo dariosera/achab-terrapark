@@ -2,11 +2,16 @@
 import Player from '@vimeo/player';
 import { defineProps, ref, reactive, onMounted, onBeforeUnmount, watch} from 'vue';
 import { request } from '@/utils/request';
-const props = defineProps(["data","autoOpenPdf"])
+import Quiz from './Quiz.vue';
+
+const emit = defineEmits(["opened"]);
+
+const props = defineProps(["data","autoOpenPdf","coursePermalink"])
 import VueAudioPlayer from '@liripeng/vue-audio-player'
 const audioPlayer = ref(null)
 const vimeoPlayer = ref(null)
 let vimeoPlayerApi = null;
+
 
 const currentTime = ref(0);
 const savedTime = ref(0);
@@ -147,8 +152,8 @@ const audioTimeUpdate = (event) => {
             frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
             ></iframe>
     
-        <div v-if="props.data.media.mediaType == 'test'" class="test text-center">
-            //
+        <div v-if="props.data.media.mediaType == 'quiz'">
+            <Quiz :data="props.data.media.quiz_data" :permalink="props.data.permalink" @success="emit('opened')"/>
         </div>
     
     

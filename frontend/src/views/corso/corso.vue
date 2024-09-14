@@ -155,7 +155,13 @@ watch (contenutoSelezionato, () => {
     setContentAsOpened(contenutoSelezionato.value)
 })
 
-const setContentAsOpened = (index) => {
+const setContentAsOpened = (index, direct=false) => {
+
+    if (!direct && corso.contents[index].media.mediaType == "quiz") {
+        // È un quiz!
+        return;
+    }
+
     if (!corso.contents[index].seen) {
         request({
             task : "userActions/setContentAsOpened",
@@ -283,7 +289,7 @@ let dev = import.meta.env.DEV
                 </div>
                 <div class="col-lg-7">
                     <Contenuto v-if="contenutoSelezionato !== null" :data="corso.contents[contenutoSelezionato]"
-                        :autoOpenPdf="true" />
+                        :autoOpenPdf="true" @opened="setContentAsOpened(contenutoSelezionato, true)" />
 
                     <!-- <div class="mt-3">
                     <h3 class="title">{{ corso.contents[contenutoSelezionato].title }}</h3>

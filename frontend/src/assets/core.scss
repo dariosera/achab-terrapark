@@ -117,7 +117,7 @@ section {
 
 $border-radius-oval: 0;
 
-input:not([type="checkbox"]),
+input:not([type="radio"]),
 select,
 button,
 .btn {
@@ -148,7 +148,7 @@ textarea {
 }
 
 // Ensure consistency across all states (hover, focus, active)
-input:not([type="checkbox"]):focus,
+input:not([type="radio"]):focus,
 select:focus,
 button:focus,
 .btn:focus,

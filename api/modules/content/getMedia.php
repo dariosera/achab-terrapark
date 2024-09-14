@@ -41,7 +41,49 @@ if (isset($media["mediaType"]) && count(array_keys($media[$media["mediaType"]."_
         ];
     }
 
+    if ($media["mediaType"] == "quiz") {
+
+        $corrette = [];
+        $questions = [];
+
+        foreach ($media["quiz_data"]["questions"] as $i=>$question) {
+            $nr = count($question["answers"]);
+
+            $ids = range(0, $nr-1);
+
+            shuffle($ids);
+
+            $risposte_casuali = [];
+
+            foreach ($ids as &$id) {
+                $risposte_casuali[] = $question["answers"][$id];
+            }
+
+            $corrette[] = array_search(0,$ids);
+            $questions[] = [
+                "question" => $question["question"],
+                "answers" => $risposte_casuali
+            ];
+
+        }
+
+        $responseID = $this->db->insertInto("qz_quiz_responses",[
+            "IDutente" => $this->user["IDutente"],
+            "permalink" => $d["permalink"],
+            "correct_answers" => $corrette
+        ]);
+
+        $out["quiz_data"] = [
+            "duration" => $media["quiz_data"]["duration"],
+            "threshold" => $media["quiz_data"]["threshold"],
+            "questions" => $questions,
+            "responseID" => $responseID,   
+        ];
+    }
+
 
 }
+
+
 
 return $out;
