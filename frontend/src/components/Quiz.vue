@@ -3,7 +3,6 @@ import {ref} from 'vue';
 import { request } from '@/utils/request';
 
 const props = defineProps(["data", "permalink"])
-const qs = props.data.questions;
 
 const emit = defineEmits(["success"])
 
@@ -87,11 +86,11 @@ function startAgain() {
         <div v-if="started">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <li v-for="(q,i) in qs" :key="i" class="page-item" :class="{'active' : i==visibleQ}"><a class="page-link" @click="showQ(i)">{{ i+1 }}</a>
+                    <li v-for="(q,i) in props.data.questions" :key="i" class="page-item" :class="{'active' : i==visibleQ}"><a class="page-link" @click="showQ(i)">{{ i+1 }}</a>
                     </li>
                 </ul>
             </nav>
-            <div class="question" v-for="(q,i) in qs" :key="i" :class="{'d-none' : i!==visibleQ}">
+            <div class="question" v-for="(q,i) in props.data.questions" :key="i" :class="{'d-none' : i!==visibleQ}">
                 <div class="title">{{ q.question }}</div>
                 <div class="ans">
                     <template v-if="results===false">
