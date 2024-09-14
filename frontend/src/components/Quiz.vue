@@ -17,7 +17,7 @@ function showQ(i) {
 
 const answers = ref([])
 
-for (let i=0; i<qs.length; i++) {
+for (let i=0; i<props.data.questions.length; i++) {
     answers.value.push(null)
 }
 
@@ -32,7 +32,7 @@ function send() {
             visibleQ.value = null
             results.value = dt;
 
-            if (props.data.threshold !== null && qs.length-dt.errors >= props.data.threshold) {
+            if (props.data.threshold !== null && props.data.questions.length-dt.errors >= props.data.threshold) {
                emit("success")
             }
         }
@@ -70,7 +70,7 @@ function startAgain() {
             started.value = false
             visibleQ.value = 0
             answers.value = [];
-            for (let i=0; i<qs.length; i++) {
+            for (let i=0; i<props.data.questions.length; i++) {
                 answers.value.push(null)
             }
             results.value = false;
@@ -115,7 +115,7 @@ function startAgain() {
                 <template v-if="results === false">
                     <div class="arrows mt-3">
                         <button class="btn btn-sm btn-outline-secondary" :disabled="i==0" @click="showQ(i-1)">Indietro</button>
-                        <button class="btn btn-sm btn-outline-secondary" v-if="i!==qs.length-1" @click="showQ(i+1)">Avanti</button>
+                        <button class="btn btn-sm btn-outline-secondary" v-if="i!==props.data.questions.length-1" @click="showQ(i+1)">Avanti</button>
                         <button v-else class="btn btn-sm btn-success" @click="send()">Completa il quiz</button>
                     </div>
                 </template>
@@ -130,22 +130,22 @@ function startAgain() {
                 <div class="row text-center results">
                     <div class="col-6">
                         <h6>Risposte esatte</h6>
-                        <h2>{{ (qs.length-results.errors) }} su {{ qs.length }}</h2>
+                        <h2>{{ (props.data.questions.length-results.errors) }} su {{ props.data.questions.length }}</h2>
                     </div>
 
                     <div class="col-6">
                         <h6>Risultato</h6>
-                        <h2>{{ ((((qs.length-results.errors)/qs.length)*1000)/10).toLocaleString('it-IT',{maximumSignificantDigits: 3}) }}%</h2>
+                        <h2>{{ ((((props.data.questions.length-results.errors)/props.data.questions.length)*1000)/10).toLocaleString('it-IT',{maximumSignificantDigits: 3}) }}%</h2>
                     </div>
 
                     <div class="col-12 my-3" v-if="props.data.threshold !== null">
-                        <template v-if="qs.length-results.errors >= props.data.threshold">
+                        <template v-if="props.data.questions.length-results.errors >= props.data.threshold">
                             <p>Complimenti: hai superato il test!</p>
 
                             <button v-if="results.errors>0" class="btn btn-sm btn-link" @click="startAgain">Voglio migliorare il mio risultato</button>
                         </template>
                         <template v-else>
-                            <p><small>Per superare il test è necessario rispondere correttamente<br>ad almeno <b>{{ props.data.threshold }} domande su {{ qs.length }}</b></small></p>
+                            <p><small>Per superare il test è necessario rispondere correttamente<br>ad almeno <b>{{ props.data.threshold }} domande su {{ props.data.questions.length }}</b></small></p>
 
                             <button class="btn btn-sm btn-success" @click="startAgain">Ripeti il quiz</button>
                         </template>
