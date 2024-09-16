@@ -48,6 +48,9 @@ watch(() => props.data,(prev,next) => {
 
 const setup = () => {
     if (props.data.media.mediaType === 'vimeo') {
+            if (vimeoPlayerApi) {
+                vimeoPlayerApi.destroy()
+            }
             vimeoPlayerApi = new Player(vimeoPlayer.value, {
                 id: props.data.media.vimeo_data.video_id,
                 width : vimeoPlayer.value.clientWidth

@@ -240,8 +240,8 @@ let dev = import.meta.env.DEV
                     <Author :authors="corso.authors"></Author>
 
                     <div class="meta-row">
-                        <span v-if="stats.duration">Durata totale: <strong>{{ stats.duration }} minuti</strong></span>
-                        <span v-if="stats.pages">{{stats.pages }} pagine</span>
+                        <span v-if="stats.duration">Durata totale: <strong>{{ stats.duration }}</strong> minuti</span>
+                        <span v-if="stats.pages"><strong>{{stats.pages }}</strong> pagine</span>
                     </div>
 
                     <Tags :permalink="route.params.permalink"></Tags>
@@ -374,10 +374,10 @@ let dev = import.meta.env.DEV
 
         }   
 
-        .topic-theme {
+        .topic-theme, .meta-row {
                 span:not(:last-child)::after {
                     content: '·';
-                    margin: 0 .5rem;
+                    margin: 0 .3rem;
                 }
             }
     }

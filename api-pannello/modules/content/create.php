@@ -14,6 +14,7 @@ function randomPermalink($length = 8) {
 $permalink = randomPermalink();
 $id = $this->db->insertInto("ct_contents",[
     "permalink" => $permalink,
+    "media" => '{}',
     // "title" => $d["title"],
     // "topicID" => $d["topicID"],
     // "typologyID" => $d["typologyID"],
