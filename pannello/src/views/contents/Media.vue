@@ -219,6 +219,11 @@ upload({
                 <label>URL</label>
                 <input type="text" class="form-control" v-model="props.content.media.embed_data.url">
             </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="fsbutton"
+                            v-model="props.content.media.embed_data.fullscreenButton">
+                        <label class="form-check-label" for="fsbutton">Mostra pulsante fullscreen</label>
+            </div>
         </div>
 
         <div v-if="props.content.media.mediaType == 'quiz'" class="col-12">

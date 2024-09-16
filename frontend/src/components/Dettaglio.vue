@@ -43,21 +43,26 @@ const mostraDettaglio = (c) => {
     })
 }
 
-request({
-    task : "content/getMedia",
-    data : {
-        permalink : contenuto.permalink
-    },
-    callback : function(dt) {
-        contenuto.media = dt;
-    }
-})
+function getMedia() {
 
+    request({
+        task : "content/getMedia",
+        data : {
+            permalink : contenuto.permalink
+        },
+        callback : function(dt) {
+            contenuto.media = dt;
+        }
+    })
+
+}
+getMedia()
 
 
 const mostraOriginale = () => {
     Object.assign(contenuto, {})
     Object.assign(contenuto, props.data)
+    getMedia()
     guardaCorrelato.value = false;
     correlati.value.forEach(correlato => {
        correlato.selected = false
@@ -102,7 +107,7 @@ const sliderOptions = {
 watch(() => props.data,() => {
     console.log("updated")
     mostraOriginale()
-})
+}, {deep: true} )
 
 
 const renderMeta = (meta) => {
@@ -149,7 +154,7 @@ const renderMeta = (meta) => {
 
                 <div>{{ renderMeta(contenuto.meta) }}</div>
 
-                <Tags  v-if="contenuto" :permalink="contenuto.permalink"></Tags>
+                <Tags v-if="contenuto" :permalink="contenuto.permalink"></Tags>
 
                 <Author :authors="contenuto.authors"/>
 

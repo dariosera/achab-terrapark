@@ -20,13 +20,14 @@ const stats = reactive({
 })
 
 const showRelated = ref(true);
+const autoOpenPdf = ref(true)
 
 const canDownloadCertificate = computed(() => {
     let countSeen = 0;
     corso?.contents.forEach(c => {
         if (c.seen) {
             countSeen++;
-        }
+        }autoOpenPdf
     })
 
     if (countSeen == corso.contents.length) {
@@ -77,10 +78,16 @@ onBeforeMount(() => {
                         corso.contents.forEach((c,i) => {
                             if (c.permalink == dt[0].permalink) {
                                 if (c.media.mediaType == "pdf") {
-                                    alert("riprendi dal pdf");
+
+                                    autoOpenPdf.value = false;
+                                    contenutoSelezionato.value = i;
+
+                                    setTimeout(() => autoOpenPdf.value = true, 3000)
+
                                 } else {
                                     contenutoSelezionato.value = i;
                                 }
+                                
                             }
                         })
                     }
@@ -288,8 +295,8 @@ let dev = import.meta.env.DEV
 
                 </div>
                 <div class="col-lg-7">
-                    <Contenuto v-if="contenutoSelezionato !== null" :data="corso.contents[contenutoSelezionato]"
-                        :autoOpenPdf="true" @opened="setContentAsOpened(contenutoSelezionato, true)" />
+                    <Contenuto v-if="contenutoSelezionato !== null" :coursePermalink="route.params.permalink" :data="corso.contents[contenutoSelezionato]"
+                        :autoOpenPdf="autoOpenPdf" @opened="setContentAsOpened(contenutoSelezionato, true)" />
 
                     <!-- <div class="mt-3">
                     <h3 class="title">{{ corso.contents[contenutoSelezionato].title }}</h3>
@@ -367,13 +374,12 @@ let dev = import.meta.env.DEV
 
         }   
 
-        .meta-row {
-            :not(:last-child) {
-                ::after {
-                    content: " · "
+        .topic-theme {
+                span:not(:last-child)::after {
+                    content: '·';
+                    margin: 0 .5rem;
                 }
             }
-        }
     }
 
     .toggle {
@@ -416,7 +422,10 @@ let dev = import.meta.env.DEV
 
             .descrizione, .meta {
                 display: none!important;
+
             }
+
+            
         }
     }
 }

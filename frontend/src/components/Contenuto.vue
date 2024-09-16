@@ -16,6 +16,8 @@ let vimeoPlayerApi = null;
 const currentTime = ref(0);
 const savedTime = ref(0);
 
+const iframe = ref(null);
+
 let waitBeforeHistory = null;
 
 onMounted(() => {
@@ -142,15 +144,34 @@ const pdfViewer = reactive({
 const audioTimeUpdate = (event) => {
     currentTime.value = event.target.currentTime;
 }
+
+function goFullscreen() {
+    if (iframe.value.requestFullscreen) {
+        iframe.value.requestFullscreen();
+    } else if (iframe.value.mozRequestFullScreen) { // Firefox
+        iframe.value.mozRequestFullScreen();
+    } else if (iframe.value.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        iframe.value.webkitRequestFullscreen();
+    } else if (iframe.value.msRequestFullscreen) { // IE/Edge
+        iframe.value.msRequestFullscreen();
+    }
+}
 </script>
 <template><div class="content">
     
     
         <div ref="vimeoPlayer"></div>
     
-        <iframe v-if="props.data.media.mediaType == 'embed'" :src="props.data.media.embed_data.url"
-            frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-            ></iframe>
+        <div v-if="props.data.media.mediaType == 'embed'" class="embed-container">
+            <iframe ref="iframe" :src="props.data.media.embed_data.url"
+                frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                ></iframe>
+            <button @click="goFullscreen" v-if="props.data.media.embed_data?.fullscreenButton == true" class="fs-button">
+                <span class="material-symbols-outlined">
+fullscreen
+</span>
+            </button>
+        </div>
     
         <div v-if="props.data.media.mediaType == 'quiz'">
             <Quiz :data="props.data.media.quiz_data" :permalink="props.data.permalink" @success="emit('opened')"/>
@@ -174,7 +195,7 @@ const audioTimeUpdate = (event) => {
     
             <div v-if="props.data.media.mediaType == 'pdf'" class="pdfpreview" @click="pdfViewer.show()" >
                 <div class="card-top"><span class="material-symbols-outlined me-2">description</span>  <div class="text">{{ props.data.title }}</div></div>
-                <img v-if="!props.autoOpenPdf" :src="props.data.image">
+                <img v-if="!props.autoOpenPdf && !props.coursePermalink" :src="props.data.image">
                 <div v-else class="small-pdf-viewer">
                     <iframe :src="pdfViewer.src()"></iframe>
                 </div>
@@ -205,11 +226,32 @@ const audioTimeUpdate = (event) => {
     aspect-ratio: 16/9;
 }
 
-iframe {
+.embed-container {
+
+    position: relative;
+
+
+    iframe {
     display: block;
     aspect-ratio: 16/9;
     width: 100%;
 }
+    .fs-button {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: none;
+        border: none;
+        outline: none;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
+
+
 
 
 .audioplayer {
@@ -312,6 +354,8 @@ iframe {
     iframe {
         background: white;
         height: 100%;
+        width: 100%;
+
     }
 
 
@@ -340,6 +384,8 @@ iframe {
 
     iframe {
         transform: translateY(-32px);
+        height: 100%;
+        width: 100%;
     }
 }
 

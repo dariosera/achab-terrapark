@@ -92,6 +92,7 @@ if (isLogged()) {
 
         .logos {
             display: flex;
+            overflow: hidden;
 
             .logo-link {
                 text-decoration: none;
