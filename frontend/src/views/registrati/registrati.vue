@@ -42,6 +42,9 @@ const router = useRouter();
 function signup(e) {
 
     if (step.value == 1) {
+        if (!checkPasswordRequirements()) {
+            return;
+        }
         step.value = 2;
         return;
     }
@@ -84,6 +87,47 @@ function performLogin(email,password) {
         }
     })
 }
+
+function checkPasswordRequirements() {
+    let password = newUser.password;
+    let password_repeat = newUser.password_repeat;
+
+    if (password_repeat.length === 0) return;
+    
+    // Definire il messaggio di errore
+    let msg = "";
+
+    // Verifica se la password ha almeno 8 caratteri
+    if (password.length < 8) {
+        msg += "La password deve contenere almeno 8 caratteri.\n";
+    }
+
+    // Verifica se la password contiene almeno un numero
+    if (!/\d/.test(password)) {
+        msg += "La password deve contenere almeno un numero.\n";
+    }
+
+    // Verifica se la password contiene almeno un simbolo
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+        msg += "La password deve contenere almeno un simbolo.\n";
+    }
+
+    // Verifica se le password sono uguali
+    if (password !== password_repeat) {
+        msg += "Le password non coincidono.\n";
+    }
+
+    // Se ci sono errori, mostriamo i messaggi
+    if (msg.length >0) {
+        errorMessage.text = msg
+        return false
+    } else {
+        errorMessage.text = null
+        return true
+    }
+
+}
+
 </script>
 <template>
     <div class="container-fluid" :style="{'background-color' : customTheme.loginPage.background}">
@@ -122,25 +166,25 @@ function performLogin(email,password) {
 
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input autocomplete="new-password" required v-model="newUser.password" type="password"
+                                <input @change="checkPasswordRequirements" autocomplete="new-password" required v-model="newUser.password" type="password"
                                     class="form-control" id="password" placeholder="Password">
                             </div>
                             <div class="form-group">
                                 <label for="password">Ripeti password</label>
-                                <input autocomplete="new-password" required v-model="newUser.password_repeat"
+                                <input @change="checkPasswordRequirements" autocomplete="new-password" required v-model="newUser.password_repeat"
                                     type="password" class="form-control" id="password_repeat" placeholder="Password">
                             </div>
                         </div>
                         <div v-if="step == 2">
 
-                            <template v-for="(cf,i) in customSignupFields" :key="i">
+                            <div v-for="(cf,i) in customSignupFields" :key="i">
                                 
                                 <div v-if="cf.data.type == 'checkbox'" class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" :id="'cf-'+cf.fieldID" v-model="newUser.customSignupFields[cf.fieldID]">
                                     <label class="form-check-label" :for="'cf-'+cf.fieldID">{{ cf.data.text }}</label>
                                 </div>
 
-                            </template>
+                            </div>
 
                             <small>Registrandoti a <b>{{ ps.getTitle() }}</b> accetti i <a href="#" target="_blank">Termini di servizio</a>, le <a href="#" target="_blank">Condizioni d'Uso</a> e dai il tuo consenso al trattamento dei dati personali forniti per le finalità indicate nella nostra <a href="#" target="_blank">Privacy Policy</a>.</small>
                         </div>

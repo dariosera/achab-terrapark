@@ -182,12 +182,12 @@ const handleGoogleCallback = (res) => {
                         <div v-if="step == 2">
 
                             <form @submit.prevent="saveCustomFields">
-                                <template v-for="(cf,i) in customSignupFields" :key="i">
+                                <div v-for="(cf,i) in customSignupFields" :key="i">
                                     <div v-if="cf.data.type == 'checkbox'" class="form-group form-check">
                                         <input type="checkbox" class="form-check-input" :id="'cf-'+cf.fieldID" v-model="customSignupFieldsResponses[cf.fieldID]">
                                         <label class="form-check-label" :for="'cf-'+cf.fieldID">{{ cf.data.text }}</label>
                                     </div>
-                                </template>
+                                </div>
                                 <small>Registrandoti a <b>{{ ps.getTitle() }}</b> accetti i <a href="#" target="_blank">Termini di servizio</a>, le <a href="#" target="_blank">Condizioni d'Uso</a> e dai il tuo consenso al trattamento dei dati personali forniti per le finalità indicate nella nostra <a href="#" target="_blank">Privacy Policy</a>.</small>
                                 <button type="submit" class="btn d-block w-100 btn-primary mt-3">Accedi</button>
                             </form>

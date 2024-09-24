@@ -47,6 +47,16 @@ switch ($config["mode"]) {
         $list = $this->db->sql_select($query, $typologyID);
         break;
 
+    case "random":
+        $query = "SELECT $standard_fields FROM ct_contents WHERE (standalone = 1) AND ($constraints_sql) ORDER BY RAND() DESC LIMIT 10";
+        $list = $this->db->sql_select($query);
+        break;
+
+    case "courses":
+        $query = "SELECT $standard_fields FROM ct_contents WHERE (isCourse = 1) AND ($constraints_sql) ORDER BY RAND() DESC LIMIT 10";
+        $list = $this->db->sql_select($query);
+        break;
+
 }
 
 

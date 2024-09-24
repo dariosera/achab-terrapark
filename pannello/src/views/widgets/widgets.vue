@@ -183,6 +183,8 @@ const nuovoWidget = () => {
                         <option value="course">Mostra un corso specifico</option>
                         <option value="single">Mostra un contenuto specifico</option>
                         <option value="typology">Contenuti per tipologia</option>
+                        <option value="random">Contenuti casuali</option>
+                        <option value="courses">Tutti i corsi</option>
                     </select>
                 </div>
 
