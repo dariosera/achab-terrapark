@@ -23,11 +23,16 @@ const fetch = () => {
         data: {},
         callback: (dt) => {
 
-            dt.sort((a,b) => {
+            const corsi = dt.filter(x => x.isCourse);
+            const altro = dt.filter(x => !x.isCourse);
+
+            
+            altro.sort((a,b) => {
                 return Math.random() - 0.5;
             })
 
-            contenuti.value = dt;
+            contenuti.value = [...corsi, ...altro]
+
             contenuti.value.forEach(c => {
                 c.isOpen = false
                 c.isVisible = true;

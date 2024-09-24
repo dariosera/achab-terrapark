@@ -1,11 +1,22 @@
 <script setup>
 import { request } from '../../utils/request';
-import { reactive, inject } from 'vue';
+import { reactive, ref, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProjectStore } from '@/stores/project';
 import { useTerraParkStore } from '@/stores/commons';
 import { setToken } from '@/utils/auth';
 import useToasts from '@/stores/toasts';
+
+
+const customSignupFields = ref([])
+const step = ref(1)
+request({
+    task : "public/customSignupFields",
+    data : {},
+    callback : function(dt) {
+        customSignupFields.value = dt;
+    }
+})
 
 
 const newUser = reactive({
@@ -15,6 +26,7 @@ const newUser = reactive({
     password : '',
     password_repeat : '',
     telefono : null,
+    customSignupFields : {}
 })
 
 const errorMessage = reactive({ text: null });
@@ -28,8 +40,14 @@ const features = reactive({});
 const router = useRouter();
 
 function signup(e) {
+
+    if (step.value == 1) {
+        step.value = 2;
+        return;
+    }
+
     request({
-        task : "core/public/signup",
+        task : "public/signup",
         data : newUser,
         callback : function(dt) {
             
@@ -71,76 +89,91 @@ function performLogin(email,password) {
     <div class="container-fluid" :style="{'background-color' : customTheme.loginPage.background}">
 
         <div class="login-card">
-                    <div class="banner-left"  :style="{'background-color' : customTheme.loginPage.cardBackground}">
+            <div class="banner-left" :style="{'background-color' : customTheme.loginPage.cardBackground}">
 
-                        <div class="logo bg-white"><img :src="customTheme.logo.image_url"></div>
+                <div class="logo bg-white"><img :src="customTheme.logo.image_url"></div>
 
-                        <div class="banner-left-content">
-                            <h2 v-html="customTheme.loginPage.welcomeText"></h2>
-                            <img class="banner-image" src="@/assets/graficalogin.jpg">
+                <div class="banner-left-content">
+                    <h2 v-html="customTheme.loginPage.welcomeText"></h2>
+                    <img class="banner-image" src="@/assets/graficalogin.jpg">
+                </div>
+            </div>
+            <div class="login-area">
+
+                <div>
+                    <h1>Crea il tuo account</h1>
+                    <form @submit.prevent="signup">
+                        <div v-if="step == 1">
+                            <div class="row">
+                                <div class="form-group col-lg-6 mb-0">
+                                    <label autocomplete="given-name" for="nome">Nome</label>
+                                    <input required v-model="newUser.nome" type="text" class="form-control" id="nome">
+                                </div>
+                                <div class="form-group col-lg-6 mb-0">
+                                    <label autocomplete="family-name" for="cognome">Cognome</label>
+                                    <input required v-model="newUser.cognome" type="text" class="form-control"
+                                        id="cognome">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label autocomplete="email" for="email">Email</label>
+                                <input required v-model="newUser.email" type="email" class="form-control" id="username">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input autocomplete="new-password" required v-model="newUser.password" type="password"
+                                    class="form-control" id="password" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Ripeti password</label>
+                                <input autocomplete="new-password" required v-model="newUser.password_repeat"
+                                    type="password" class="form-control" id="password_repeat" placeholder="Password">
+                            </div>
                         </div>
-                    </div>
-                    <div class="login-area">
+                        <div v-if="step == 2">
 
-                        <div>
-                            <h1>Crea il tuo account</h1>
-                            <form @submit.prevent="signup">
-                                <div class="row">
-                                    <div class="form-group col-lg-6 mb-0">
-                                        <label autocomplete="given-name" for="nome">Nome</label>
-                                        <input required v-model="newUser.nome" type="text" class="form-control" id="nome"
-                                            >
-                                    </div>
-                                    <div class="form-group col-lg-6 mb-0">
-                                        <label autocomplete="family-name" for="cognome">Cognome</label>
-                                        <input required v-model="newUser.cognome" type="text" class="form-control" id="cognome"
-                                            >
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label autocomplete="email" for="email">Email</label>
-                                    <input required v-model="newUser.email" type="email" class="form-control" id="username"
-                                       >
-                                </div>
+                            <template v-for="(cf,i) in customSignupFields" :key="i">
                                 
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input autocomplete="new-password" required v-model="newUser.password" type="password" class="form-control" id="password"
-                                        placeholder="Password">
+                                <div v-if="cf.data.type == 'checkbox'" class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" :id="'cf-'+cf.fieldID" v-model="newUser.customSignupFields[cf.fieldID]">
+                                    <label class="form-check-label" :for="'cf-'+cf.fieldID">{{ cf.data.text }}</label>
                                 </div>
-                                <div class="form-group">
-                                    <label for="password">Ripeti password</label>
-                                    <input autocomplete="new-password" required v-model="newUser.password_repeat" type="password" class="form-control" id="password_repeat"
-                                        placeholder="Password">
-                                </div>
-                                <!-- <div class="form-group form-check">
+
+                            </template>
+
+                            <small>Registrandoti a <b>{{ ps.getTitle() }}</b> accetti i <a href="#" target="_blank">Termini di servizio</a>, le <a href="#" target="_blank">Condizioni d'Uso</a> e dai il tuo consenso al trattamento dei dati personali forniti per le finalità indicate nella nostra <a href="#" target="_blank">Privacy Policy</a>.</small>
+                        </div>
+                        <!-- <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="persistent">
                                     <label class="form-check-label" for="persistent">Resta collegato</label>
                                 </div> -->
-                                <button type="submit" class="btn d-block w-100 btn-primary mt-3">Registrati</button>
-                            </form>
-                            
-                            <div v-if="errorMessage?.text" class="alert alert-danger mt-2" v-html="errorMessage.text"></div>
-                        </div>
-<div>
-    
-                            <hr>
-    
-                            <div class="recover-container">
-                                <router-link to="/recupero-password">Ho dimenticato la password</router-link>
-                            </div>
-    
-    
-                            <div class="mt-3 signup-container">
-                                <span>Sei già registrato?</span><br>
-                                <router-link to="/login">Accedi</router-link>
-                            </div>
-</div>
-                        
-                
+                        <button type="submit" class="btn d-block w-100 btn-primary mt-3">{{ step == 1 ? 'Avanti' :
+                            'Registrati'}}</button>
 
+                    </form>
+
+                    <div v-if="errorMessage?.text" class="alert alert-danger mt-2" v-html="errorMessage.text"></div>
+                </div>
+                <div>
+
+                    <hr>
+
+                    <div class="recover-container">
+                        <router-link to="/recupero-password">Ho dimenticato la password</router-link>
+                    </div>
+
+
+                    <div class="mt-3 signup-container">
+                        <span>Sei già registrato?</span><br>
+                        <router-link to="/login">Accedi</router-link>
                     </div>
                 </div>
+
+
+
+            </div>
+        </div>
     </div>
 </template>
 <style lang="scss" scoped>

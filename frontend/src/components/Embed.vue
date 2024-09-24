@@ -2,6 +2,7 @@
 
 import Anteprima from '@/components/Anteprima.vue';
 import SkeletonAnteprima from '@/components/SkeletonAnteprima.vue';
+import SingoloEmbed from './SingoloEmbed.vue';
 
 //import anteprimaCasuale from '@/fake_data/anteprimaCasuale'
 import {Splide, SplideSlide} from '@splidejs/vue-splide'
@@ -23,6 +24,7 @@ const tagDettaglio = ref(null)
 const contenuti = ref([])
 const waiting = ref(true);
 const title = ref("")
+const redirect_host = ref(null)
 
 tps.init()
 
@@ -78,11 +80,11 @@ request({
     callback : function(dt) {
         waiting.value = false
         contenuti.value = dt.contents;
-
         title.value = dt.title;
+
+        redirect_host.value = dt.redirect.host;
     }
 })
-
 
 
 </script>
@@ -100,11 +102,13 @@ request({
             </div>
         </template>
         <template v-else>
-            <Splide :options="sliderOptions">
+            <SingoloEmbed v-if="contenuti.length === 1" :data="contenuti[0]" :redirect_host="redirect_host" />
+            <Splide v-else :options="sliderOptions">
                 <SplideSlide v-for="(c,i) in contenuti" :key="i" class="py-3">
-                    <Anteprima :data="c" :isPublic="true" />
+                    <Anteprima :data="c" :isPublic="true" :redirect_host="redirect_host" />
                 </SplideSlide>
             </Splide>
         </template>
+
     </div>
 </template>

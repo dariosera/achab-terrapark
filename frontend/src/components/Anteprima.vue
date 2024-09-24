@@ -10,7 +10,7 @@ import { useTerraParkStore } from '@/stores/commons';
 const tps = useTerraParkStore()
 
 const ready = ref(false)
-const props = defineProps(["data","selected","isPublic"]);
+const props = defineProps(["data","selected","isPublic","redirect_host"]);
 const emit = defineEmits(["mostraDettaglio"])
 
 
@@ -22,7 +22,15 @@ const router = useRouter()
 const clickAnteprima = () => {
 
     if (props.isPublic) {
-        window.open(`https://terrapark.it`)
+
+        let url = `https://${props.redirect_host}/`
+        if (props.data.isCourse) {
+            url += `corso/${props.data.permalink}`
+        } else {
+             url += `catalogo`
+        }
+
+        window.open(url)
         return;
     }
 
@@ -107,6 +115,10 @@ const clickAnteprima = () => {
     &.selected {
         transform: scale(1.05);
         z-index: 999;
+    }
+
+    &.is-course {
+        background: #f1f5f1;
     }
 
     .img {

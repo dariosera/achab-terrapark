@@ -101,6 +101,7 @@ function submit() {
                 </div>
             </template>
             <div class="col-12 mt-3 text-end">
+                <button class="btn btn-outline-primary me-2" v-if="step==2">Continua senza i dati facoltativi</button>
                 <button class="btn btn-primary">{{ step == 1 ? 'Prosegui' : 'Salva' }}</button>
             </div>
         </div>

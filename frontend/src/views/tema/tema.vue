@@ -39,7 +39,9 @@ const fetch = () => {
     fetching.value = true
     request({
         task: "contents/search",
-        data: {},
+        data: {
+            target : "courses"
+        },
         callback: (dt) => {
             contenuti.value = dt
             contenuti.value.forEach(c => {

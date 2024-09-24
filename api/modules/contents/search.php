@@ -16,10 +16,8 @@ $constraints[] = "deleted = 0";
 
 $constraints_sql = implode(" AND ",$constraints);
 
-
-
 if (!isset($d["target"])) {
-    $d["target"] = "boh";
+    $d["target"] = "no_target";
 }
 
 $standard_fields = "contentID, ct_contents.permalink, title, description, language, topicID, themeID, typologyID, isCourse, image, meta";

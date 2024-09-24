@@ -58,54 +58,38 @@ const splideOptions = {
 
 </script>
 <template>
-    <div class="container">
-        <Splide v-if="bannerContent.length > 0" :has-track="false" :options="splideOptions">
-            <SplideTrack>
-                <SplideSlide v-for="(bC, i) in bannerContent " :key="i">
-                    <Banner :slide="bC" />
-                </SplideSlide>
-            </SplideTrack>
-
-            <div class="splide__progress">
-                <div class="splide__progress__bar">
+    <div>
+        <div class="container">
+            <Splide v-if="bannerContent.length > 0" :has-track="false" :options="splideOptions">
+                <SplideTrack>
+                    <SplideSlide v-for="(bC, i) in bannerContent " :key="i">
+                        <Banner :slide="bC" />
+                    </SplideSlide>
+                </SplideTrack>
+                <div class="splide__progress">
+                    <div class="splide__progress__bar">
+                    </div>
                 </div>
-            </div>
-        </Splide>
-        <SkeletonBanner v-else />
-    </div>
-    <div class="container">
-        <section class="with-top-border">
-            <h2>{{$t('home.iTuoiCorsi')}}: {{ $t('home.continuaAdImparare') }}</h2>
-            <SliderContenuti  sliderID="__myCourses__" />
-        </section>
-
-        <section class="with-top-border">
-            <h2>Aggiunti di recente</h2>
-
-            <SliderContenuti  sliderID="__latest__"/>
-
-        </section>
-
-        <section class="with-top-border">
-            <h2>{{$t('home.vistiDiRecente')}}</h2>
-
-            <SliderContenuti  sliderID="__history__"/>
-
-        </section>
-
-
-
-
-
-        <section class="with-top-border">
-            <h2>Tutti i corsi</h2>
-
-            <SliderContenuti sliderID="__courses__" />
-        </section>
-
-
-       <SliderTemi />
-
+            </Splide>
+            <SkeletonBanner v-else />
+        </div>
+        <div class="container">
+            <section class="with-top-border">
+                <h2>Tutti i corsi</h2>
+                <SliderContenuti sliderID="__courses__" />
+            </section>
+        
+            <section class="with-top-border">
+                <h2>Aggiunti di recente</h2>
+                <SliderContenuti  sliderID="__latest__"/>
+            </section>
+            <section class="with-top-border">
+                <h2>{{$t('home.vistiDiRecente')}}</h2>
+                <SliderContenuti  sliderID="__history__"/>
+            </section>
+        
+           <SliderTemi />
+        </div>
     </div>
 </template>
 <style lang="scss" scoped>

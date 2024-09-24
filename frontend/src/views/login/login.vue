@@ -1,7 +1,7 @@
 <script setup>
 import { setToken, AFTER_LOGIN_REDIRECT } from '../../utils/auth';
 import { request } from '../../utils/request';
-import { reactive, inject } from 'vue';
+import { reactive, ref, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { GoogleLogin } from 'vue3-google-login'
 import { useProjectStore } from '@/stores/project';
@@ -16,6 +16,18 @@ const errorMessage = reactive({ text: null });
 const ps = useProjectStore()
 const tps = useTerraParkStore()
 
+const customSignupFields = ref([])
+const customSignupFieldsResponses = reactive({})
+const step = ref(1)
+request({
+    task : "public/customSignupFields",
+    data : {},
+    callback : function(dt) {
+        customSignupFields.value = dt;
+    }
+})
+
+
 const customTheme = reactive(ps.getTheme())
 
 const features = reactive({});
@@ -29,45 +41,64 @@ request({
 
 const router = useRouter();
 const login = (e) => {
-    e.submitter.disabled = true;
 
-    request({
-        task: "core.public.login",
-        data: {
-            email, password
-        },
-        callback: function (data) {
+        e.submitter.disabled = true;
 
-            setToken(data.jwt);
-            //setUserInfo(data.userinfo);
+        request({
+            task: "core.public.login",
+            data: {
+                email, password
+            },
+            callback: function (data) {
 
-            // toasts.addToast({
-            //     title : `<i class="bi bi-emoji-smile"></i> Accesso effettuato`,
-            // })
+                setToken(data.jwt);
+                //setUserInfo(data.userinfo);
 
-            tps.init();
+                // toasts.addToast({
+                //     title : `<i class="bi bi-emoji-smile"></i> Accesso effettuato`,
+                // })
 
-            useToasts().addToast({
-                title : "Benvenuto!",
-                content : `Login avvenuto correttamente`
-            })
+                tps.init();
 
-            const after_login_redirect = sessionStorage.getItem(AFTER_LOGIN_REDIRECT);
-            if (after_login_redirect !== null) {
-                sessionStorage.removeItem(AFTER_LOGIN_REDIRECT);
-                router.push({ path: after_login_redirect })
-            } else {
-                router.push({ path: "/" })
+                useToasts().addToast({
+                    title: "Benvenuto!",
+                    content: `Login avvenuto correttamente`
+                })
+
+                const after_login_redirect = sessionStorage.getItem(AFTER_LOGIN_REDIRECT);
+                if (after_login_redirect !== null) {
+                    sessionStorage.removeItem(AFTER_LOGIN_REDIRECT);
+                    router.push({ path: after_login_redirect })
+                } else {
+                    router.push({ path: "/" })
+                }
+                e.submitter.disabled = false;
+            },
+            error: function (err) {
+                e.submitter.disabled = false;
+                errorMessage.text = err.error;
+
             }
-            e.submitter.disabled = false;
-        },
-        error: function (err) {
-            e.submitter.disabled = false;
-            errorMessage.text = err.error;
+        })
+   
+    
 
-        }
-    })
+}
 
+function saveCustomFields() {
+    request({
+            task : "profile/saveCustomFieldsResponses",
+            data : {customSignupFields: customSignupFieldsResponses},
+            callback : function(dt) {
+                const after_login_redirect = sessionStorage.getItem(AFTER_LOGIN_REDIRECT);
+                if (after_login_redirect !== null) {
+                    router.push({ path: after_login_redirect })
+                } else {
+                    router.push({ path: "/" })
+                }
+            }
+        })
+        
 }
 
 const handleGoogleCallback = (res) => {
@@ -78,20 +109,26 @@ const handleGoogleCallback = (res) => {
             token: res.credential,
         },
         callback: function (data) {
+
             setToken(data.jwt);
-            //setUserInfo(data.userinfo);
+            //e.submitter.disabled = false;
 
-            // toasts.addToast({
-            //     title : `<i class="bi bi-emoji-smile"></i> Accesso effettuato`,
-            // })
-
-            const after_login_redirect = sessionStorage.getItem("sspa_after_login_redirect");
-            if (after_login_redirect !== null) {
-                router.push({ path: after_login_redirect })
+            if (data.newUser) {
+                // Deve completare i customFields
+                step.value = 2;
             } else {
-                router.push({ path: "/" })
+                const after_login_redirect = sessionStorage.getItem(AFTER_LOGIN_REDIRECT);
+                if (after_login_redirect !== null) {
+                    router.push({ path: after_login_redirect })
+                } else {
+                    router.push({ path: "/" })
+                }
             }
-            e.submitter.disabled = false;
+
+            
+
+            
+            
         },
         error: function (err) {
             errorMessage.text = err.error;
@@ -115,7 +152,7 @@ const handleGoogleCallback = (res) => {
                     </div>
                     <div class="login-area">
 
-                        <div>
+                        <div v-if="step == 1">
                             <h1>Accedi al tuo account</h1>
                             <form v-if="!features.loginWithGoogleOnly" @submit.prevent="login">
                                 <div class="form-group">
@@ -141,6 +178,19 @@ const handleGoogleCallback = (res) => {
                                     :callback="handleGoogleCallback"></GoogleLogin>
                             </div>
                             <div v-if="errorMessage?.text" class="alert alert-danger mt-2">{{ errorMessage.text }}</div>
+                        </div>
+                        <div v-if="step == 2">
+
+                            <form @submit.prevent="saveCustomFields">
+                                <template v-for="(cf,i) in customSignupFields" :key="i">
+                                    <div v-if="cf.data.type == 'checkbox'" class="form-group form-check">
+                                        <input type="checkbox" class="form-check-input" :id="'cf-'+cf.fieldID" v-model="customSignupFieldsResponses[cf.fieldID]">
+                                        <label class="form-check-label" :for="'cf-'+cf.fieldID">{{ cf.data.text }}</label>
+                                    </div>
+                                </template>
+                                <small>Registrandoti a <b>{{ ps.getTitle() }}</b> accetti i <a href="#" target="_blank">Termini di servizio</a>, le <a href="#" target="_blank">Condizioni d'Uso</a> e dai il tuo consenso al trattamento dei dati personali forniti per le finalità indicate nella nostra <a href="#" target="_blank">Privacy Policy</a>.</small>
+                                <button type="submit" class="btn d-block w-100 btn-primary mt-3">Accedi</button>
+                            </form>
                         </div>
 <div>
     

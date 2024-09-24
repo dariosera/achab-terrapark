@@ -181,13 +181,25 @@ const nuovoWidget = () => {
                     <select class="form-select" v-model="modificaWidget.data.config.mode">
                         <option value="new">Mostra ultimi contenuti caricati</option>
                         <option value="course">Mostra un corso specifico</option>
-                        <option value="random">Contenuti casuali</option>
+                        <option value="single">Mostra un contenuto specifico</option>
+                        <option value="typology">Contenuti per tipologia</option>
                     </select>
                 </div>
 
                 <div v-if="modificaWidget.data.config.mode == 'course'" class="form-group">
                     <label>Permalink del corso</label>
                     <input type="text" class="form-control" v-model="modificaWidget.data.config.course_data">
+                </div>
+
+                <div v-if="modificaWidget.data.config.mode == 'single'" class="form-group">
+                    <label>Permalink del contenuto</label>
+                    <input type="text" class="form-control" v-model="modificaWidget.data.config.single_data">
+                </div>
+
+                <div v-if="modificaWidget.data.config.mode == 'typology'" class="form-group">
+                    <label>Tipologia</label>
+                    <SearchSelect class="w-100 d-block" required placeholder="Cerca..." task="typologies.search"
+                        v-model="modificaWidget.data.config.typology_data" />
                 </div>
 
                 <hr>
