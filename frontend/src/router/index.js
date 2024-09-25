@@ -65,6 +65,12 @@ export function createRouter(app) {
         //beforeEnter: createAuthGuard(app)
       },
       {
+        path: '/watch/:permalink',
+        name: 'watch',
+        component: () => import('../views/watch/watch.vue'),
+        //beforeEnter: createAuthGuard(app)
+      },
+      {
         path: '/autori',
         name: 'autori',
         component: () => import('../views/autori/autori.vue'),

@@ -67,6 +67,10 @@ switch ($d["target"]) {
         $list = $this->db->sql_select($query);
         break;
 
+    case "single":
+        $query =  "SELECT $standard_fields FROM ct_contents WHERE (standalone = 1) AND ($constraints_sql) AND permalink = ?";
+        $list = $this->db->sql_select($query, $d["permalink"]);
+        break;
 
     default:
         $query = "SELECT $standard_fields FROM ct_contents WHERE (isCourse = 1 OR standalone = 1) AND ($constraints_sql)";

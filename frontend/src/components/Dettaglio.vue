@@ -12,7 +12,7 @@ import { request } from '@/utils/request';
 
 const tps = useTerraParkStore()
 
-const props = defineProps(["data","showRelated"])
+const props = defineProps(["data","showRelated","displayMode"])
 
 const correlati = ref([])
 // if (props?.showRelated !== false)
@@ -123,7 +123,7 @@ const renderMeta = (meta) => {
 }
 </script>
 <template>
-    <div ref="tagDettaglio" class="row dettaglio">
+    <div ref="tagDettaglio" class="row dettaglio" :class="{'fullpage' : props?.displayMode === 'fullpage'}">
         <div class="col-lg-6">
             <!-- <img class="image" :src="contenuto.image"> -->
             <Contenuto v-if="contenuto.media" :data="contenuto"></Contenuto>
@@ -194,6 +194,14 @@ a {
     margin-top: 1rem;
     border:1px solid var(--bs-border-color);
     position: relative;
+
+    &.fullpage {
+        border: none;
+
+        .btn-close {
+            display: none
+        }
+    }
 
     .skeleton-contenuto {
         aspect-ratio: 16/9;
