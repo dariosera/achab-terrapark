@@ -52,8 +52,9 @@ if (isLogged()) {
                                     <li><router-link to="/autori" class="dropdown-item">{{$t('nav.autori')}}</router-link></li>
                                 </ul>
                             </div>
-
-                            <img class="logo" :src="theme.logo.image_url">
+                            <a href="/">
+                                <img class="logo" :src="theme.logo.image_url">
+                            </a>
                         </div>
                         <div class="all">
                             <!-- <input type="text" disabled class="form-control global-search" :placeholder="$t('nav.cerca')"> -->
