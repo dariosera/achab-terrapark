@@ -39,15 +39,15 @@ request({
                         <div class="bio">{{ author.bio }}</div>
                     </div>
 
-                    <div class="col-lg-5 biblio-wrapper" :class="{'less' : author.bibliography.length > 100 && !bibliographyExpand}">
+                    <div class="col-lg-5 biblio-wrapper" :class="{'less' : author.bibliography.length > 350 && !bibliographyExpand}">
                         <h3>Bibliografia</h3>
 
                         <div class="bibliography" v-html="author.bibliography"></div>
                     </div>
-                    <div v-if="author.bibliography.length > 100 && !bibliographyExpand" class="read-more">
+                    <div v-if="author.bibliography.length > 350 && !bibliographyExpand" class="read-more">
                         <a href="#" @click="bibliographyExpand = true">Leggi tutto...</a>
                     </div>
-                    <div v-if="author.bibliography.length > 100 && bibliographyExpand" class="read-more">
+                    <div v-if="author.bibliography.length > 350 && bibliographyExpand" class="read-more">
                         <a href="#" @click="bibliographyExpand = false"><span class="material-symbols-outlined" style="vertical-align: bottom;">arrow_upward</span> Comprimi</a>
                     </div>
 

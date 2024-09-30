@@ -17,7 +17,7 @@ Capsule::schema()->create('pr_projects', function ($table) {
     $table->date("start_date")->nullable();
     $table->date("end_date")->nullable();
     $table->string("domain")->unique();
-    $table->string("theme")->default('{}');
+    $table->text("theme");
     $table->string("cs_email")->nullable();
     $table->string("cs_phone")->nullable();
     $table->string("cs_hours")->nullable();

@@ -14,7 +14,7 @@ $file = $d["files"][0]["tmp_name"] = $scaled_img;
 
 $s3 = $this->run("core/s3/upload",[
     "file" => $d["files"][0],
-    "key" => "logo/logo-".$d["data"]["projectID"].".png",
+    "key" => "logo/logo-".$d["data"]["projectID"]."_".time().".png",
     "private" => false,
 ]);
 
