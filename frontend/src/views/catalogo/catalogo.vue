@@ -386,6 +386,8 @@ function deserializeFilters(queryString) {
 }
 
 .grid-temi {
+    max-width: 100vw;
+    overflow: scroll;
     display: flex;
     gap: 1rem;
     
@@ -448,6 +450,7 @@ function deserializeFilters(queryString) {
 
 
 .filters {
+    width: 100%;
     padding: .5rem 0;
 
     position: sticky;
@@ -532,9 +535,23 @@ function deserializeFilters(queryString) {
 }
 
 @media screen and (max-width: 768px) {
+    
+    .grid-temi {
+        width: 100vw;
+        overflow: scroll;
+    }
+
     .grid-temi .tema .icona {
         width: 60px;
         padding: 6px;
     }
+
+    .filters .filters-inner .dropdown .btn-link {
+        max-width: 40vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0 .4rem;
+    }
+
 }
 </style>
