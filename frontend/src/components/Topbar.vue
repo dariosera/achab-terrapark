@@ -25,49 +25,70 @@ if (isLogged()) {
 
 </script>
 <template>
-    <div>
+    <div id="header-wrapper">
         <nav class="navbar first-nav bg-body-tertiary">
             <div class="container-fluid">
                 <div class="logos">
                     <a href="/">
                         <img class="logo" :src="theme.logo.image_url">
                     </a>
+                    <a href="#">
+                        <img class="extra-logos" :src="theme.extraLogos.image_url">
+                    </a>
                 </div>
                 <div class="right">
-                    <input type="text" disabled class="form-control global-search" :placeholder="$t('nav.cerca')">
-                    <LanguageSwitcher />
-                    <RouterLink class="icon-action" to="/preferiti/contenuti"><span class="material-symbols-outlined">favorite</span></RouterLink>
-                    <RouterLink class="icon-action" to="/attestati"><span class="material-symbols-outlined">beenhere</span></RouterLink>
-                    <div class="btn-group no-arrow">
-                        <button class="icon-action dropdown-toggle" data-bs-toggle="dropdown"><span class="material-symbols-outlined">notifications</span></button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><h6 class="dropdown-header">{{ $t('nav.notifiche') }}</h6></li>
-                            <p class="px-3">Non hai notifiche</p>
-                        </ul>
-                    </div>
-        
-                    <div class="btn-group profile-dropdown no-arrow">
-                        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                           {{ iniziali }}
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><span class="dropdown-item-text"></span></li>
-                            <!-- <li><button class="dropdown-item" type="button">Action</button></li>
-                            <li><button class="dropdown-item" type="button">Another action</button></li> -->
-                            <li><h6 class="dropdown-header">Preferiti</h6></li>
-                            <li><RouterLink to="/preferiti/corsi" class="dropdown-item">Corsi</RouterLink></li>
-                            <li><RouterLink to="/preferiti/contenuti" class="dropdown-item">Contenuti</RouterLink></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><h6 class="dropdown-header">Profilo</h6></li>
-                            <li><RouterLink class="dropdown-item" to="/profilo">Dati personali</RouterLink></li>
-                            <li><RouterLink class="dropdown-item" to="/attestati">Qualifiche e attestati</RouterLink></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><RouterLink to="/cronologia" class="dropdown-item">Cronologia</RouterLink></li>
-                            <li><RouterLink to="/contatti" class="dropdown-item">Contatti e assistenza</RouterLink></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><button @click="logout" class="dropdown-item" type="button">Logout</button></li>
-                        </ul>
+                    <div class="right-flex">
+                        <div class="mobile d-none">
+                            <div class="btn-group no-arrow">
+                                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false" data-bs-offset="-20,0">
+                                    <span class="material-symbols-outlined">menu</span>
+                                </button>
+                                <ul class="dropdown-menu menu-mobile-ul">
+                                    <li><router-link to="/" class="dropdown-item">Home</router-link></li>
+                                    <li v-if="temi_visibili.length > 1" ><router-link to="/temi" class="dropdown-item">{{$t('nav.temi')}}</router-link></li>
+                                    <li v-else><router-link to="/tema" class="dropdown-item">Tema</router-link></li>
+                                    <li><router-link to="/catalogo" class="dropdown-item">{{$t('nav.catalogo')}}</router-link></li>
+                                    <li><router-link to="/autori" class="dropdown-item">{{$t('nav.autori')}}</router-link></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="all">
+                            <!-- <input type="text" disabled class="form-control global-search" :placeholder="$t('nav.cerca')"> -->
+                            <LanguageSwitcher />
+                            <RouterLink class="icon-action" to="/preferiti/contenuti"><span class="material-symbols-outlined">favorite</span></RouterLink>
+                            <RouterLink class="icon-action" to="/attestati"><span class="material-symbols-outlined">beenhere</span></RouterLink>
+                            <div class="btn-group no-arrow">
+                                <button class="icon-action dropdown-toggle" data-bs-toggle="dropdown"><span class="material-symbols-outlined">notifications</span></button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><h6 class="dropdown-header">{{ $t('nav.notifiche') }}</h6></li>
+                                    <p class="px-3">Non hai notifiche</p>
+                                </ul>
+                            </div>
+                            <div class="btn-group profile-dropdown no-arrow">
+                                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                   {{ iniziali }}
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><span class="dropdown-item-text"></span></li>
+                                    <!-- <li><button class="dropdown-item" type="button">Action</button></li>
+                                    <li><button class="dropdown-item" type="button">Another action</button></li> -->
+                                    <li><h6 class="dropdown-header">Preferiti</h6></li>
+                                    <li><RouterLink to="/preferiti/corsi" class="dropdown-item">Corsi</RouterLink></li>
+                                    <li><RouterLink to="/preferiti/contenuti" class="dropdown-item">Contenuti</RouterLink></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><h6 class="dropdown-header">Profilo</h6></li>
+                                    <li><RouterLink class="dropdown-item" to="/profilo">Dati personali</RouterLink></li>
+                                    <li><RouterLink class="dropdown-item" to="/attestati">Qualifiche e attestati</RouterLink></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><RouterLink to="/cronologia" class="dropdown-item">Cronologia</RouterLink></li>
+                                    <li><RouterLink to="/contatti" class="dropdown-item">Contatti e assistenza</RouterLink></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><button @click="logout" class="dropdown-item" type="button">Logout</button></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,17 +109,26 @@ if (isLogged()) {
     .first-nav {
         padding: 3px;
         border-bottom: 1px solid var(--bs-border-color);
+        flex-wrap: nowrap;
     
 
         .logos {
             display: flex;
             overflow: hidden;
+            align-items: center;
+            gap: 1rem;
 
             .logo-link {
                 text-decoration: none;
             }
 
             .logo {
+                display: block;
+                max-height: 3.5rem;
+                margin-right: .5rem;
+            }
+
+            .extra-logos {
                 display: block;
                 max-height: 60px;
                 margin-right: .5rem;
@@ -172,6 +202,12 @@ if (isLogged()) {
                
             }
 
+            .all {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+
         }
 
     }
@@ -195,6 +231,48 @@ if (isLogged()) {
             }
         }
 
+    }
+
+    @media (max-width: 768px) {
+
+        .first-nav .container-fluid {
+            display: block;
+        }
+        
+        .right, .logos {
+            flex: 1;
+        }
+
+        .extra-logos {
+            display: none!important;
+        }
+
+        .right-flex {
+            width: 100%;
+            display: flex;
+
+            .all {
+                flex: 1;
+            }
+
+            .mobile {
+                display: block!important;
+            }
+
+            .menu-mobile-ul {
+                transform: translateX(-15px)!important;
+            }
+        }
+
+        .second-nav {
+            display: none;
+        }
+
+        #header-wrapper {
+            position: sticky;
+            top: -50px;
+            z-index: 9999;
+        }
     }
 
    

@@ -1,11 +1,13 @@
 <script setup>
 import SliderContenuti from '@/components/SliderContenuti.vue';
-import {reactive} from 'vue';
+import {reactive, ref} from 'vue';
 import {useRoute} from 'vue-router'
 import { request } from '@/utils/request';
 
 const route = useRoute()
 const author = reactive({})
+
+const bibliographyExpand = ref(false);
 
 request({
     task : "authors/single",
@@ -37,11 +39,18 @@ request({
                         <div class="bio">{{ author.bio }}</div>
                     </div>
 
-                    <div class="col-lg-5">
+                    <div class="col-lg-5 biblio-wrapper" :class="{'less' : author.bibliography.length > 100 && !bibliographyExpand}">
                         <h3>Bibliografia</h3>
 
                         <div class="bibliography" v-html="author.bibliography"></div>
                     </div>
+                    <div v-if="author.bibliography.length > 100 && !bibliographyExpand" class="read-more">
+                        <a href="#" @click="bibliographyExpand = true">Leggi tutto...</a>
+                    </div>
+                    <div v-if="author.bibliography.length > 100 && bibliographyExpand" class="read-more">
+                        <a href="#" @click="bibliographyExpand = false"><span class="material-symbols-outlined" style="vertical-align: bottom;">arrow_upward</span> Comprimi</a>
+                    </div>
+
 
                 </div>
 
@@ -96,6 +105,33 @@ request({
         color: var(--bs-secondary);
     }
 
+    .biblio-wrapper.less {
+        max-height: 300px;
+        overflow:hidden;
+        position: relative;
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px; /* Height of the fade effect */
+            background: linear-gradient(to bottom, rgba(246, 246, 247, 0) 0%, rgba(246, 246, 247, 1) 100%);
+            pointer-events: none; /* Prevent interaction with the pseudo-element */
+        }
+
+    }
+
+    .read-more {
+        font-size: 13px;
+        text-align: right;
+        a {
+            text-decoration: none;
+        }
+       
+    }
+
     .bibliography {
         font-size: 13px;
         color: var(--bs-secondary);
@@ -120,4 +156,26 @@ request({
     }
 }
 
+@media (max-width: 768px) {
+    .top {
+        flex-direction: column;
+    }
+
+    .biblio-wrapper {
+        margin-top: 1rem;
+
+        h3 {
+            font-size: 18px;
+        }
+    }
+}
+</style>
+<style lang="scss">
+@media (max-width: 768px) {
+    .biblio-wrapper {
+        ul, ol {
+            padding-left: 0!important;
+        }
+    }
+}
 </style>

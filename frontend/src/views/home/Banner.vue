@@ -74,4 +74,12 @@ $size : 13px;
     background-position: center center;
   }
 }
+
+
+@media (max-width: 992px)  {
+  .text h2 {
+    font-size: 26px;
+  }
+}
+
 </style>

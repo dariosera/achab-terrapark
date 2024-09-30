@@ -49,6 +49,11 @@ const theme = ps.getTheme()
         flex-direction: column;
         gap: 10px;
     }
+
+    footer > div {
+        flex-direction: column;
+        text-align: center
+    }
 }
 
 .footer-outer {

@@ -16,6 +16,8 @@ const contenuti = ref([])
 const fetching = ref(true);
 const nSkeletons = ref(20);
 
+const few = ref(false)
+
 const fetch = () => {
     fetching.value = true
     request({
@@ -52,6 +54,22 @@ const fetch = () => {
             }, ms)
 
             filters._update = (new Date()).getTime()
+
+            const topics_available = [];
+            const typologies_available = [];
+
+            contenuti.value.forEach(c => {
+                if (!topics_available.includes(c.topicID)) {
+                    topics_available.push(c.topicID)
+                }
+                if (!typologies_available.includes(c.typologyID)) {
+                    typologies_available.push(c.typologyID)
+                }
+            })
+
+            topics.value = topics.value.filter(t => topics_available.includes(t.topicID))
+            typologies.value = typologies.value.filter(t => typologies_available.includes(t.typologyID))
+
             
         }
     })
@@ -96,6 +114,7 @@ const filters = reactive({
     const serializedFilters = serializeFilters(filters)
     router.push(`/catalogo?${serializedFilters}`)
 
+    let visible = 0;
     contenuti.value.forEach(c => {
 
         // Reset
@@ -150,8 +169,15 @@ const filters = reactive({
         }
 
 
+        if (c.isVisible) visible++;
 
     })
+
+    if (visible < 3) {
+        few.value = true;
+    } else {
+        few.value = false;
+    }
 
 
 
@@ -269,7 +295,7 @@ function deserializeFilters(queryString) {
                     <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                         aria-expanded="false">
                         <span v-if="filters.topics.length > 0" class="material-symbols-outlined filter-icon">filter_alt</span>
-                        {{ $t('common.argomento') }}
+                        {{ (filters.topics.length > 0 ? (filters.topics.length == 1 ? topics.filter(t => t.topicID == filters.topics[0])[0].title : filters.topics.length + ' argomenti') : 'Argomento') }}
                     </button>
                     <div class="dropdown-menu">
                         <div v-for="(v,i) in topics" :key="i" class="form-check">
@@ -302,7 +328,7 @@ function deserializeFilters(queryString) {
                     <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                         aria-expanded="false">
                         <span v-if="filters.typologies.length > 0" class="material-symbols-outlined filter-icon">filter_alt</span>
-                        {{ $t('common.tipologia') }}
+                        {{ (filters.typologies.length > 0 ? (filters.typologies.length == 1 ? typologies.filter(t => t.typologyID == filters.typologies[0])[0].description : filters.typologies.length + ' tipologie') : 'Tipologia') }}
                     </button>
                     <div class="dropdown-menu">
                         <div v-for="(v,i) in typologies" :key="i" class="form-check">
@@ -340,7 +366,7 @@ function deserializeFilters(queryString) {
                     <SkeletonAnteprima />
             </div>
         </div>
-        <div v-else class="grid-anteprime p-3">
+        <div v-else class="grid-anteprime p-3" :class="{'few' : few}">
             <template v-for="(c,j) in contenuti" :key="j">
                 <div v-if="c.isVisible" class="single" :class="{'expand' : c.isOpen}">
                         <Anteprima v-if="!c.isOpen" :data="c" @mostraDettaglio="open(j)" />
@@ -355,6 +381,10 @@ function deserializeFilters(queryString) {
     </div>
 </template>
 <style lang="scss" scoped>
+.container {
+    position: relative;
+}
+
 .grid-temi {
     display: flex;
     gap: 1rem;
@@ -420,6 +450,11 @@ function deserializeFilters(queryString) {
 .filters {
     padding: .5rem 0;
 
+    position: sticky;
+    top: 60px;
+    z-index: 999;
+    background: white;
+
     .heading {
         font-size: 16px;
         font-weight: bold;
@@ -477,6 +512,11 @@ function deserializeFilters(queryString) {
     gap: 1rem;
     margin: -1rem;
     grid-auto-flow: dense;
+
+    &.few {
+        grid-template-columns: repeat(auto-fit, 300px);
+    }
+
 
     .single {
 

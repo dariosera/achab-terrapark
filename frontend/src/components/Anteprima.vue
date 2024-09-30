@@ -53,9 +53,12 @@ const clickAnteprima = () => {
         <div v-if="props.data.position > 0 " class="custom-progress">
             <div class="custom-progress-inner" :style="`width: ${parseInt((props.data.position / props.data.meta.duration) * 100)}%`"></div>
         </div>
-        <div v-if="props.data.progress > 0 " class="custom-progress">
-            <div class="custom-progress-inner" :style="`width: ${parseInt(props.data.progress * 100)}%`"></div>
-        </div>
+        <template v-else>
+            <div v-if="props.data.progress > 0 " class="custom-progress">
+                <div class="custom-progress-inner" :style="`width: ${parseInt(props.data.progress * 100)}%`"></div>
+            </div>
+            <div v-else class="custom-progress"></div>
+        </template>
 
         <div class="content">
 
@@ -96,7 +99,6 @@ const clickAnteprima = () => {
 
 </template>
 <style lang="scss" scoped>
-
 
 .anteprima {
     transition-property: all;
@@ -192,22 +194,18 @@ const clickAnteprima = () => {
         }
         
         .outer-title {
-            height: 32px;
-            
+           height: 36px;
+           overflow: hidden;
         }
 
        .title {
-        font-size: 15px;
+        font-size: 14px;
         overflow: hidden;
         text-overflow: ellipsis;
         font-weight: 700;
         margin-bottom: 0;
         padding-bottom: 0;
-        line-height: 16px;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        --webkit-line-clamp: 2;
-        line-clamp: 2;
+        line-height: 18px;
        }
 
        .subtitle {
@@ -215,8 +213,8 @@ const clickAnteprima = () => {
         font-size: 12px;
         text-transform: uppercase;
         color: rgba(var(--bs-body-color-rgb),.5);
-        height: 21px;
-        line-height: 1.2;
+        height: 22px;
+        line-height: 11px;
        }
 
        .icons {
@@ -256,5 +254,11 @@ const clickAnteprima = () => {
     }
 
 
+}
+
+@media (min-width: 768px) {
+    .anteprima .content .title {
+        font-size: 15px;
+    }
 }
 </style>

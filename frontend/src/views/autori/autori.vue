@@ -20,11 +20,13 @@ request({
         <h1>Autori</h1>
         <div  class="grid-relatori">
             <RouterLink :to="`/autore/${author.authorID}`" v-for="(author,i) in authors" :key="author.authorID">
-                <div class="relatore shadow-sm">
+                <div class="relatore shadow">
                     <img :src="author.picture_url">
         
-                    <h2 class="mt-2">{{ author.name }} {{ author.surname }}</h2>
-                    <div class="role">{{ author.role }}</div>
+                    <div class="info">
+                        <h2 class="mt-2">{{ author.name }} {{ author.surname }}</h2>
+                        <div class="role">{{ author.role }}</div>
+                    </div>
                 </div>
             </RouterLink>
         </div>
@@ -76,6 +78,31 @@ request({
             font-size: 12px;
             color: rgba(var(--bs-body-color-rgb),.7);
             text-transform: uppercase;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-relatori {
+        grid-template-columns: 1fr;
+    }
+
+    a {
+        width: 100%;
+
+        .relatore {
+            width: 100%!important;
+
+            display: flex;
+            gap: 1rem;
+
+            img {
+                max-width: 35vw;
+            }
+
+
+
+            
         }
     }
 }

@@ -98,8 +98,8 @@ const mostraDettaglio = function(i) {
 </template>
 <style lang="scss">
 @media screen and (max-width: 768px) {
-   .slider-outer {
-    padding: 0 2.5rem;
-   }
+    .arrow-prev-outside, .arrow-next-outside {
+        display: none;
+    }
 }
 </style>

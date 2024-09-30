@@ -54,6 +54,40 @@ const doUpload = function (e) {
 
 }
 
+const doUploadExtra = function (e) {
+
+console.log(e)
+let formData = new FormData();
+formData.append("file", e.target[0].files[0]);
+formData.append("projectID", props.project.projectID)
+
+upload({
+    task: "project/uploadExtraLogos",
+    data: formData,
+    callback: function (dt) {
+
+        if (!theme.extraLogos) {
+            theme.extraLogos = {}
+        }
+
+        theme.extraLogos.image = dt.file_id;
+        theme.extraLogos.image_url = dt.s3.url;
+
+        request({
+            task : "project/updateTheme",
+            data : {
+                projectID : props.project.projectID,
+                theme,
+            },
+            callback : (dt) => {
+                //ok
+            }
+        })
+    }
+})
+
+}
+
 function saveTheme() {
     request({
         task : "project/updateTheme",
@@ -83,6 +117,19 @@ function saveTheme() {
                     <div v-else>
                         <img :src="theme.logo.image_url+'?t='+(new Date()).getTime()" class="">
                         <button class="btn btn-sm btn-link" @click="() => theme.logo.image_url = null">Cambia immagine</button>
+                    </div>
+            </div>
+
+            <div>
+                <label>Altri loghi</label>
+
+                    <form @submit.prevent="doUploadExtra" class="d-flex my-2" v-if="!theme?.extraLogos?.image_url">
+                        <input required type="file" class="form-control form-control-sm me-2" accept="image/png">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-upload"></i></button>
+                    </form>
+                    <div v-else>
+                        <img :src="theme.extraLogos.image_url+'?t='+(new Date()).getTime()" class="">
+                        <button class="btn btn-sm btn-link" @click="() => theme.extraLogos.image_url = null">Cambia immagine</button>
                     </div>
             </div>
 

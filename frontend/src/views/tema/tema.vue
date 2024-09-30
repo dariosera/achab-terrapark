@@ -109,7 +109,13 @@ sostituzione e ridurre lo spreco alimentare. Azioni quotidiane che possono fare 
                     <div class="icona"><img :src="temi[0].url_img"></div>
                 </div>
                 <div class="col-md-8 col-lg-9">
-                    <h1>{{ temi[0].title }}</h1>
+
+                    <div class="wrap-titolo-tema">
+                        <div class="icona-tema-mobile"><img :src="temi[0].url_img"></div>
+                        <h1>{{ temi[0].title }}</h1>
+                    </div>
+
+                    
 
                     <p>L’economia circolare rappresenta un modello di produzione e consumo che mira a ridurre al minimo i rifiuti e a valorizzare le risorse esistenti;
 un’opportunità di sviluppo sostenibile, in linea con il piano d’azione europeo, fondato su innovazione, crescita economica e rispetto per l’ambiente.
@@ -139,8 +145,7 @@ lungo possibile.</p>
                         solo una scelta etica, ma una
                         <b>
                             necessità per garantire un
-                            futuro sostenibile
-                        </b>.
+                            futuro sostenibile.</b>
                     </p>
 
 <p>
@@ -177,14 +182,14 @@ lungo possibile.</p>
 
             <div class="separator"></div>
 
-    <h2>Tutti i contenuti</h2>
+    <h2>Tutti i corsi</h2>
 
         <div v-if="fetching === true" class="grid-anteprime p-3">
             <div v-for="j in nSkeletons" :key="j" class="single">
                     <SkeletonAnteprima />
             </div>
         </div>
-        <div v-else class="grid-anteprime p-3">
+        <div v-else class="grid-anteprime p-3" :class="{'few': contenuti.length < 3}">
             <template v-for="(c,j) in contenuti" :key="j">
                 <div v-if="c.isVisible" class="single" :class="{'expand' : c.isOpen}">
                         <Anteprima v-if="!c.isOpen" :data="c" @mostraDettaglio="open(j)" />
@@ -277,6 +282,10 @@ h2 {
     margin: -1rem;
     grid-auto-flow: dense;
 
+    &.few {
+        grid-template-columns: repeat(auto-fit, 300px);
+    }
+
     .single {
 
         .anteprima {
@@ -286,6 +295,52 @@ h2 {
         &.expand {
             grid-column-start: 1;
             grid-column-end: -1;
+        }
+    }
+}
+
+.icona-tema-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    .wrap-titolo-tema {
+        display: flex;
+        gap: .5rem;
+        align-items: center;
+    }
+
+    h1 {
+        flex: 1;
+    }
+    
+    .icona-tema-mobile {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 5px;
+        background: rgba(0,0,0,.05);
+        
+        img {
+            width: 4rem;
+            height: 4rem;
+        }
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+
+    .content-left {
+        text-align: left!important;
+    }
+
+    .key-topics {
+        margin-top: 25px;
+
+        p {
+            line-height: 1.3;
         }
     }
 }

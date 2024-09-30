@@ -59,7 +59,7 @@ const splideOptions = {
 </script>
 <template>
     <div>
-        <div class="container">
+        <div class="container" id="container-banner">
             <Splide v-if="bannerContent.length > 0" :has-track="false" :options="splideOptions">
                 <SplideTrack>
                     <SplideSlide v-for="(bC, i) in bannerContent " :key="i">
@@ -101,6 +101,13 @@ const splideOptions = {
     margin: -1rem;
 }
 
+
+@media (max-width: 768px) {
+    #container-banner {
+        margin: 0!important;
+        padding: 0!important;
+    }
+}
 
 
 </style>

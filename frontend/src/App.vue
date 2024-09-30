@@ -33,6 +33,9 @@ onBeforeMount(async () => {
   <div v-if="projectReady">
       <Topbar v-if="!route.meta.isPublic" />
       <main>
+        <div id="extra-logos">
+          <img :src="ps.getTheme().extraLogos.image_url">
+        </div>
         <RouterView />
       </main>
       <Footer v-if="!route.meta.isPublic" />
@@ -80,5 +83,20 @@ main {
   
 }
 
+
+#extra-logos {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  #extra-logos {
+    display: block;
+    padding: .5rem;
+
+    img {
+      max-width: 100%;
+    }
+  }
+}
 
 </style>

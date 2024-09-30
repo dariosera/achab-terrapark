@@ -2,6 +2,7 @@
 import { request } from '@/utils/request';
 import {reactive, ref, onMounted} from 'vue'
 import QRCode from 'qrcode'
+import useModals from '@/stores/modals';
 
 const profile = reactive({})
 const extra = reactive({})
@@ -51,6 +52,13 @@ const impostaComune = () => {
     profile.comune = null;
   }
 
+}
+
+function eliminaAccount() {
+  useModals().msgbox({
+    title : "Eliminazione Account",
+    content : `<p>Per eliminare l'account, contatta l'assistenza.</p>`
+  })
 }
 </script>
 <template>
@@ -145,7 +153,7 @@ const impostaComune = () => {
         {{ $t('profilo.cambioPassword') }}
       </h5>
       <div class="card-body">
-        <form @submit.prevent="cambiaPassword">
+        <form v-if="!profile.sso" @submit.prevent="cambiaPassword">
           <div class="mb-3">
             <label for="currentPassword" class="form-label">{{ $t('profilo.passwordAttuale') }}</label>
             <input type="password" class="form-control" id="currentPassword" v-model="profile.currentPassword" required>
@@ -160,6 +168,9 @@ const impostaComune = () => {
           </div>
           <button type="submit" class="btn btn-outline-primary">{{ $t('profilo.cambiaPassword') }}</button>
         </form>
+        <div v-else>
+          <p>Il tuo profilo utilizza l'autenticazione SSO (Single Sign-On) tramite Google.</p>
+        </div>
       </div>
     </div>
 
