@@ -126,13 +126,13 @@ onBeforeUnmount(() => {
 const pdfViewer = reactive({
     isVisible: false,
     show : function() {
-        pdfViewer.isVisible = true
-        document.querySelector("body").style.overflow = 'hidden';
-        history.pushState({closeViewer: true},"")
+        // pdfViewer.isVisible = true
+        // document.querySelector("body").style.overflow = 'hidden';
+        // history.pushState({closeViewer: true},"")
 
-        addEventListener("popstate", (event) => { if (event.state.closeViewer) pdfViewer.hide() }, {once: true});
+        // addEventListener("popstate", (event) => { if (event.state.closeViewer) pdfViewer.hide() }, {once: true});
 
-        
+        window.open(pdfViewer.src())
     },
     hide : function() {
         pdfViewer.isVisible = false
