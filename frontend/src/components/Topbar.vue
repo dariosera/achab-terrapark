@@ -52,6 +52,8 @@ if (isLogged()) {
                                     <li><router-link to="/autori" class="dropdown-item">{{$t('nav.autori')}}</router-link></li>
                                 </ul>
                             </div>
+
+                            <img class="logo" :src="theme.logo.image_url">
                         </div>
                         <div class="all">
                             <!-- <input type="text" disabled class="form-control global-search" :placeholder="$t('nav.cerca')"> -->
@@ -233,14 +235,21 @@ if (isLogged()) {
 
     }
 
+  
+
     @media (max-width: 768px) {
 
         .first-nav .container-fluid {
             display: block;
         }
         
-        .right, .logos {
+        .right {
             flex: 1;
+            padding: 0!important;
+        }
+
+        .logos {
+            display: none!important;
         }
 
         .extra-logos {
@@ -257,6 +266,11 @@ if (isLogged()) {
 
             .mobile {
                 display: block!important;
+
+                .logo {
+                    max-height: 3.5rem;
+                    margin-left: .5rem;
+                }
             }
 
             .menu-mobile-ul {
@@ -270,7 +284,7 @@ if (isLogged()) {
 
         #header-wrapper {
             position: sticky;
-            top: -50px;
+            top: 0;
             z-index: 9999;
         }
     }
