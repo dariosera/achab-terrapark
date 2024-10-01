@@ -7,5 +7,7 @@ if (count($p) !== 1) {
 }
 
 $p[0]["theme"] = json_decode($p[0]["theme"], true);
+$p[0]["privacy"] = json_decode($p[0]["privacy"], true);
+
 
 return $p;

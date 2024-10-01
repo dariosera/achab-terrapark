@@ -7,5 +7,7 @@ if (count($pro) !== 1) {
 }
 
 $pro[0]["theme"] = json_decode($pro[0]["theme"], true);
+$pro[0]["privacy"] = json_decode($pro[0]["privacy"], true);
+
 
 return $pro[0];

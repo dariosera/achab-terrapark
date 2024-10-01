@@ -25,6 +25,10 @@ export const useProjectStore = defineStore('project', () => {
     return project.theme;
   }
 
+  const getPrivacy = () => {
+    return project.privacy;
+  }
+
   const getTitle = () => {
     return project.title;
   }
@@ -41,5 +45,5 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
-  return { project, init, getTheme, getTitle, getContacts, getCustomer}
+  return { project, init, getTheme, getTitle, getContacts, getCustomer, getPrivacy}
 })

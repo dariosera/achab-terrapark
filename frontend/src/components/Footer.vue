@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted } from "vue";
 import { useProjectStore } from "../stores/project"
 const getAppVersion = () => {
     return import.meta.env.VITE_APP_VERSION
@@ -6,6 +7,56 @@ const getAppVersion = () => {
 
 const ps = useProjectStore()
 const theme = ps.getTheme()
+const privacy = ps.getPrivacy()
+
+onMounted(() => {
+    const registraConsensi = function(preferences) {
+        console.log(preferences)
+    }
+
+    window._iub = [];
+    window._iub.csConfiguration = {
+        "countryDetection": true,
+        "floatingPreferencesButtonDisplay": "bottom-right",
+        "gdprAppliesGlobally": false,
+        "perPurposeConsent": true,
+        "siteId": privacy.iubendaSiteId,
+        "whitelabel": true,
+        "cookiePolicyId": privacy.iubendaCookiePolicyId,
+        "lang": "it",
+        "banner": {
+            "acceptButtonCaptionColor": "#000",
+            "acceptButtonColor": "#E8E8EB",
+            "acceptButtonDisplay": true,
+            "backgroundColor": "#FFFFFF",
+            "closeButtonDisplay": false,
+            "customizeButtonCaptionColor": "#000",
+            "customizeButtonColor": "#F6F6F7",
+            "customizeButtonDisplay": true,
+            "explicitWithdrawal": true,
+            "listPurposes": true,
+            "position": "float-bottom-right",
+            "rejectButtonCaptionColor": "#000",
+            "rejectButtonColor": "#E8E8EB",
+            "rejectButtonDisplay": true,
+            "textColor": "#000000",
+            "useThirdParties": false,
+        },
+
+        "callback": {"onPreferenceFirstExpressed": registraConsensi }
+    };
+
+    let tagScript = document.createElement('script')
+    tagScript.type =  "text/javascript"
+    tagScript.src = "https://cdn.iubenda.com/cs/iubenda_cs.js"
+    tagScript.async = true;
+    //tagScript.charset = "utf-8"
+
+
+    document.querySelector("body").appendChild(tagScript);
+})
+
+
 </script>
 <template>
     <div class="footer-outer">
@@ -30,6 +81,7 @@ const theme = ps.getTheme()
             <div class="links">
                 <a href="#">Informativa Privacy</a>
                 <a href="#">Informativa Cookies</a>
+                <a :href="privacy.termsAndConditions">Termini e condizioni</a>
                 <div v-if="theme.footer.showSocialIcons" class="socials">
                     <a href="https://www.facebook.com/achabgroup/" target="_blank" class="circle facebook"></a>
                     <a href="https://www.linkedin.com/company/achab-srl/" target="_blank" class="circle linkedin"></a>

@@ -5,6 +5,7 @@ import {useRoute, useRouter, request, SearchSelect, useToasts} from 'kadro-core'
 import SliderHP from './SliderHP.vue';
 import GestioneContenuti from './GestioneContenuti.vue';
 import GestioneTema from './GestioneTema.vue';
+import GestionePrivacy from './GestionePrivacy.vue';
 
 const project = reactive({})
 
@@ -193,6 +194,16 @@ const saveProject = () => {
                 <GestioneTema v-if="project.projectID"  :project="project" />
             </div>
 
+        </div>
+
+        <div class="row section">
+            <div class="col-12 col-lg-4 col-xl-3">
+                <h4>Privacy</h4>
+            </div>
+
+            <div class="col-12 col-lg-8 col-xl-9">
+                <GestionePrivacy v-if="project.projectID"  :project="project" />
+            </div>
         </div>
 
         <div class="row section">
