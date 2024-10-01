@@ -81,6 +81,8 @@ const temi = ref([])
 const topics = ref(tps.getTopics())
 const typologies = ref(tps.getTypologies())
 const languages = ref(tps.getLanguages())
+const divFilters = ref(null);
+const stickyContainer = ref(null)
 
 onMounted(async () => {
     // if ("undefined" !== typeof(route.params.id)) {
@@ -96,6 +98,9 @@ onMounted(async () => {
     }
 
     tps.getThemes().then(t => temi.value = t)
+
+   
+
 })
 
 
@@ -246,7 +251,7 @@ function deserializeFilters(queryString) {
 }
 </script>
 <template>
-    <div class="container">
+    <div class="container" ref="stickyContainer">
 
         <section class="mt-3">
 
@@ -263,7 +268,7 @@ function deserializeFilters(queryString) {
         </section>
 
 
-        <div class="filters">
+        <div class="filters" ref="divFilters">
 
             <div class="filters-inner">
 
@@ -451,10 +456,9 @@ function deserializeFilters(queryString) {
 
 .filters {
     width: 100%;
-    padding: .5rem 0;
-
+    padding: .5rem;
     position: sticky;
-    top: 60px;
+    top: 0;
     z-index: 999;
     background: white;
 
@@ -551,6 +555,10 @@ function deserializeFilters(queryString) {
         overflow: hidden;
         text-overflow: ellipsis;
         padding: 0 .4rem;
+    }
+
+    .filter {
+        top: 3.5rem;
     }
 
 }
