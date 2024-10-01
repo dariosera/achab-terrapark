@@ -95,6 +95,6 @@ return [
     "contents" => $list,
     "_server" => $_SERVER,
     "redirect" => [
-        "host" => "dev.terrapark.it"//"www.riacademy.it",
+        "host" => "www.riacademy.it",
     ],
 ];
