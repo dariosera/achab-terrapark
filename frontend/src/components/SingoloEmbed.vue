@@ -113,7 +113,7 @@ function goToTerrapark() {
         if (props.data.isCourse) {
             url += `corso/${props.data.permalink}`
         } else {
-             url += `catalogo`
+             url += `watch/${props.data.permalink}`
         }
 
         window.open(url)
@@ -175,9 +175,8 @@ a {
 
 .dettaglio {
     cursor: pointer;
-    padding: 2rem;
+    padding: .25rem;
     margin-top: 1rem;
-    border:1px solid var(--bs-border-color);
     position: relative;
 
     .skeleton-contenuto {

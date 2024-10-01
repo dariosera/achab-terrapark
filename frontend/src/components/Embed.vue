@@ -30,7 +30,8 @@ tps.init()
 
 const style = reactive({
     width: null,
-    height: null
+    height: null,
+    overflow : "hidden"
 })
 
 const sliderOptions = reactive({})
@@ -55,6 +56,10 @@ onMounted(() => {
             next  : 'splide__arrow--next arrow-next-outside',
         },
         gap: "1rem",
+        padding: {
+            left : ".5rem",
+            right: ".5rem"
+        },
         breakpoints: {
                 1400: {
                     perPage : 3,
@@ -89,7 +94,7 @@ request({
 
 </script>
 <template>
-    <div class="p-5" ref="w" :style="style">
+    <div :class="{'p-5' : contenuti.length > 1}" ref="w" :style="style">
         <h5 v-if="!(urlParams.has('title') && urlParams.get('title') == 'false')" class="title">{{ title }}</h5>
         <template v-if="contenuti.length === 0">
             <Splide :options="sliderOptions" v-if="waiting">
@@ -112,3 +117,10 @@ request({
 
     </div>
 </template>
+<style lang="scss">
+@media screen and (max-width: 768px) {
+    .arrow-prev-outside, .arrow-next-outside {
+        display: none;
+    }
+}
+</style>

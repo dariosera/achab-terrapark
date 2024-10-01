@@ -43,7 +43,7 @@ const clickAnteprima = () => {
 </script>
 <template>
     
-    <div class="anteprima shadow-sm" :class="{'is-course': props.data.isCourse, 'selected' : props?.selected}" :data-permalink="props.data.permalink">
+    <div class="anteprima" :class="{'is-course': props.data.isCourse, 'selected' : props?.selected}" :data-permalink="props.data.permalink">
         <div class="img" @click="clickAnteprima">
             <img :src="props.data.image">
             <div class="tags">
@@ -104,6 +104,8 @@ const clickAnteprima = () => {
     transition-property: all;
     transition-duration: .15s;
     background: var(--bs-body-bg);
+    box-shadow: .1rem .1rem .5rem rgba(0, 0, 0, 0.15)!important;
+    border: 1px solid rgba(var(--bs-body-color-rgb),.1);
     
     * {
         user-select: none;
@@ -111,7 +113,7 @@ const clickAnteprima = () => {
 
     &:hover, &.selected {
         background-color: rgba(var(--bs-body-color-rgb),.02);
-        box-shadow: var(--bs-box-shadow) !important;
+        box-shadow: 0 0.25rem .5rem rgba(0, 0, 0, 0.25)!important;
     }
 
     &.selected {
