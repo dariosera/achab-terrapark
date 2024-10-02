@@ -187,7 +187,7 @@ function checkPasswordRequirements() {
 
                             </div>
 
-                            <small>Registrandoti a <b>{{ ps.getTitle() }}</b> accetti i <a :href="privacy.termsAndConditions" target="_blank">Termini e condizioni</a>, le <a href="#" target="_blank">Condizioni d'Uso</a> e dai il tuo consenso al trattamento dei dati personali forniti per le finalità indicate nella nostra <a href="#" target="_blank">Privacy Policy</a>.</small>
+                            <small>Registrandoti a <b>{{ ps.getTitle() }}</b> accetti i <a :href="privacy.termsAndConditions" target="_blank">Termini e condizioni</a> e dai il tuo consenso al trattamento dei dati personali forniti per le finalità indicate nella nostra <a :href="privacy.privacyPolicy" target="_blank">Privacy Policy</a>.</small>
                         </div>
                         <!-- <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="persistent">

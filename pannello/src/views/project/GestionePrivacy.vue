@@ -105,6 +105,10 @@ function savePrivacy() {
                     <td colspan="2"><input class="form-control" type="text" v-model="privacy.termsAndConditions"></td>
                 </tr>
                 <tr>
+                    <td>Privacy Policy</td>
+                    <td colspan="2"><input class="form-control" type="text" v-model="privacy.privacyPolicy"></td>
+                </tr>
+                <tr>
                     <th colspan="3">Iubenda</th>
                 </tr>
                 <tr>

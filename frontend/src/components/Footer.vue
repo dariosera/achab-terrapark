@@ -79,8 +79,7 @@ onMounted(() => {
                 </div>
             </div>
             <div class="links">
-                <a href="#">Informativa Privacy</a>
-                <a href="#">Informativa Cookies</a>
+                <a :href="privacy.privacyPolicy">Informativa Privacy</a>
                 <a :href="privacy.termsAndConditions">Termini e condizioni</a>
                 <div v-if="theme.footer.showSocialIcons" class="socials">
                     <a href="https://www.facebook.com/achabgroup/" target="_blank" class="circle facebook"></a>
