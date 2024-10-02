@@ -181,7 +181,7 @@ function checkPasswordRequirements() {
                             <div v-for="(cf,i) in customSignupFields" :key="i">
                                 
                                 <div v-if="cf.data.type == 'checkbox'" class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" :id="'cf-'+cf.fieldID" v-model="newUser.customSignupFields[cf.fieldID]">
+                                    <input type="checkbox" :checked="cf.data?.autoCheck" class="form-check-input" :id="'cf-'+cf.fieldID" v-model="newUser.customSignupFields[cf.fieldID]">
                                     <label class="form-check-label" :for="'cf-'+cf.fieldID">{{ cf.data.text }}</label>
                                 </div>
 
