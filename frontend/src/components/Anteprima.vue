@@ -22,12 +22,11 @@ const router = useRouter()
 const clickAnteprima = () => {
 
     if (props.isPublic) {
-
         let url = `https://${props.redirect_host}/`
         if (props.data.isCourse) {
             url += `corso/${props.data.permalink}`
         } else {
-             url += `catalogo`
+             url +=`watch/${props.data.permalink}`
         }
 
         window.open(url)

@@ -1,5 +1,5 @@
 import { createRouter as createVueRouter, createWebHistory } from 'vue-router'
-import { isLogged } from '@/utils/auth'
+import { isLogged, AFTER_LOGIN_REDIRECT } from '@/utils/auth'
 import { useTerraParkStore } from '@/stores/commons'
 import { request } from '@/utils/request';
 import useToasts from '@/stores/toasts';
@@ -147,7 +147,7 @@ export function createRouter(app) {
     if (!l && to.name !== 'login' && to?.meta.isPublic !== true) {
       // redirect the user to the login page
   
-      sessionStorage.setItem("sspa_after_login_redirect", to.fullPath);
+      sessionStorage.setItem(AFTER_LOGIN_REDIRECT, to.fullPath);
       return { name: 'login' }
     }
 
