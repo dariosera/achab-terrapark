@@ -26,6 +26,9 @@ const ps = useProjectStore()
 onBeforeMount(async () => {
   await ps.init()
   projectReady.value = true
+
+  document.querySelector("title").innerHTML = ps.getTitle()
+
 })
 
 </script>
