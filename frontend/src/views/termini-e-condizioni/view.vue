@@ -5,8 +5,6 @@ const ps = useProjectStore()
 </script>
 <template>
     <div class="container p-5">
-        <h1>Termini e condizioni</h1>
-
         <iframe :src="ps.getPrivacy().termsAndConditions"></iframe>
     </div>
 </template>

@@ -79,10 +79,10 @@ onMounted(() => {
                 </div>
             </div>
             <div class="links">
-                <router-link v-if="privacy.privacyPolicy.endsWith('embed=true')" to="./privacy-policy">Informativa Privacy</router-link>
+                <router-link v-if="privacy.privacyPolicy.endsWith('embedded=true')" to="./privacy-policy">Informativa Privacy</router-link>
                 <a v-else :href="privacy.privacyPolicy">Informativa Privacy</a>
 
-                <router-link v-if="privacy.termsAndConditions.endsWith('embed=true')" to="./termini-e-condizioni">Termini e condizioni</router-link>
+                <router-link v-if="privacy.termsAndConditions.endsWith('embedded=true')" to="./termini-e-condizioni">Termini e condizioni</router-link>
                 <a v-else :href="privacy.termsAndConditions">Termini e condizioni</a>
 
                 <div v-if="theme.footer.showSocialIcons" class="socials">

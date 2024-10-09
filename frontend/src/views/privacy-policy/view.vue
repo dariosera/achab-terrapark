@@ -5,9 +5,7 @@ const ps = useProjectStore()
 </script>
 <template>
     <div class="container p-5">
-        <h1>Privacy Policy</h1>
-
-        <iframe :src="ps.getPrivacy().privacyPolicy"></iframe>
+       <iframe :src="ps.getPrivacy().privacyPolicy"></iframe>
     </div>
 </template>
 <style lang="scss" scoped>
