@@ -123,6 +123,18 @@ export function createRouter(app) {
         //beforeEnter: createAuthGuard(app)
       },
       {
+        path: '/privacy-policy',
+        name: 'Privacy Policy',
+        component: () => import('../views/privacy-policy/view.vue'),
+        //beforeEnter: createAuthGuard(app)
+      },
+      {
+        path: '/termini-e-condizioni',
+        name: 'Termini e Condizioni',
+        component: () => import('../views/termini-e-condizioni/view.vue'),
+        //beforeEnter: createAuthGuard(app)
+      },
+      {
         path: '/:pathMatch(.*)*',
         name: '404',
         component: () => import('../components/NotFound.vue')

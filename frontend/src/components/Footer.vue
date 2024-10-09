@@ -79,8 +79,12 @@ onMounted(() => {
                 </div>
             </div>
             <div class="links">
-                <a :href="privacy.privacyPolicy">Informativa Privacy</a>
-                <a :href="privacy.termsAndConditions">Termini e condizioni</a>
+                <router-link v-if="privacy.privacyPolicy.endsWith('embed=true')" to="./privacy-policy">Informativa Privacy</router-link>
+                <a v-else :href="privacy.privacyPolicy">Informativa Privacy</a>
+
+                <router-link v-if="privacy.termsAndConditions.endsWith('embed=true')" to="./termini-e-condizioni">Termini e condizioni</router-link>
+                <a v-else :href="privacy.termsAndConditions">Termini e condizioni</a>
+
                 <div v-if="theme.footer.showSocialIcons" class="socials">
                     <a href="https://www.facebook.com/achabgroup/" target="_blank" class="circle facebook"></a>
                     <a href="https://www.linkedin.com/company/achab-srl/" target="_blank" class="circle linkedin"></a>
