@@ -3,19 +3,25 @@
 import { useProjectStore } from '@/stores/project';
 import {ref} from 'vue'
 import { request } from '@/utils/request';
+import useModals from '@/stores/modals';
 
 const ps = useProjectStore()
 const text = ref("");
+const uM = useModals()
 
 const sendMessage = () => {
     request({
         task : "contacts/customerCare",
         data : {
-            text
+            message : text.value,
         },
         callback: () => {
             text.value = ""
-        }
+            uM.msgbox({
+                title : "Messaggio inviato",
+                content : `Il tuo messaggio è stato inviato.`
+            })
+        } 
     })
 }
 
